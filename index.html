@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,8 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
-            user-select: none; /* Disable text selection during drag */
+            user-select: none;
+            /* Disable text selection during drag */
         }
 
         /* Loading Screen */
@@ -92,7 +94,6 @@
             padding: 20px;
             position: relative;
             transition: all 0.3s ease;
-            cursor: grab; /* Set the grab cursor */
         }
 
         .editor textarea {
@@ -140,7 +141,6 @@
             padding: 20px;
             position: relative;
             transition: all 0.3s ease;
-            cursor: grab; /* Set the grab cursor */
         }
 
         iframe {
@@ -173,7 +173,9 @@
         }
 
         /* Fullscreen & Minimize Buttons */
-        .fullscreen-button, .minimize-button, .refresh-button {
+        .fullscreen-button,
+        .minimize-button,
+        .refresh-button {
             background: #ff4500;
             border-radius: 50%;
             color: white;
@@ -207,7 +209,10 @@
             justify-content: center;
         }
 
-        .fullscreen-button:hover, .minimize-button:hover, .maximize-button:hover, .refresh-button:hover {
+        .fullscreen-button:hover,
+        .minimize-button:hover,
+        .maximize-button:hover,
+        .refresh-button:hover {
             background: #e94e77;
         }
 
@@ -216,6 +221,7 @@
             0% {
                 opacity: 0;
             }
+
             100% {
                 opacity: 1;
             }
@@ -225,6 +231,7 @@
             0% {
                 text-shadow: 0 0 5px #2bdb72, 0 0 10px #2bdb72, 0 0 15px #2bdb72;
             }
+
             100% {
                 text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 15px #9b59b6;
             }
@@ -241,263 +248,225 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- Loading Screen -->
-<div class="loading-screen" id="loadingScreen">
-    <div class="progress-bar-wrapper">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-</div>
-
-<!-- Header -->
-<div class="header">Codefusion Visualizer & Live Preview</div>
-
-<!-- Main Container -->
-<div class="container" id="mainContainer">
-    <!-- Editor and Preview Wrapper -->
-    <div class="editor-preview-wrapper">
-        <!-- Editor Section -->
-        <div class="editor" id="editorSection">
-            <h3>Paste or Edit Your HTML Code</h3>
-            <button class="copy-btn" id="copyCodeBtn" onclick="copyCode()">Copy Code</button>
-            <textarea id="htmlInput" placeholder="Paste your HTML code here..."></textarea>
-            <button class="fullscreen-button" id="fullscreenEditorBtn" onclick="fullscreenEditor()">◻</button>
-            <button class="minimize-button" id="minimizeEditorBtn" onclick="minimizeEditor('editor')">―</button>
-            <button class="maximize-button" style="display: none" id="maximizeEditorBtn" onclick="maximizeEditor('editor')">⊠</button>
-            <button class="refresh-button" id="refreshEditorBtn" onclick="refreshLayout('editor')" style="right: 75px;">↻</button>
-        </div>
-
-        <!-- Live Preview Section -->
-        <div class="preview" id="previewSection">
-            <h3>Live Preview</h3>
-            <iframe id="htmlPreview"></iframe>
-            <button class="fullscreen-button" id="fullscreenPreviewBtn" onclick="fullscreenPreview()">◻</button>
-            <button class="minimize-button" id="minimizePreviewBtn" onclick="minimizeEditor('preview')">―</button>
-            <button class="maximize-button" style="display: none" id="maximizePreviewBtn" onclick="maximizeEditor('preview')">⊠</button>
-            <button class="refresh-button" id="refreshPreviewBtn" onclick="refreshLayout('preview')" style="right: 75px;">↻</button>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="progress-bar-wrapper">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
     </div>
 
-    <!-- Toggle Button -->
-    <button id="toggleBtn" class="toggle-button" onclick="togglePlaceholder()">Toggle Placeholder</button>
-</div>
+    <!-- Header -->
+    <div class="header">Codefusion Visualizer & Live Preview</div>
 
-<!-- Canvas -->
-<canvas id="canvas"></canvas>
+    <!-- Main Container -->
+    <div class="container" id="mainContainer">
+        <!-- Editor and Preview Wrapper -->
+        <div class="editor-preview-wrapper">
+            <!-- Editor Section -->
+            <div class="editor" id="editorSection">
+                <h3>Paste or Edit Your HTML Code</h3>
+                <button class="copy-btn" id="copyCodeBtn" onclick="copyCode()">Copy Code</button>
+                <textarea id="htmlInput" placeholder="Paste your HTML code here..."></textarea>
+                <button class="fullscreen-button" id="fullscreenEditorBtn" onclick="fullscreenEditor()">◻</button>
+                <button class="minimize-button" id="minimizeEditorBtn" onclick="minimizeEditor('editor')">―</button>
+                <button class="maximize-button" style="display: none" id="maximizeEditorBtn" onclick="maximizeEditor('editor')">⊠</button>
+                <button class="refresh-button" id="refreshEditorBtn" onclick="refreshLayout('editor')" style="right: 75px;">↻</button>
+            </div>
 
-<script>
-    let progress = 0;
-    const progressBar = document.getElementById('progressBar');
-    const loadingScreen = document.getElementById('loadingScreen');
-    const mainContainer = document.getElementById('mainContainer');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let savedCode = ""; //Store code
-    let offsetX, offsetY; //for drag
-    let isDragging = false; // Track dragging state
+            <!-- Live Preview Section -->
+            <div class="preview" id="previewSection">
+                <h3>Live Preview</h3>
+                <iframe id="htmlPreview"></iframe>
+                <button class="fullscreen-button" id="fullscreenPreviewBtn" onclick="fullscreenPreview()">◻</button>
+                <button class="minimize-button" id="minimizePreviewBtn" onclick="minimizeEditor('preview')">―</button>
+                <button class="maximize-button" style="display: none" id="maximizePreviewBtn" onclick="maximizeEditor('preview')">⊠</button>
+                <button class="refresh-button" id="refreshPreviewBtn" onclick="refreshLayout('preview')" style="right: 75px;">↻</button>
+            </div>
+        </div>
 
+        <!-- Toggle Button -->
+        <button id="toggleBtn" class="toggle-button" onclick="togglePlaceholder()">Toggle Placeholder</button>
+    </div>
 
-    // Canvas particle animation
-    let particles = [];
+    <!-- Canvas -->
+    <canvas id="canvas"></canvas>
 
-    function createParticle(x, y) {
-        const particle = {
-            x: x,
-            y: y,
-            size: Math.random() * 5 + 2,
-            speedX: Math.random() * 2 - 1,
-            speedY: Math.random() * 2 - 1,
-            color: '#00ff90'
-        };
-        particles.push(particle);
-    }
+    <script>
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainContainer = document.getElementById('mainContainer');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let savedCode = ""; //Store code
 
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Canvas particle animation
+        let particles = [];
 
-        particles.forEach((particle, index) => {
-            particle.x += particle.speedX;
-            particle.y += particle.speedY;
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            ctx.fillStyle = particle.color;
-            ctx.fill();
+        function createParticle(x, y) {
+            const particle = {
+                x: x,
+                y: y,
+                size: Math.random() * 5 + 2,
+                speedX: Math.random() * 2 - 1,
+                speedY: Math.random() * 2 - 1,
+                color: '#00ff90'
+            };
+            particles.push(particle);
+        }
 
-            // Remove particles that move off-screen
-            if (particle.x < 0 || particle.x > canvas.width || particle.y < 0 || particle.y > canvas.height) {
-                particles.splice(index, 1);
-            }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, index) => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color;
+                ctx.fill();
+
+                // Remove particles that move off-screen
+                if (particle.x < 0 || particle.x > canvas.width || particle.y < 0 || particle.y > canvas.height) {
+                    particles.splice(index, 1);
+                }
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Handle mouse move for canvas particles
+        document.addEventListener('mousemove', (e) => {
+            createParticle(e.x, e.y);
         });
 
-        requestAnimationFrame(animateParticles);
-    }
+        // Handle window resizing for canvas
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
 
-    // Handle mouse move for canvas particles
-    document.addEventListener('mousemove', (e) => {
-        createParticle(e.x, e.y);
-    });
+        // Simulate loading
+        function simulateLoading() {
+            setInterval(() => {
+                if (progress < 100) {
+                    progress++;
+                    progressBar.style.width = progress + '%';
+                } else {
+                    loadingScreen.style.display = 'none';
+                    mainContainer.style.opacity = 1;
+                }
+            }, 10);
+        }
 
-    // Handle window resizing for canvas
-    window.addEventListener('resize', () => {
+        simulateLoading();
+
+        // Initialize Canvas Size
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-    });
 
-    // Simulate loading
-    function simulateLoading() {
-        setInterval(() => {
-            if (progress < 100) {
-                progress++;
-                progressBar.style.width = progress + '%';
-            } else {
-                loadingScreen.style.display = 'none';
-                mainContainer.style.opacity = 1;
-            }
-        }, 10);
-    }
+        // Handle HTML Input and Live Preview
+        const htmlInput = document.getElementById('htmlInput');
+        const htmlPreview = document.getElementById('htmlPreview');
 
-    simulateLoading();
-
-    // Initialize Canvas Size
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Handle HTML Input and Live Preview
-    const htmlInput = document.getElementById('htmlInput');
-    const htmlPreview = document.getElementById('htmlPreview');
-
-    htmlInput.addEventListener('input', function () {
-        htmlPreview.srcdoc = htmlInput.value;
-        savedCode = htmlInput.value; // Save the code
-    });
-       // Restore saved code when page loads
-       window.onload = function() {
-            if (savedCode) {
-                htmlInput.value = savedCode;
-                 htmlPreview.srcdoc = savedCode;
+        htmlInput.addEventListener('input', function () {
+            htmlPreview.srcdoc = htmlInput.value;
+            savedCode = htmlInput.value; // Save the code
+        });
+           // Restore saved code when page loads
+           window.onload = function() {
+                if (savedCode) {
+                    htmlInput.value = savedCode;
+                     htmlPreview.srcdoc = savedCode;
+               }
            }
-       }
+        // Toggle Placeholder Visibility
+        function togglePlaceholder() {
+            const editorSection = document.getElementById('editorSection');
+            const previewSection = document.getElementById('previewSection');
+            const toggleBtn = document.getElementById('toggleBtn');
 
-    // Toggle Placeholder Visibility
-    function togglePlaceholder() {
-        const editorSection = document.getElementById('editorSection');
-        const previewSection = document.getElementById('previewSection');
-        const toggleBtn = document.getElementById('toggleBtn');
-
-        if (editorSection.style.display === 'none') {
-            editorSection.style.display = 'block';
-            previewSection.style.width = '48%';
-            toggleBtn.innerText = 'Hide Placeholder';
-        } else {
-            editorSection.style.display = 'none';
-            previewSection.style.width = '100%';
-            toggleBtn.innerText = 'Show Placeholder';
+            if (editorSection.style.display === 'none') {
+                editorSection.style.display = 'block';
+                previewSection.style.width = '48%';
+                toggleBtn.innerText = 'Hide Placeholder';
+            } else {
+                editorSection.style.display = 'none';
+                previewSection.style.width = '100%';
+                toggleBtn.innerText = 'Show Placeholder';
+            }
         }
-    }
 
-    // Copy Code to Clipboard
-    function copyCode() {
-        const textarea = document.getElementById('htmlInput');
-        textarea.select();
-        document.execCommand('copy');
-        alert('Code Copied to Clipboard!');
-    }
+        // Copy Code to Clipboard
+        function copyCode() {
+            const textarea = document.getElementById('htmlInput');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Code Copied to Clipboard!');
+        }
 
-    // Minimize and Maximize Editor/Preview
-    function minimizeEditor(section) {
-        const sectionElement = document.getElementById(section + 'Section');
-        const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-        const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
+        // Minimize and Maximize Editor/Preview
+        function minimizeEditor(section) {
+            const sectionElement = document.getElementById(section + 'Section');
+            const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
+            const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
 
-        sectionElement.style.height = '40px';
-        minimizeButton.style.display = 'none';
-        maximizeButton.style.display = 'flex';
-    }
+            sectionElement.style.height = '40px';
+            minimizeButton.style.display = 'none';
+            maximizeButton.style.display = 'flex';
+        }
 
-    function maximizeEditor(section) {
-        const sectionElement = document.getElementById(section + 'Section');
-        const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-        const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
+        function maximizeEditor(section) {
+            const sectionElement = document.getElementById(section + 'Section');
+            const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
+            const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
 
-        sectionElement.style.height = 'auto';
-        minimizeButton.style.display = 'flex';
-        maximizeButton.style.display = 'none';
-    }
+            sectionElement.style.height = 'auto';
+            minimizeButton.style.display = 'flex';
+            maximizeButton.style.display = 'none';
+        }
 
-    // Fullscreen for Editor
-    function fullscreenEditor() {
-        const editorSection = document.getElementById('editorSection');
-        editorSection.style.width = '100%';
-        editorSection.style.height = '100vh';
-        editorSection.style.position = 'absolute';
-        editorSection.style.top = '0';
-        editorSection.style.left = '0';
-    }
+        // Fullscreen for Editor
+        function fullscreenEditor() {
+            const editorSection = document.getElementById('editorSection');
+            editorSection.style.width = '100%';
+            editorSection.style.height = '100vh';
+            editorSection.style.position = 'absolute';
+            editorSection.style.top = '0';
+            editorSection.style.left = '0';
+        }
 
-    // Fullscreen for Preview
-    function fullscreenPreview() {
-        const previewSection = document.getElementById('previewSection');
-        previewSection.style.width = '100%';
-        previewSection.style.height = '100vh';
-        previewSection.style.position = 'absolute';
-        previewSection.style.top = '0';
-        previewSection.style.left = '0';
-    }
+        // Fullscreen for Preview
+        function fullscreenPreview() {
+            const previewSection = document.getElementById('previewSection');
+            previewSection.style.width = '100%';
+            previewSection.style.height = '100vh';
+            previewSection.style.position = 'absolute';
+            previewSection.style.top = '0';
+            previewSection.style.left = '0';
+        }
 
-    // Refresh Layout
-    function refreshLayout(section) {
-        const sectionElement = document.getElementById(section + 'Section');
-        const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-        const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
+        // Refresh Layout
+        function refreshLayout(section) {
+            const sectionElement = document.getElementById(section + 'Section');
+            const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
+            const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
 
-        sectionElement.style.width = '48%';
-        sectionElement.style.height = 'auto';
-        minimizeButton.style.display = 'flex';
-        maximizeButton.style.display = 'none';
-        sectionElement.style.position = 'relative';
-        sectionElement.style.top = 'auto';
-        sectionElement.style.left = 'auto';
-    }
+            sectionElement.style.width = '48%';
+            sectionElement.style.height = 'auto';
+            minimizeButton.style.display = 'flex';
+            maximizeButton.style.display = 'none';
+            sectionElement.style.position = 'relative';
+            sectionElement.style.top = 'auto';
+            sectionElement.style.left = 'auto';
+        }
 
-    // Drag functionality
-  function dragStart(e, section) {
-    const sectionElement = document.getElementById(section + 'Section');
-    offsetX = e.clientX - sectionElement.offsetLeft;
-    offsetY = e.clientY - sectionElement.offsetTop;
-    sectionElement.style.cursor = 'grabbing';
-    isDragging = true;
-    document.addEventListener('mousemove', (e) => dragMove(e, section));
-    document.addEventListener('mouseup', () => dragEnd(section));
-  }
+       animateParticles();
+    </script>
 
-    function dragMove(e, section) {
-      if (!isDragging) return;
-      const sectionElement = document.getElementById(section + 'Section');
-      sectionElement.style.position = 'absolute';
-      sectionElement.style.top = e.clientY - offsetY + 'px';
-      sectionElement.style.left = e.clientX - offsetX + 'px';
-    }
-
-
-  function dragEnd(section) {
-      if (!isDragging) return;
-       const sectionElement = document.getElementById(section + 'Section');
-        sectionElement.style.cursor = 'grab';
-        isDragging = false;
-        document.removeEventListener('mousemove', (e) => dragMove(e, section));
-    document.removeEventListener('mouseup', () => dragEnd(section));
-    }
-
-
-    // Add event listeners for dragging
-    const editorSection = document.getElementById('editorSection');
-    const previewSection = document.getElementById('previewSection');
-
-    editorSection.addEventListener('mousedown', (e) => dragStart(e, 'editor'));
-    previewSection.addEventListener('mousedown', (e) => dragStart(e, 'preview'));
-
-    animateParticles();
-</script>
 </body>
+
 </html>
