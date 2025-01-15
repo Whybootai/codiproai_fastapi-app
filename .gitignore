@@ -104,5 +104,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+index.html
+
 # Mac OS
 .DS_Store
