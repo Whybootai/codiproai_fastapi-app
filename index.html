@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Admin Console - Futuristic Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Futuristic Theme (styles from your original code - no changes here) */
+        :root {
+            --primary-bg: #1a1a2e;
+            --secondary-bg: #161626;
+            --accent-color: #60efbc;
+            --text-primary: #f4f4f4;
+            --text-secondary: #b3b3cc;
+            --border-color: #2e2e48;
+            --card-bg: #292943;
+            --success-color: #50fa7b;
+            --warning-color: #f1fa8c;
+            --error-color: #ff5555;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--secondary-bg);
+            color: var(--text-primary);
+            width: 280px;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo i {
+            font-size: 1.8em;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .logo-text {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 12px 15px;
+            text-align: left;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 8px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .nav-button i {
+            margin-right: 10px;
+        }
+
+        .nav-button:hover,
+        .nav-button.active {
+            background-color: rgba(var(--accent-color-rgb), 0.1);
+            color: var(--accent-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .main-header h1 {
+            font-size: 2em;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .main-header h1 i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .user-profile span {
+            color: var(--text-secondary);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Dashboard Specific Styles */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .data-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border-left: 5px solid var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+
+        .data-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .data-card.success {
+            border-left-color: var(--success-color);
+        }
+
+        .data-card.accuracy {
+            border-left-color: var(--warning-color);
+        }
+
+        .data-card.progress {
+            border-left-color: var(--accent-color);
+        }
+
+        .data-card.latency {
+            border-left-color: var(--error-color);
+        }
+
+        .card-icon {
+            float: right;
+            font-size: 2.5em;
+            color: rgba(255, 255, 255, 0.05);
+            opacity: 0.8;
+        }
+
+        .data-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .data-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            background-color: #444;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--accent-color);
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+        }
+
+        /* Data Upload */
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .upload-area.drag-over {
+            background-color: #333;
+            border-color: var(--accent-color);
+        }
+
+        .upload-button {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border: none;
+            font-size: 1em;
+        }
+
+        .upload-button i {
+            margin-right: 10px;
+        }
+
+        .upload-button:hover {
+            background-color: #4dd4a8;
+        }
+
+        #file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            background-color: var(--card-bg);
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .file-item i {
+            margin-right: 10px;
+        }
+
+        /* Training */
+        .training-controls {
+            margin-bottom: 20px;
+        }
+
+        .action-button {
+            background-color: var(--secondary-bg);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .action-button i {
+            margin-right: 5px;
+        }
+
+        .action-button:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+        }
+
+        .training-status {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .training-status p {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .training-status span {
+            font-weight: normal;
+        }
+
+        .training-status .status-idle {
+            color: var(--text-secondary);
+        }
+
+        .training-status .status-training {
+            color: var(--accent-color);
+        }
+
+        .training-status .status-paused {
+            color: var(--warning-color);
+        }
+
+        .training-status .status-stopped {
+            color: var(--error-color);
+        }
+
+        .data-grid {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-row {
+            display: grid;
+            grid-template-columns: 1.5fr 3fr auto;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            color: var(--text-secondary);
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-row .actions {
+            text-align: right;
+        }
+
+        .data-row .actions button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .data-row .actions button:hover {
+            color: var(--accent-color);
+        }
+
+        /* Real-Time Testing */
+        #chat-interface {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 450px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chat-log {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-message {
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            width: fit-content;
+            max-width: 70%;
+        }
+
+        .chat-message.user {
+            background-color: #3a3a55;
+            color: var(--text-primary);
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-message.bot {
+            background-color: #4d4d66;
+            color: var(--text-secondary);
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-message span {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-right: 5px;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            display: flex;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input-area input[type="text"] {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--secondary-bg);
+            color: var(--text-primary);
+            margin-right: 10px;
+            font-size: 1em;
+        }
+
+        .chat-input-area input[type="text"]::placeholder {
+            color: #777;
+        }
+
+        .chat-input-area button {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-input-area button:hover {
+            background-color: #4dd4a8;
+        }
+
+        /* Feedback */
+        .feedback-metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+
+        .metric-box {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex-basis: 45%;
+        }
+
+        .metric-box i {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .metric-box.positive i {
+            color: var(--success-color);
+        }
+
+        .metric-box.negative i {
+            color: var(--error-color);
+        }
+
+        .feedback-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feedback-list li {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .feedback-list li i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-brain"></i> <span class="logo-text">AI Admin Console</span>
+            </div>
+            <nav>
+                <button onclick="navigateTo('dashboard')" class="nav-button active"><i
+                        class="fas fa-tachometer-alt"></i> Dashboard</button>
+                <button onclick="navigateTo('data-upload')" class="nav-button"><i class="fas fa-upload"></i> Data
+                    Upload</button>
+                <button onclick="navigateTo('training')" class="nav-button"><i class="fas fa-graduation-cap"></i>
+                    Training</button>
+                <button onclick="navigateTo('real-test')" class="nav-button"><i class="fas fa-vials"></i> Real-Time
+                    Testing</button>
+                <button onclick="navigateTo('feedback')" class="nav-button"><i class="fas fa-comment-dots"></i>
+                    Feedback</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1><i class="fas fa-space-shuttle"></i> Admin Dashboard</h1>
+                <div class="user-profile">
+                    <img src="user-avatar.png" alt="User Avatar">
+                    <span>Admin</span>
+                </div>
+            </header>
+
+            <section id="dashboard" class="content-section active">
+                <div class="grid-container">
+                    <div class="data-card success">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div class="data-value"><span id="success-rate">95.7%</span></div>
+                        <div class="data-label">Success Rate</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95.7%;"></div>
+                        </div>
+                    </div>
+                    <div class="data-card accuracy">
+                        <i class="fas fa-bullseye card-icon"></i>
+                        <div class="data-value"><span id="accuracy">98.2%</span></div>
+                        <div class="data-label">Response Accuracy</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 98.2%;"></div>
+                        </div>
+                    </div>
+                    <div class="data-card progress">
+                        <i class="fas fa-spinner card-icon"></i>
+                        <div class="data-value"><span id="training-progress">83%</span></div>
+                        <div class="data-label">Training Progress</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 83%;"></div>
+                        </div>
+                    </div>
+                    <div class="data-card latency">
+                        <i class="fas fa-stopwatch card-icon"></i>
+                        <div class="data-value"><span id="latency">0.12s</span></div>
+                        <div class="data-label">Average Latency</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="data-upload" class="content-section">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Data Upload Center</h2>
+                <div class="upload-area">
+                    <input type="file" id="file-upload" multiple hidden>
+                    <label for="file-upload" class="upload-button">
+                        <i class="fas fa-upload"></i> Drag & Drop Files Here or Click to Browse
+                    </label>
+                    <div id="file-list">
+                        <!-- File names will appear here -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="training" class="content-section">
+                <h2><i class="fas fa-brain"></i> Training Management Console</h2>
+                <div class="training-controls">
+                    <button class="action-button"><i class="fas fa-play"></i> Start Training</button>
+                    <button class="action-button"><i class="fas fa-pause"></i> Pause Training</button>
+                    <button class="action-button"><i class="fas fa-stop"></i> Stop Training</button>
+                </div>
+                <div class="training-status">
+                    <p><strong>Status:</strong> <span id="training-status-text">Idle</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <h3>Manage Intents & Entities</h3>
+                <div class="data-grid">
+                    <div class="data-row">
+                        <div>GreetingIntent</div>
+                        <div>Handles initial greetings from users.</div>
+                        <div class="actions">
+                            <button class="edit-button"><i class="fas fa-edit"></i></button>
+                            <button class="delete-button"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>OrderStatusIntent</div>
+                        <div>Allows users to check the status of their orders.</div>
+                        <div class="actions">
+                            <button class="edit-button"><i class="fas fa-edit"></i></button>
+                            <button class="delete-button"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <!-- More data rows here -->
+                </div>
+            </section>
+
+            <section id="real-test" class="content-section">
+                <h2><i class="fas fa-robot"></i> Real-Time Bot Testing</h2>
+                <div id="chat-interface">
+                    <div class="chat-log" id="chat-log">
+                        <!-- Chat messages will appear here -->
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="user-input" placeholder="Type your message here..." required/>
+                        <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="feedback" class="content-section">
+                <h2><i class="fas fa-comments"></i> User Feedback Analytics</h2>
+                <div class="feedback-metrics">
+                    <div class="metric-box positive">
+                        <i class="far fa-thumbs-up"></i>
+                        <span>92% Positive Feedback</span>
+                    </div>
+                    <div class="metric-box negative">
+                        <i class="far fa-thumbs-down"></i>
+                        <span>8% Negative Feedback</span>
+                    </div>
+                </div>
+                <h3>Recent Feedback Logs</h3>
+                <ul class="feedback-list">
+                    <li><i class="fas fa-user"></i> User: The bot's responses were incredibly helpful and fast.</li>
+                    <li><i class="fas fa-user"></i> User: I encountered a few misunderstandings, but overall good.</li>
+                    <li><i class="fas fa-user"></i> User: The interface is intuitive, and the bot works well.</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+    <script>
+    // Store a user-provided Gemini API key and use it in API calls
+        let geminiApiKey;
+        // Initialize API key
+        function initApiKey() {
+            geminiApiKey = prompt("Enter your Gemini API Key:");
+            if (geminiApiKey) {
+              console.log('API Key set.');
+          } else {
+              console.error("API key is required to use the Gemini API features.")
+          }
+        };
+    
+    initApiKey();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simulate dynamic updates for dashboard metrics
+            setInterval(() => {
+                updateDashboardMetrics();
+            }, 5000); // Update every 5 seconds
+            // Initial setup
+            navigateTo('dashboard');
+        });
+
+        function navigateTo(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            // Update active state of navigation buttons
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('onclick').includes(`'${sectionId}'`)) {
+                    button.classList.add('active');
+                }
+            });
+            console.log(`Navigating to: ${sectionId}`);
+        }
+
+        function updateDashboardMetrics() {
+            const successRate = (94 + Math.random() * 2).toFixed(1);
+            const accuracy = (97 + Math.random() * 1.5).toFixed(1);
+            const trainingProgress = Math.min(100, parseInt(document.getElementById('training-progress').textContent) + Math.floor(Math.random() * 5));
+            const latency = (0.1 + Math.random() * 0.05).toFixed(2);
+            document.getElementById('success-rate').textContent = `${successRate}%`;
+            document.querySelector('.data-card.success .progress-fill').style.width = `${successRate}%`;
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
+            document.querySelector('.data-card.accuracy .progress-fill').style.width = `${accuracy}%`;
+            document.getElementById('training-progress').textContent = `${trainingProgress}%`;
+            document.querySelector('.data-card.progress .progress-fill').style.width = `${trainingProgress}%`;
+            document.getElementById('latency').textContent = `${latency}s`;
+        }
+        // Data Upload Functionality
+        document.getElementById('file-upload').addEventListener('change', function() {
+            handleFileUpload(this.files);
+        });
+
+        function handleFileUpload(files) {
+            const fileListDiv = document.getElementById('file-list');
+            for (const file of files) {
+                const fileElement = document.createElement('div');
+                fileElement.classList.add('file-item');
+                fileElement.innerHTML = `<i class="fas fa-file"></i> ${file.name} <span class="upload-status">Pending</span>`;
+                fileListDiv.appendChild(fileElement);
+                simulateFileUpload(fileElement);
+            }
+        }
+
+        function simulateFileUpload(fileElement) {
+            const statusSpan = fileElement.querySelector('.upload-status');
+            statusSpan.textContent = 'Uploading...';
+            setTimeout(() => {
+                statusSpan.textContent = 'Uploaded';
+                statusSpan.classList.add('uploaded');
+            }, 1500); // Simulate upload time
+        }
+        // Drag and drop functionality for data upload
+        const uploadArea = document.querySelector('.upload-area');
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            handleFileUpload(e.dataTransfer.files);
+        });
+        // Training Management Simulation
+        document.querySelectorAll('.training-controls .action-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.textContent.trim().toLowerCase();
+                handleTrainingAction(action);
+            });
+        });
+        let trainingInterval;
+
+        function handleTrainingAction(action) {
+            const statusText = document.getElementById('training-status-text');
+            const progressBarFill = document.querySelector('#training .progress-bar .progress-fill');
+            if (action === 'start training') {
+                if (!trainingInterval) {
+                    statusText.textContent = 'Training...';
+                    statusText.className = 'status-training';
+                    let progress = parseInt(progressBarFill.style.width, 10) || 0;
+                    trainingInterval = setInterval(() => {
+                        progress += Math.floor(Math.random() * 4) + 1;
+                        progressBarFill.style.width = `${Math.min(progress, 100)}%`;
+                        if (progress >= 100) {
+                            clearInterval(trainingInterval);
+                            trainingInterval = null;
+                            statusText.textContent = 'Training Complete';
+                            statusText.className = 'status-complete';
+                        }
+                    }, 1000);
+                    console.log('Training started.');
+                } else {
+                    console.log('Training is already in progress.');
+                }
+            } else if (action === 'pause training') {
+                if (trainingInterval) {
+                    clearInterval(trainingInterval);
+                    trainingInterval = null;
+                    statusText.textContent = 'Training Paused';
+                    statusText.className = 'status-paused';
+                    console.log('Training paused.');
+                } else {
+                    console.log('No training in progress to pause.');
+                }
+            } else if (action === 'stop training') {
+                clearInterval(trainingInterval);
+                trainingInterval = null;
+                progressBarFill.style.width = '0%';
+                statusText.textContent = 'Training Stopped';
+                statusText.className = 'status-stopped';
+                console.log('Training stopped.');
+            }
+        }
+        // Simulate editing and deleting intents
+        document.querySelectorAll('.data-grid .actions').forEach(actions => {
+            const editButton = actions.querySelector('.edit-button');
+            const deleteButton = actions.querySelector('.delete-button');
+            const row = actions.closest('.data-row');
+            editButton.addEventListener('click', () => {
+                const intentName = row.querySelector('div:nth-child(1)').textContent;
+                console.log(`Editing intent: ${intentName}`);
+                // Simulate edit action - for now, just log it
+                alert(`Simulating edit for intent: ${intentName}`);
+            });
+            deleteButton.addEventListener('click', () => {
+                const intentName = row.querySelector('div:nth-child(1)').textContent;
+                console.log(`Deleting intent: ${intentName}`);
+                // Simulate delete action by removing the row
+                row.remove();
+            });
+        });
+        // Real-Time Testing Chat
+        async function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const message = inputField.value.trim();
+
+            if (!message) {
+              alert("Message cannot be empty.");
+              return;
+            }
+            
+            displayMessage(message, 'user');
+
+            try {
+                const botResponse = await getGeminiResponse(message); // Await the API call
+                 displayMessage(botResponse, 'bot');
+              } catch (error) {
+                console.error('Error getting bot response:', error);
+                 displayMessage("<span>Bot:</span> Sorry, I encountered an error.", 'bot');
+              }
+            
+           inputField.value = '';
+        }
+       async function getGeminiResponse(userMessage) {
+            const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+            //  https://ai.google.dev/tutorials/python_quickstart
+            const headers = {
+                'Content-Type': 'application/json',
+            };
+
+            const data = {
+                contents: [{
+                    parts: [{
+                        text: userMessage
+                    }]
+                }]
+            };
+                
+             // Ensure API key is available.
+            if (!geminiApiKey) {
+                throw new Error("API Key not set. Please add a valid API key.");
+            }
+
+            const params = {
+                'key': geminiApiKey
+            };
+            const urlWithParams = new URL(apiUrl);
+            Object.keys(params).forEach(key => urlWithParams.searchParams.append(key, params[key]));
+
+            const response = await fetch(urlWithParams.toString(), {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.log(errorText);
+              throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+            }
+            const responseData = await response.json();
+            //  console.log(responseData);
+            if(responseData.candidates && responseData.candidates[0].content.parts[0].text){
+                 return `<span>Bot:</span>${responseData.candidates[0].content.parts[0].text}`;
+            } else {
+                 throw new Error('Unexpected API response format or no response.');
+            }
+           
+        }
+
+        function displayMessage(message, sender) {
+            const chatLog = document.getElementById('chat-log');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message', sender);
+            messageElement.innerHTML = message; // Allow HTML in messages for richer formatting
+            chatLog.appendChild(messageElement);
+            chatLog.scrollTop = chatLog.scrollHeight; // Scroll to the bottom
+        }
+       
+        document.getElementById('user-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+
+</html>
