@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codify AI Assistant</title>
+    <title>CodyPro AI Assistant</title>
     <style>
         :root {
             --primary: #00ff9d;
@@ -34,11 +34,12 @@
             width: 100%;
             padding: 20px;
             text-align: center;
+             position: relative;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: sticky;
             top: 0;
             z-index: 1000;
+          overflow: hidden;
         }
 
         header h1 {
@@ -47,6 +48,51 @@
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 2px;
+        }
+         #google-drive-icon {
+           position: absolute;
+            top: 20px;
+             right: 60px;
+            cursor: pointer;
+            font-size: 1.8em;
+           color: var(--light);
+            transition: color 0.3s ease;
+        }
+         #google-drive-icon:hover {
+            color: var(--primary);
+         }
+          #user-guide-icon {
+            position: absolute;
+             top: 20px;
+              right: 20px;
+             cursor: pointer;
+             font-size: 1.8em;
+             color: var(--light);
+              transition: color 0.3s ease;
+        }
+        #user-guide-icon:hover {
+           color: var(--primary);
+        }
+        /* Marquee Styles */
+        .marquee-container {
+             width: 100%;
+             position: absolute;
+              bottom: 0;
+            overflow: hidden;
+              background: rgba(255, 255, 255, 0.1);
+             padding: 5px 0;
+        }
+
+        .marquee-text {
+            display: inline-block;
+             white-space: nowrap;
+            animation: marquee 20s linear infinite;
+              color: var(--light);
+        }
+
+        @keyframes marquee {
+          0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
         #chat-container {
@@ -88,23 +134,26 @@
             position: relative;
         }
 
-         .message-options {
-             position: absolute;
-             top: 5px;
-             right: 5px;
-           display: none; /* Hidden by default */
-          }
-         .message:hover .message-options {
-             display: flex;
+        .message-options {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: none; /* Hidden by default */
         }
+
+        .message:hover .message-options {
+            display: flex;
+        }
+
         .message-options button {
-             background: none;
+            background: none;
             border: none;
             cursor: pointer;
             color: var(--text-color);
-             font-size: 1.1em;
-           padding: 2px 5px;
-         }
+            font-size: 1.1em;
+            padding: 2px 5px;
+        }
+
         .message-options button:hover {
             color: var(--primary)
         }
@@ -128,6 +177,7 @@
             border-right: 4px solid var(--secondary);
             align-self: flex-start;
         }
+
         .bot-message ul, .bot-message ol {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -136,12 +186,14 @@
         .bot-message li {
              line-height: 1.6;
          }
+
         .bot-message pre {
             background: rgba(255, 255, 255, 0.05);
             padding: 15px;
-             border-radius: 8px;
+            border-radius: 8px;
             overflow-x: auto;
         }
+
         .bot-message code {
             font-family: monospace;
         }
@@ -184,8 +236,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             font-size: 1rem;
         }
-
-         #clear-chat-button {
+          #clear-chat-button {
            margin-top: 10px;
             background: var(--accent);
             color: var(--light);
@@ -196,6 +247,24 @@
             box-shadow: 0 10px 20px rgba(0, 255, 157, 0.4);
         }
 
+         #prompt-suggestions {
+           display: flex;
+             flex-wrap: wrap;
+              gap: 10px;
+            margin-top: 10px;
+             justify-content: center;
+        }
+
+        .prompt-suggestion {
+          background: rgba(255,255,255,0.1);
+          padding: 10px 15px;
+           border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+         .prompt-suggestion:hover{
+            background-color: rgba(255,255,255,0.2);
+         }
         .thinking {
             display: flex;
             gap: 8px;
@@ -274,15 +343,15 @@
         }
 
         /* Sidebar Styles */
-        .sidebar {
+         .sidebar {
             position: fixed;
             top: 0;
-            right: -300px;
+            left: -300px; /* Start off screen on the left */
             width: 300px;
             height: 100%;
             background: var(--secondary);
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-            transition: right 0.3s ease;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Shadow on the right side */
+            transition: left 0.3s ease; /* Transition the left property */
             padding: 20px;
             z-index: 1001;
             display: flex;
@@ -292,25 +361,25 @@
         }
 
         .sidebar.open {
-            right: 0;
-        }
+            left: 0; /* Slide in from the left */
+         }
 
         .sidebar-button {
-            position: fixed;
+             position: fixed;
             top: 20px;
-            right: 20px;
+            left: 20px; /* Position the button on the left */
             padding: 10px;
             background: var(--primary);
             border-radius: 50%;
             color: var(--dark);
             cursor: pointer;
-            transition: right 0.3s ease;
+            transition: left 0.3s ease; /* Transition the left property */
             z-index: 1002;
         }
 
         .sidebar-button.open {
-            right: 320px;
-        }
+           left: 320px;
+         }
 
         .sidebar-button i {
             font-size: 1.2em;
@@ -332,12 +401,12 @@
             font-weight: bold;
         }
 
-        #user-image {
+         #user-image {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
+            object-fit: contain;
+             margin-bottom: 10px;
             border: 2px solid var(--accent);
         }
 
@@ -447,18 +516,60 @@
                 width: 100%;
             }
 
-            .sidebar-button {
-                right: 10px;
-            }
+             .sidebar-button {
+                 left: 10px;
+             }
 
-            .sidebar-button.open {
-                right: 310px;
-            }
+             .sidebar-button.open {
+                 left: 310px;
+             }
 
             .sidebar {
                 width: 280px;
             }
         }
+        /* User Guide Popup */
+         #user-guide-popup {
+            position: fixed;
+           top: 25%;
+             left: 25%;
+            width: 50%;
+           height: 50%;
+            background: rgba(0, 0, 0, 0.8);
+             border-radius: 15px;
+             color: var(--light);
+           padding: 30px;
+            z-index: 10000;
+            display: none;
+            overflow-y: auto; /* Enable scrolling for long instructions */
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.2);
+         }
+          #user-guide-popup.active {
+             display: block;
+         }
+         #user-guide-popup .close-button {
+             position: absolute;
+            top: 10px;
+            right: 10px;
+           font-size: 1.5em;
+            cursor: pointer;
+             color: var(--accent);
+            transition: color 0.3s ease;
+        }
+        #user-guide-popup .close-button:hover {
+            color: var(--primary);
+        }
+        #user-guide-popup h2 {
+           margin-bottom: 20px;
+          text-align: center;
+        }
+        #user-guide-popup ul {
+           padding-left: 30px;
+        }
+        #user-guide-popup li {
+           margin-bottom: 10px;
+           line-height: 1.5;
+         }
 
         /* Animations */
         @keyframes slideIn {
@@ -497,9 +608,29 @@
 </div>
 
 <header>
-    <h1>Codify AI Assistant</h1>
+    <h1>CodyPro AI</h1>
+    <i class="fab fa-google-drive" id="google-drive-icon" onclick="saveChatToDrive()"></i>
+     <i class="fas fa-question-circle" id="user-guide-icon" onclick="toggleUserGuide()"></i>
+      <div class="marquee-container">
+      <div class="marquee-text">
+           Select your prompt type, input your prompt, and let CodyPro AI assist you! | CodyPro AI may make mistakes, kindly double-check the output provided. | Created with ❤️ by Flynn James P.
+     </div>
+    </div>
 </header>
-
+ <div id="user-guide-popup">
+        <span class="close-button" onclick="toggleUserGuide()">×</span>
+         <h2>How to Use CodyPro AI</h2>
+        <ul>
+            <li><strong>Select Prompt Type:</strong> Use the dropdown menu to select your prompt type such as "Chat," "List Generation," "Image Generation", etc.</li>
+             <li><strong>Type Your Prompt:</strong> Use the text input to type your prompt, including details of what you want CodyPro AI to do for you.</li>
+            <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know what type of requests you can make CodyPro AI.</li>
+             <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's response.</li>
+             <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI messages.</li>
+             <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.</li>
+             <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or feel.</li>
+             <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.</li>
+        </ul>
+    </div>
 <div id="chat-container">
     <main id="messages" aria-live="polite"></main>
     <div id="input-container">
@@ -516,14 +647,20 @@
              <button onclick="clearChat()" id="clear-chat-button" aria-label="Clear Chat">Clear Chat</button>
         </div>
     </div>
+    <div id="prompt-suggestions">
+       <div class="prompt-suggestion" onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top research papers on AI</div>
+         <div class="prompt-suggestion" onclick="setPrompt('Write an email to a client to request feedback.')">Email feedback request</div>
+       <div class="prompt-suggestion" onclick="setPrompt('Create a project plan for a mobile app development.')">Project plan mobile app dev</div>
+        <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code quick sort</div>
+   </div>
     <footer>
-        © 2025 <a href="#">Codify AI</a>. Built with ❤️ by Flynn James P.
+        © 2025 <a href="#">CodyPro AI</a>. Built with ❤️ by Flynn James P.
     </footer>
 </div>
 <!-- Sidebar -->
 <div class="sidebar" id="settingsSidebar">
     <div class="profile-upload">
-        <img src="https://i.imgur.com/qGgQ2wI.png" alt="User Profile" id="user-image"/>
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>" alt="User Profile" id="user-image" style="object-fit: contain;"/>
         <label for="profile-upload-input">Upload Profile Image</label>
         <input type="file" id="profile-upload-input" accept="image/*" style="display: none;"/>
     </div>
@@ -636,10 +773,10 @@
     </div>
 </div>
 
-<div class="sidebar-button" id="sidebarToggle">
+    <div class="sidebar-button" id="sidebarToggle">
     <i class="fas fa-cog"></i>
 </div>
-
+     <script src="https://apis.google.com/js/api.js"></script>
 <script>
     let apiKey = "";
     const messages = document.getElementById('messages');
@@ -652,6 +789,7 @@
     const profileUploadInput = document.getElementById('profile-upload-input');
     const sidebar = document.getElementById('settingsSidebar');
     const sidebarButton = document.getElementById('sidebarToggle');
+     const userGuidePopup = document.getElementById('user-guide-popup');
     const previewImage = document.querySelector('#preview img')
     let isSidebarOpen = false;
     let botName = "Codi";
@@ -669,11 +807,15 @@
                                 Collaboration: Foster a sense of partnership by tailoring solutions to each user's goals and preferences.
                                 When users type 'Hey Cody,' take on the role of a trusted professional mentor, strategist, and problem-solver, helping them achieve their objectives with ease and confidence.
                             `;
+     const CLIENT_ID = '112450391570-r8m4v9j8r1t86n6g42b1v587q9n20387.apps.googleusercontent.com';
+     const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+     let gapiInited = false;
 
      function clearChat() {
         messages.innerHTML = ''; // Clear all messages
-        addMessage(`Hello! I'm ${botName}, ready to assist you with your tasks!`, false);
+        addMessage(`Hello! I'm Cody, ready to assist you with your tasks!`, false);
     }
+
     function submitApiKey() {
         const input = apiKeyInput.value.trim();
         if (input === secretCode) {
@@ -694,11 +836,24 @@
     }
 
     function toggleSidebar() {
-        isSidebarOpen = !isSidebarOpen;
-        sidebar.classList.toggle('open', isSidebarOpen);
-        sidebarButton.classList.toggle('open', isSidebarOpen);
-        sidebarButton.style.right = isSidebarOpen ? '320px' : '20px';
+         isSidebarOpen = !isSidebarOpen;
+            sidebar.classList.toggle('open', isSidebarOpen);
+            sidebarButton.classList.toggle('open', isSidebarOpen);
+            sidebarButton.style.left = isSidebarOpen ? '320px' : '20px';
+         }
+    function handleClientLoad(){
+      gapi.load('client:auth2', initClient)
     }
+    async function initClient(){
+       await gapi.client.init({
+           clientId: CLIENT_ID,
+           scope: SCOPES
+       });
+
+      gapiInited = true;
+       gapi.client.setApiKey(apiKey);
+    }
+     handleClientLoad();
 
     sidebarButton.addEventListener('click', toggleSidebar);
     profileUploadInput.addEventListener('change', function (event) {
@@ -711,7 +866,9 @@
             reader.readAsDataURL(file);
         }
     });
-
+     function setPrompt(prompt) {
+        trainingInput.value = prompt;
+     }
     function addMessage(content, isUser, isEdited = false, id = null) {
         const message = document.createElement('div');
         message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
@@ -754,7 +911,6 @@
         messages.scrollTop = messages.scrollHeight;
     }
 
-
     function copyMessage(text) {
         navigator.clipboard.writeText(text).then(() => {
             alert("Message copied to clipboard!");
@@ -767,6 +923,51 @@
         messageToEdit = messageElement;
         trainingInput.value = originalContent
         trainingInput.focus();
+    }
+
+    function parseBotResponse(text) {
+        // Handle bold text (**bold text**)
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // Handle italic text (*italic text*)
+        text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+
+        //Handle code blocks using ```...```
+        text = text.replace(/```([\s\S]*?)```/g, (match, code) => {
+            return `<pre><code>${code.trim()}</code></pre>`;
+        });
+        // Handle lists
+       const listRegex = /([-*]|\d+\.)\s+([^\n]+)/g;
+        let listMatch;
+        let listType = null; // Store the list type
+        let newList = '';
+        let listOpen = false;
+
+      while ((listMatch = listRegex.exec(text)) !== null) {
+            const marker = listMatch[1];
+            const listItemText = listMatch[2].trim();
+           if (!listOpen){
+                 listType =  (marker === '-' || marker === '*') ? 'ul' : 'ol';
+                 newList += `<${listType}>`
+                 listOpen = true;
+            }
+          newList += `<li>${listItemText}</li>`
+
+       }
+
+        if (listOpen){
+          newList += `</${listType}>`
+        }
+
+        text = text.replace(listRegex, '')
+       if (newList) {
+             text =  newList + text
+         }
+        //Handle new lines
+       text = text.split('\n').filter(Boolean).join('<br>');
+
+        return text;
     }
 
 
@@ -820,28 +1021,60 @@
             thinking.remove();
 
             if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                 let responseText = data.candidates[0].content.parts[0].text.trim();
+                let responseText = data.candidates[0].content.parts[0].text.trim();
+                  responseText = parseBotResponse(responseText)
 
-                // Attempt to auto format the content if it looks like a list or code
-                if (responseText.startsWith('- ') || responseText.startsWith('* ') || responseText.match(/^\d+\.\s/m)) {
-                  //  Format as a list
-                  const listItems = responseText.split(/[-*] |^\d+\.\s/m).filter(Boolean);
-                    responseText = `<ul>${listItems.map(item => `<li>${item.trim()}</li>`).join('')}</ul>`;
-                  }else if (responseText.startsWith("```")) {
-                         // Format as a code block
-                        const codeContent = responseText.match(/```.*\n([\s\S]*?)```/)?.[1] || responseText;
-                         responseText = `<pre><code>${codeContent.trim()}</code></pre>`;
-                  }
-                addMessage(responseText, false);
-
+                 addMessage(responseText, false);
             } else {
-                 addMessage(`No response from ${botName}.`, false);
+                addMessage(`No response from ${botName}.`, false);
             }
         } catch (error) {
             thinking.remove();
             addMessage("Error connecting to the API.", false);
         }
     }
+  function saveChatToDrive() {
+      if (!gapiInited){
+        alert("Google API not loaded yet!");
+         return;
+      }
+            gapi.auth2.getAuthInstance().signIn()
+              .then(function() {
+                   const chatHistory = document.getElementById('messages').innerHTML;
+                   const fileMetadata = {
+                       'name': `Chat_History_${new Date().toISOString()}.html`,
+                        'mimeType': 'text/html'
+                    };
+                    const fileContent = new Blob([chatHistory], {type: 'text/html'});
+
+                   const form = new FormData();
+                   form.append('metadata', new Blob([JSON.stringify(fileMetadata)], {type: 'application/json'}));
+                   form.append('file', fileContent);
+
+                  gapi.client.request({
+                     path: '/upload/drive/v3/files',
+                       method: 'POST',
+                       params: {'uploadType': 'multipart'},
+                       body: form
+                   }).then(response => {
+                       if(response.status === 200){
+                            alert("Chat history saved to Google Drive!");
+                       }else{
+                          alert("Error saving chat to Google Drive!");
+                         console.error(response)
+                       }
+                   }).catch((error) => {
+                      alert("Error connecting to Google Drive!");
+                    console.error(error);
+                   })
+              }).catch((error) => {
+                  console.error("Error signing in: ", error);
+                  alert("Error signing in to Google Drive.")
+              })
+      }
+      function toggleUserGuide(){
+          userGuidePopup.classList.toggle('active')
+      }
 
     trainingInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -934,7 +1167,7 @@
 
     function applySidebarWidth(width) {
         sidebar.style.width = `${width}px`;
-        sidebarButton.style.right = isSidebarOpen ? `${parseInt(width) + 20}px` : '20px';
+        sidebarButton.style.left = isSidebarOpen ? `${parseInt(width) + 20}px` : '20px';
     }
 
     function applyContentAlignment(alignment) {
@@ -969,7 +1202,6 @@
         sidebar.style.width = '300px'
         botName = "Codi"
     }
-
    // Initialize the bot with a greeting
     clearChat()
 
@@ -977,3 +1209,4 @@
 </body>
 
 </html>
+     
