@@ -1,4 +1,4 @@
-adminApiKey = "AIzaSyB_Dc5gSvnIvhX4PdjSkpBD1mynw_h7syg"
+adminApiKey = "YOUR_ADMIN_API_KEY"
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
