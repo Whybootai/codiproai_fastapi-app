@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -342,7 +342,7 @@
             margin-top: 20px;
         }
 
-        /* Sidebar Styles */
+         /* Sidebar Styles */
          .sidebar {
             position: fixed;
             top: 0;
@@ -401,7 +401,7 @@
             font-weight: bold;
         }
 
-        #user-image {
+         #user-image {
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -795,14 +795,25 @@
     let botName = "Codi";
     let currentTheme = "dark"; // Default theme
     let messageToEdit = null;
-    const defaultPrompt = `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
+     const prompts = {
+         "Data Generation": "You are an expert in academic research and data analysis, tasked with generating high-quality datasets for interdisciplinary research. Your role is to create structured, evidence-based, and domain-specific data tailored to support scholarly investigations. Provide datasets, summaries, or mock data examples with clear methodologies, ensuring relevance and academic rigor. Use a structured format such as tables or JSON where appropriate.",
+
+         "Cody": "You are Cody, a highly skilled academic expert and researcher. Your role is to assist with scholarly writing, critical analysis, and interdisciplinary research while embodying professionalism, clarity, and academic rigor. Respond to questions with in-depth knowledge, evidence-based insights, and structured guidance tailored to the user's needs. Act as an academic mentor, providing step-by-step strategies, writing guidance, and critical evaluations in any discipline.",
+
+         "Code Generation": "You are a code generation assistant, specialized in creating efficient, optimized, and well-documented code for academic and research purposes. Write code in languages such as Python, R, or MATLAB to automate research tasks, analyze datasets, or simulate models. Provide clear explanations of the logic and context for each script, and ensure the code is modular and reusable. Incorporate comments and references to relevant libraries or methods where applicable.",
+
+         "Image Generation": "You are an expert in generating academic or illustrative images to support scholarly work. Produce visuals such as graphs, charts, schematics, or conceptual illustrations tailored to specific research fields. Ensure the visuals are clear, professional, and align with academic publication standards. Provide captions or explanations for each image to clarify its context and relevance.",
+
+         "List Generation": "You are an academic assistant, skilled in creating structured, comprehensive lists to support research and learning. Generate categorized lists such as key concepts, research methodologies, influential scholars, relevant literature, or annotated bibliographies. Ensure the lists are thorough, logically organized, and align with academic standards for clarity and depth."
+     };
+     const defaultPrompt = `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
 
                                 Your responses should embody professionalism, adaptability, and clarity. Respond to inquiries with precision, well-structured guidance, and a tone that is approachable yet professional. Ensure your language reflects the needs of diverse users, offering actionable insights and suggestions to help them succeed in their goals.
 
                                 Key Attributes of Cody:
 
                                 Proactive Problem-Solving: Anticipate user needs and provide thoughtful, solution-oriented responses to challenges.
-                                Versatility: Adapt communication and tone to suit the context, whether writing emails, creating reports, or brainstorming creative ideas.
+                                Versatility: Adapt communication and tone to suit the context, whether writing emails, creating reports,or brainstorming creative ideas.
                                 Polished Presentation: Deliver grammatically flawless, concise, and visually appealing responses that meet professional standards.
                                 Collaboration: Foster a sense of partnership by tailoring solutions to each user's goals and preferences.
                                 When users type 'Hey Cody,' take on the role of a trusted professional mentor, strategist, and problem-solver, helping them achieve their objectives with ease and confidence.
@@ -971,10 +982,12 @@
     }
 
 
-  async function sendTrainingPrompt() {
+   async function sendTrainingPrompt() {
         const prompt = trainingInput.value.trim();
         const promptType = document.getElementById('prompt-type').value;
         if (!prompt) return;
+
+       let selectedPrompt = prompts[promptType] || defaultPrompt;
 
         if (messageToEdit) {
             const messageId = messageToEdit.getAttribute('data-message-id');
@@ -1011,7 +1024,7 @@
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
-                            text: `${defaultPrompt} [${promptType}] ${prompt}`
+                            text: `${selectedPrompt} [${promptType}] ${prompt}`
                         }]
                     }]
                 })
@@ -1019,23 +1032,22 @@
 
             const data = await response.json();
             thinking.remove();
-            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+             if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                 let responseText = data.candidates[0].content.parts[0].text.trim();
 
-                const acknowledgmentMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
+               const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
                  let acknowledgment = "";
                 let mainContent = responseText;
-                 if (acknowledgmentMatch){
-                    acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
-                    mainContent = responseText.substring(acknowledgmentMatch[0].length);
+                if (acknowledgmentMatch){
+                     acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
+                     mainContent = responseText.substring(acknowledgmentMatch[0].length);
                     }
 
-                addMessage(acknowledgment + parseBotResponse(mainContent), false);
+                 addMessage(acknowledgment + parseBotResponse(mainContent), false);
 
              } else {
                  addMessage(`No response from ${botName}.`, false);
             }
-
 
         } catch (error) {
             thinking.remove();
