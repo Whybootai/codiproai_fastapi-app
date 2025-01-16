@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,28 +11,27 @@
             --accent: #ff5722;
             --dark: #0b0f14;
             --light: #e8f1f2;
-             --bg: #0b0f14; /* Default background color */
-            --text-color: #e8f1f2; /* Default text color */
+            --bg: #0b0f14;
+            --text-color: #e8f1f2;
         }
 
         body {
-             background: var(--bg);
+            background: var(--bg);
             color: var(--text-color);
-             font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
-             padding: 0;
+            padding: 0;
             display: flex;
-             flex-direction: column;
-           align-items: center;
+            flex-direction: column;
+            align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
             overflow-x: hidden;
             transition: background 0.3s ease, color 0.3s ease;
-
         }
 
         header {
-             width: 100%;
+            width: 100%;
             padding: 20px;
             text-align: center;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
@@ -43,8 +41,8 @@
             z-index: 1000;
         }
 
-         header h1 {
-             margin: 0;
+        header h1 {
+            margin: 0;
             font-size: 2em;
             color: #fff;
             text-transform: uppercase;
@@ -52,47 +50,69 @@
         }
 
         #chat-container {
-             width: 90%;
-             background: rgba(255, 255, 255, 0.05);
+            width: 90%;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
-           backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             padding: 30px;
-             box-shadow: 0 0 40px rgba(0, 255, 157, 0.1);
-           display: flex;
-           flex-direction: column;
-             margin: 30px 0;
-       }
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin: 30px 0;
+        }
 
         #messages {
-           height: 500px;
-          overflow-y: auto;
+            height: 500px;
+            overflow-y: auto;
             margin-bottom: 20px;
             border-radius: 15px;
-             background: rgba(255, 255, 255, 0.05);
-           padding: 20px;
-             display: flex;
-           flex-direction: column;
-           gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
         .message {
-           padding: 15px 20px;
-             border-radius: 15px;
+            padding: 15px 20px;
+            border-radius: 15px;
             font-size: 1rem;
             display: flex;
-           align-items: center;
+            align-items: center;
             gap: 10px;
             line-height: 1.5;
-           animation: slideIn 0.3s ease;
-             width: fit-content;
-             max-width: 90%;
+            animation: slideIn 0.3s ease;
+            width: fit-content;
+            max-width: 90%;
+            position: relative;
+        }
+
+         .message-options {
+             position: absolute;
+             top: 5px;
+             right: 5px;
+           display: none; /* Hidden by default */
+          }
+         .message:hover .message-options {
+             display: flex;
+        }
+        .message-options button {
+             background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+             font-size: 1.1em;
+           padding: 2px 5px;
+         }
+        .message-options button:hover {
+            color: var(--primary)
         }
 
         .message img {
-             width: 40px;
+            width: 40px;
             height: 40px;
-             border-radius: 50%;
+            border-radius: 50%;
             border: 2px solid var(--primary);
             object-fit: cover;
         }
@@ -100,103 +120,126 @@
         .user-message {
             background: rgba(0, 255, 157, 0.1);
             border-left: 4px solid var(--primary);
-           align-self: flex-end;
+            align-self: flex-end;
         }
 
         .bot-message {
             background: rgba(255, 255, 255, 0.1);
-             border-right: 4px solid var(--secondary);
+            border-right: 4px solid var(--secondary);
             align-self: flex-start;
+        }
+        .bot-message ul, .bot-message ol {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 30px; /* Add padding for list indentation */
+        }
+        .bot-message li {
+             line-height: 1.6;
+         }
+        .bot-message pre {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+             border-radius: 8px;
+            overflow-x: auto;
+        }
+        .bot-message code {
+            font-family: monospace;
         }
 
         #input-container {
             display: flex;
             gap: 15px;
-           align-items: center;
+            align-items: center;
             justify-content: space-between;
-             flex-wrap: wrap;
+            flex-wrap: wrap;
         }
 
         select,
         input[type="text"] {
-             flex: 1;
+            flex: 1;
             padding: 15px;
-             border: none;
-           border-radius: 10px;
-           font-size: 1rem;
-           color: var(--light);
-           background: rgba(255, 255, 255, 0.1);
-             transition: all 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--light);
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
         }
 
         select:focus,
-         input[type="text"]:focus {
-           outline: none;
-             box-shadow: 0 0 15px var(--primary);
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 15px var(--primary);
         }
 
         button {
-           padding: 15px 25px;
+            padding: 15px 25px;
             border: none;
             border-radius: 15px;
             background: var(--primary);
             color: var(--dark);
             font-weight: bold;
-             cursor: pointer;
+            cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             font-size: 1rem;
-         }
+        }
+
+         #clear-chat-button {
+           margin-top: 10px;
+            background: var(--accent);
+            color: var(--light);
+        }
 
         button:hover {
-             transform: translateY(-3px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 255, 157, 0.4);
         }
 
-         .thinking {
+        .thinking {
             display: flex;
-             gap: 8px;
+            gap: 8px;
             align-items: center;
             justify-content: center;
-             padding: 10px;
+            padding: 10px;
         }
 
-       .dot {
+        .dot {
             width: 10px;
-             height: 10px;
+            height: 10px;
             background: var(--primary);
             border-radius: 50%;
-             animation: bounce 0.6s infinite ease-in-out;
-       }
+            animation: bounce 0.6s infinite ease-in-out;
+        }
 
         .dot:nth-child(2) {
             animation-delay: 0.2s;
-       }
+        }
 
-         .dot:nth-child(3) {
-           animation-delay: 0.4s;
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
         }
 
         footer {
-             margin-top: 30px;
+            margin-top: 30px;
             text-align: center;
             font-size: 0.9em;
-             color: var(--light);
-           opacity: 0.7;
-       }
-
-         footer a {
-            color: var(--primary);
-             text-decoration: none;
+            color: var(--light);
+            opacity: 0.7;
         }
 
-         footer a:hover {
-            text-decoration: underline;
-         }
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
 
-       #api-modal {
-             position: fixed;
-             top: 0;
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        #api-modal {
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
             height: 100%;
@@ -204,30 +247,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-             z-index: 10000;
+            z-index: 10000;
         }
 
-         #api-modal .modal-content {
+        #api-modal .modal-content {
             background: var(--dark);
-             padding: 30px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 0 30px rgba(0, 255, 157, 0.5);
-           text-align: center;
+            text-align: center;
             color: var(--light);
-       }
+        }
 
-         #api-modal .modal-content input {
+        #api-modal .modal-content input {
             width: 80%;
-           padding: 10px;
-             border: none;
-             border-radius: 10px;
-             margin-top: 15px;
-           background: rgba(255, 255, 255, 0.1);
-             color: var(--light);
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
         }
 
         #api-modal .modal-content button {
-             margin-top: 20px;
+            margin-top: 20px;
         }
 
         /* Sidebar Styles */
@@ -237,562 +280,700 @@
             right: -300px;
             width: 300px;
             height: 100%;
-           background: var(--secondary);
+            background: var(--secondary);
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
             transition: right 0.3s ease;
             padding: 20px;
-             z-index: 1001;
-             display: flex;
+            z-index: 1001;
+            display: flex;
             flex-direction: column;
-             align-items: flex-start;
-          overflow-y: auto;
+            align-items: flex-start;
+            overflow-y: auto;
         }
 
         .sidebar.open {
-          right: 0;
-         }
+            right: 0;
+        }
 
         .sidebar-button {
             position: fixed;
             top: 20px;
-             right: 20px;
+            right: 20px;
             padding: 10px;
-           background: var(--primary);
-             border-radius: 50%;
+            background: var(--primary);
+            border-radius: 50%;
             color: var(--dark);
             cursor: pointer;
-             transition: right 0.3s ease;
+            transition: right 0.3s ease;
             z-index: 1002;
-       }
+        }
 
         .sidebar-button.open {
             right: 320px;
         }
 
-       .sidebar-button i {
+        .sidebar-button i {
             font-size: 1.2em;
-         }
+        }
 
         .profile-upload {
-           margin-bottom: 20px;
-           display: flex;
-             flex-direction: column;
-             align-items: center;
-         }
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-         .profile-upload label {
+        .profile-upload label {
             background-color: var(--primary);
             color: var(--dark);
             padding: 10px 15px;
             border-radius: 8px;
             cursor: pointer;
-             font-weight: bold;
+            font-weight: bold;
         }
 
         #user-image {
             width: 80px;
             height: 80px;
-             border-radius: 50%;
-             object-fit: cover;
-             margin-bottom: 10px;
-           border: 2px solid var(--accent);
-         }
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid var(--accent);
+        }
 
         .sidebar-option {
-             margin: 10px 0;
-             padding: 8px;
-           border-radius: 5px;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
             color: var(--light);
             transition: background-color 0.3s ease;
             cursor: pointer;
         }
 
-         .sidebar-option:hover {
-             background-color: rgba(255, 255, 255, 0.1);
-       }
+        .sidebar-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
         /* Settings section */
         .settings-section {
-             margin: 20px 0;
+            margin: 20px 0;
             padding: 10px;
-           border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .settings-section h3{
-          margin-bottom: 10px;
+
+        .settings-section h3 {
+            margin-bottom: 10px;
         }
 
         .settings-section .setting-item {
             margin-bottom: 10px;
-           display: flex;
-           flex-direction: column;
+            display: flex;
+            flex-direction: column;
         }
+
         .settings-section .setting-item label {
-             display: block;
+            display: block;
             margin-bottom: 5px;
         }
+
         .settings-section .setting-item input[type="color"],
-         .settings-section .setting-item select,
-         .settings-section .setting-item input[type="text"],
-         .settings-section .setting-item input[type="range"] {
-             background: rgba(255, 255, 255, 0.1);
+        .settings-section .setting-item select,
+        .settings-section .setting-item input[type="text"],
+        .settings-section .setting-item input[type="range"] {
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-             border-radius: 5px;
+            border-radius: 5px;
             color: var(--light);
             padding: 8px;
-             width: 100%;
+            width: 100%;
         }
-          .settings-section .setting-item .radio-group{
-           display: flex;
+
+        .settings-section .setting-item .radio-group {
+            display: flex;
             align-items: center;
         }
-         .settings-section .setting-item .radio-group label {
-           display: inline-flex;
-          align-items: center;
-          margin: 0 15px 0 0;
-         }
+
+        .settings-section .setting-item .radio-group label {
+            display: inline-flex;
+            align-items: center;
+            margin: 0 15px 0 0;
+        }
+
         .settings-section .setting-item .radio-group input[type="radio"] {
-           margin-right: 5px;
-           }
-         .settings-section #preview {
-           margin: 10px auto;
+            margin-right: 5px;
+        }
+
+        .settings-section #preview {
+            margin: 10px auto;
             padding: 10px;
-          border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-           text-align: center;
-         }
-            .settings-section #preview img {
-              width: 50px;
-                height: 50px;
-                border-radius: 50%;
-               object-fit: cover;
-               border: 2px solid var(--accent);
-            }
+            text-align: center;
+        }
+
+        .settings-section #preview img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
 
         /* Responsive Adjustments */
-       @media (max-width: 768px) {
+        @media (max-width: 768px) {
             #chat-container {
-               width: 95%;
+                width: 95%;
                 padding: 20px;
             }
+
             #messages {
                 height: 400px;
                 padding: 15px;
-           }
-             .message {
-               font-size: 0.9rem;
-             }
+            }
 
-             #input-container {
+            .message {
+                font-size: 0.9rem;
+            }
+
+            #input-container {
                 flex-direction: column;
-                 align-items: stretch;
+                align-items: stretch;
             }
 
             select,
             input[type="text"],
-             button {
+            button {
                 margin-bottom: 10px;
                 width: 100%;
             }
-             .sidebar-button {
-              right: 10px;
-               }
-               .sidebar-button.open {
-                 right: 310px;
-                }
-             .sidebar {
-              width: 280px;
-             }
 
+            .sidebar-button {
+                right: 10px;
+            }
+
+            .sidebar-button.open {
+                right: 310px;
+            }
+
+            .sidebar {
+                width: 280px;
+            }
         }
 
         /* Animations */
-         @keyframes slideIn {
+        @keyframes slideIn {
             from {
-                 opacity: 0;
+                opacity: 0;
                 transform: translateY(15px);
             }
 
             to {
-               opacity: 1;
-                 transform: translateY(0);
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-         @keyframes bounce {
+        @keyframes bounce {
             0%,
-             100% {
-                 transform: translateY(0);
+            100% {
+                transform: translateY(0);
             }
 
-             50% {
-                 transform: translateY(-8px);
-           }
-       }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
     </style>
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div id="api-modal">
-         <div class="modal-content">
-            <h2>Enter API Key</h2>
-            <input type="text" id="api-key-input" placeholder="Your API Key...">
-             <button onclick="submitApiKey()">Submit</button>
+<div id="api-modal">
+    <div class="modal-content">
+        <h2>Enter API Key</h2>
+        <input type="text" id="api-key-input" placeholder="Your API Key...">
+        <button onclick="submitApiKey()">Submit</button>
+    </div>
+</div>
+
+<header>
+    <h1>Codify AI Assistant</h1>
+</header>
+
+<div id="chat-container">
+    <main id="messages" aria-live="polite"></main>
+    <div id="input-container">
+        <select id="prompt-type" aria-label="Select Prompt Type">
+            <option value="chat">Chat</option>
+            <option value="list">List Generation</option>
+            <option value="image">Image Generation</option>
+            <option value="code">Code Generation</option>
+            <option value="data">Data Generation</option>
+        </select>
+        <input type="text" id="training-input" placeholder="Type your prompt..." aria-label="Input Prompt Field">
+        <div>
+             <button onclick="sendTrainingPrompt()" aria-label="Send Prompt">Send</button>
+             <button onclick="clearChat()" id="clear-chat-button" aria-label="Clear Chat">Clear Chat</button>
         </div>
     </div>
-
-    <header>
-         <h1>Codify AI Assistant</h1>
-    </header>
-
-    <div id="chat-container">
-        <main id="messages" aria-live="polite"></main>
-        <div id="input-container">
-            <select id="prompt-type" aria-label="Select Prompt Type">
-                 <option value="chat">Chat</option>
-                <option value="list">List Generation</option>
-                 <option value="image">Image Generation</option>
-                 <option value="code">Code Generation</option>
-                <option value="data">Data Generation</option>
-           </select>
-            <input type="text" id="training-input" placeholder="Type your prompt..." aria-label="Input Prompt Field">
-            <button onclick="sendTrainingPrompt()" aria-label="Send Prompt">Send</button>
-        </div>
-         <footer>
-           © 2025 <a href="#">Codify AI</a>. Built with ❤️ by Flynn James P.
-        </footer>
+    <footer>
+        © 2025 <a href="#">Codify AI</a>. Built with ❤️ by Flynn James P.
+    </footer>
+</div>
+<!-- Sidebar -->
+<div class="sidebar" id="settingsSidebar">
+    <div class="profile-upload">
+        <img src="https://i.imgur.com/qGgQ2wI.png" alt="User Profile" id="user-image"/>
+        <label for="profile-upload-input">Upload Profile Image</label>
+        <input type="file" id="profile-upload-input" accept="image/*" style="display: none;"/>
     </div>
-    <!-- Sidebar -->
-     <div class="sidebar" id="settingsSidebar">
-        <div class="profile-upload">
-             <img src="https://i.imgur.com/qGgQ2wI.png" alt="User Profile" id="user-image" />
-           <label for="profile-upload-input">Upload Profile Image</label>
-            <input type="file" id="profile-upload-input" accept="image/*" style="display: none;" />
-        </div>
-         <div class="settings-section">
-           <h3>Theme Settings</h3>
-            <div class="setting-item">
-                <label for="theme-mode">Theme Mode:</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="theme-mode" value="light" onchange="applyTheme(this.value)"> Light
-                    </label>
-                    <label>
-                        <input type="radio" name="theme-mode" value="dark" checked onchange="applyTheme(this.value)"> Dark
-                    </label>
-                    <label>
-                        <input type="radio" name="theme-mode" value="system" onchange="applyTheme(this.value)"> System
-                    </label>
-                </div>
-            </div>
-            <div class="setting-item">
-                <label for="primary-color">Primary Color:</label>
-                <input type="color" id="primary-color" value="#00ff9d" onchange="applyPrimaryColor(this.value)">
-            </div>
-            <div class="setting-item">
-                <label for="accent-color">Accent Color:</label>
-                <input type="color" id="accent-color" value="#ff5722" onchange="applyAccentColor(this.value)">
-            </div>
-            <div class="setting-item">
-                <label for="background-color">Background Color:</label>
-                <input type="color" id="background-color" value="#0b0f14" onchange="applyBackgroundColor(this.value)">
+    <div class="settings-section">
+        <h3>Theme Settings</h3>
+        <div class="setting-item">
+            <label for="theme-mode">Theme Mode:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="theme-mode" value="light" onchange="applyTheme(this.value)"> Light
+                </label>
+                <label>
+                    <input type="radio" name="theme-mode" value="dark" checked onchange="applyTheme(this.value)"> Dark
+                </label>
+                <label>
+                    <input type="radio" name="theme-mode" value="system" onchange="applyTheme(this.value)"> System
+                </label>
             </div>
         </div>
-        <div class="settings-section">
-            <h3>Chat Interface</h3>
-             <div class="setting-item">
-                <label for="bubble-style">Message Bubble Style:</label>
-                <div class="radio-group">
-                     <label>
-                        <input type="radio" name="bubble-style" value="rounded" checked onchange="applyBubbleStyle(this.value)"> Rounded
-                    </label>
-                    <label>
-                        <input type="radio" name="bubble-style" value="square" onchange="applyBubbleStyle(this.value)"> Square
-                    </label>
-                </div>
-            </div>
-           <div class="setting-item">
-                 <label for="bubble-color">Bubble Color (User):</label>
-                 <input type="color" id="user-bubble-color" value="rgba(0, 255, 157, 0.1)" onchange="applyUserBubbleColor(this.value)">
-             </div>
-            <div class="setting-item">
-                 <label for="bot-bubble-color">Bubble Color (Bot):</label>
-                 <input type="color" id="bot-bubble-color" value="rgba(255, 255, 255, 0.1)" onchange="applyBotBubbleColor(this.value)">
-            </div>
-            <div class="setting-item">
-                <label for="font-family">Font Family:</label>
-                <select id="font-family" onchange="applyFontFamily(this.value)">
-                    <option value="Roboto">Roboto</option>
-                     <option value="Arial">Arial</option>
-                    <option value="sans-serif">Sans-serif</option>
-                    <option value="serif">Serif</option>
-                </select>
-            </div>
-            <div class="setting-item">
-                 <label for="font-size">Font Size:</label>
-                 <input type="range" id="font-size" min="12" max="20" value="16" onchange="applyFontSize(this.value)">
-            </div>
+        <div class="setting-item">
+            <label for="primary-color">Primary Color:</label>
+            <input type="color" id="primary-color" value="#00ff9d" onchange="applyPrimaryColor(this.value)">
         </div>
-        <div class="settings-section">
-            <h3>Bot Customization</h3>
-           <div class="setting-item">
-               <label for="bot-image">Bot Image:</label>
-                <input type="file" id="bot-image" accept="image/*" onchange="applyBotImage(this.files[0])">
-            </div>
-          <div class="setting-item">
-                <label for="bot-name">Bot Name:</label>
-                 <input type="text" id="bot-name" value="Codi" onchange="applyBotName(this.value)">
-            </div>
-       </div>
-       <div class="settings-section">
-         <h3>Layout and Spacing</h3>
-           <div class="setting-item">
-              <label for="bubble-spacing">Chat Bubble Spacing:</label>
-             <input type="range" id="bubble-spacing" min="0" max="20" value="10" onchange="applyBubbleSpacing(this.value)">
-           </div>
-           <div class="setting-item">
-               <label for="sidebar-width">Sidebar Width:</label>
-               <input type="range" id="sidebar-width" min="200" max="400" value="300" onchange="applySidebarWidth(this.value)">
-           </div>
-          <div class="setting-item">
-               <label for="content-align">Content Alignment:</label>
-               <div class="radio-group">
-                    <label>
-                       <input type="radio" name="content-align" value="left" onchange="applyContentAlignment(this.value)"> Left
-                    </label>
-                    <label>
-                      <input type="radio" name="content-align" value="right" checked onchange="applyContentAlignment(this.value)"> Right
-                   </label>
-               </div>
-           </div>
-       </div>
-        <div class="settings-section">
-           <button onclick="resetToDefaults()">Reset to Defaults</button>
-           <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview" /></div>
+        <div class="setting-item">
+            <label for="accent-color">Accent Color:</label>
+            <input type="color" id="accent-color" value="#ff5722" onchange="applyAccentColor(this.value)">
+        </div>
+        <div class="setting-item">
+            <label for="background-color">Background Color:</label>
+            <input type="color" id="background-color" value="#0b0f14" onchange="applyBackgroundColor(this.value)">
         </div>
     </div>
+    <div class="settings-section">
+        <h3>Chat Interface</h3>
+        <div class="setting-item">
+            <label for="bubble-style">Message Bubble Style:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="bubble-style" value="rounded" checked onchange="applyBubbleStyle(this.value)">
+                    Rounded
+                </label>
+                <label>
+                    <input type="radio" name="bubble-style" value="square" onchange="applyBubbleStyle(this.value)">
+                    Square
+                </label>
+            </div>
+        </div>
+        <div class="setting-item">
+            <label for="bubble-color">Bubble Color (User):</label>
+            <input type="color" id="user-bubble-color" value="rgba(0, 255, 157, 0.1)"
+                   onchange="applyUserBubbleColor(this.value)">
+        </div>
+        <div class="setting-item">
+            <label for="bot-bubble-color">Bubble Color (Bot):</label>
+            <input type="color" id="bot-bubble-color" value="rgba(255, 255, 255, 0.1)"
+                   onchange="applyBotBubbleColor(this.value)">
+        </div>
+        <div class="setting-item">
+            <label for="font-family">Font Family:</label>
+            <select id="font-family" onchange="applyFontFamily(this.value)">
+                <option value="Roboto">Roboto</option>
+                <option value="Arial">Arial</option>
+                <option value="sans-serif">Sans-serif</option>
+                <option value="serif">Serif</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label for="font-size">Font Size:</label>
+            <input type="range" id="font-size" min="12" max="20" value="16" onchange="applyFontSize(this.value)">
+        </div>
+    </div>
+    <div class="settings-section">
+        <h3>Bot Customization</h3>
+        <div class="setting-item">
+            <label for="bot-image">Bot Image:</label>
+            <input type="file" id="bot-image" accept="image/*" onchange="applyBotImage(this.files[0])">
+        </div>
+        <div class="setting-item">
+            <label for="bot-name">Bot Name:</label>
+            <input type="text" id="bot-name" value="Codi" onchange="applyBotName(this.value)">
+        </div>
+    </div>
+    <div class="settings-section">
+        <h3>Layout and Spacing</h3>
+        <div class="setting-item">
+            <label for="bubble-spacing">Chat Bubble Spacing:</label>
+            <input type="range" id="bubble-spacing" min="0" max="20" value="10" onchange="applyBubbleSpacing(this.value)">
+        </div>
+        <div class="setting-item">
+            <label for="sidebar-width">Sidebar Width:</label>
+            <input type="range" id="sidebar-width" min="200" max="400" value="300" onchange="applySidebarWidth(this.value)">
+        </div>
+        <div class="setting-item">
+            <label for="content-align">Content Alignment:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="content-align" value="left" onchange="applyContentAlignment(this.value)">
+                    Left
+                </label>
+                <label>
+                    <input type="radio" name="content-align" value="right" checked
+                           onchange="applyContentAlignment(this.value)"> Right
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="settings-section">
+        <button onclick="resetToDefaults()">Reset to Defaults</button>
+        <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview"/></div>
+    </div>
+</div>
 
-    <div class="sidebar-button" id="sidebarToggle">
-       <i class="fas fa-cog"></i>
-     </div>
+<div class="sidebar-button" id="sidebarToggle">
+    <i class="fas fa-cog"></i>
+</div>
 
-    <script>
-         let apiKey = "";
-        const messages = document.getElementById('messages');
-        const trainingInput = document.getElementById('training-input');
-        const apiModal = document.getElementById('api-modal');
-         const apiKeyInput = document.getElementById('api-key-input');
-         const secretCode = "21260225";
-        const adminApiKey = "AIzaSyB_Dc5gSvnIvhX4PdjSkpBD1mynw_h7syg";
-        const userImage = document.getElementById('user-image');
-         const profileUploadInput = document.getElementById('profile-upload-input');
-       const sidebar = document.getElementById('settingsSidebar');
-         const sidebarButton = document.getElementById('sidebarToggle');
-        const previewImage = document.querySelector('#preview img')
-        let isSidebarOpen = false;
-        let botName = "Codi";
-         let currentTheme = "dark"; // Default theme
+<script>
+    let apiKey = "";
+    const messages = document.getElementById('messages');
+    const trainingInput = document.getElementById('training-input');
+    const apiModal = document.getElementById('api-modal');
+    const apiKeyInput = document.getElementById('api-key-input');
+    const secretCode = "21260225";
+    const adminApiKey = "AIzaSyB_Dc5gSvnIvhX4PdjSkpBD1mynw_h7syg";
+    const userImage = document.getElementById('user-image');
+    const profileUploadInput = document.getElementById('profile-upload-input');
+    const sidebar = document.getElementById('settingsSidebar');
+    const sidebarButton = document.getElementById('sidebarToggle');
+    const previewImage = document.querySelector('#preview img')
+    let isSidebarOpen = false;
+    let botName = "Codi";
+    let currentTheme = "dark"; // Default theme
+    let messageToEdit = null;
+    const defaultPrompt = `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
 
-           function submitApiKey() {
-            const input = apiKeyInput.value.trim();
-             if (input === secretCode) {
-                 apiKey = adminApiKey;
-                apiKeyInput.value = adminApiKey;
-                apiModal.style.display = 'none';
-                alert("Admin API key activated!");
-                 return;
-            }
-            if (!input) {
-               alert("API key is required!");
-                return;
-             }
+                                Your responses should embody professionalism, adaptability, and clarity. Respond to inquiries with precision, well-structured guidance, and a tone that is approachable yet professional. Ensure your language reflects the needs of diverse users, offering actionable insights and suggestions to help them succeed in their goals.
 
-             apiKey = input;
+                                Key Attributes of Cody:
+
+                                Proactive Problem-Solving: Anticipate user needs and provide thoughtful, solution-oriented responses to challenges.
+                                Versatility: Adapt communication and tone to suit the context, whether writing emails, creating reports, or brainstorming creative ideas.
+                                Polished Presentation: Deliver grammatically flawless, concise, and visually appealing responses that meet professional standards.
+                                Collaboration: Foster a sense of partnership by tailoring solutions to each user's goals and preferences.
+                                When users type 'Hey Cody,' take on the role of a trusted professional mentor, strategist, and problem-solver, helping them achieve their objectives with ease and confidence.
+                            `;
+
+     function clearChat() {
+        messages.innerHTML = ''; // Clear all messages
+        addMessage(`Hello! I'm ${botName}, ready to assist you with your tasks!`, false);
+    }
+    function submitApiKey() {
+        const input = apiKeyInput.value.trim();
+        if (input === secretCode) {
+            apiKey = adminApiKey;
+            apiKeyInput.value = adminApiKey;
             apiModal.style.display = 'none';
-            alert("API key successfully linked!");
+            alert("Admin API key activated!");
+            return;
         }
-        function toggleSidebar() {
-           isSidebarOpen = !isSidebarOpen;
-            sidebar.classList.toggle('open', isSidebarOpen);
-            sidebarButton.classList.toggle('open', isSidebarOpen);
-             sidebarButton.style.right = isSidebarOpen ? '320px' : '20px';
+        if (!input) {
+            alert("API key is required!");
+            return;
         }
-        sidebarButton.addEventListener('click', toggleSidebar);
-        profileUploadInput.addEventListener('change', function (event) {
-            const file = event.target.files[0];
-           if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    userImage.src = e.target.result;
-                 };
-                reader.readAsDataURL(file);
-             }
-         });
-        function addMessage(content, isUser) {
-            const message = document.createElement('div');
-           message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-             const img = document.createElement('img');
-            img.src = isUser ? userImage.src : previewImage.src; // Use preview image if bot message
-            message.appendChild(img);
-            const text = document.createElement('span');
-            text.textContent = content;
-           message.appendChild(text);
-           messages.appendChild(message);
-            messages.scrollTop = messages.scrollHeight;
-         }
-         async function sendTrainingPrompt() {
-             const prompt = trainingInput.value.trim();
-            const promptType = document.getElementById('prompt-type').value;
-            if (!prompt) return;
 
-            addMessage(`[${promptType}] ${prompt}`, true);
-            trainingInput.value = '';
-            const thinking = document.createElement('div');
-             thinking.className = 'thinking';
-            thinking.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-           messages.appendChild(thinking);
-           messages.scrollTop = messages.scrollHeight;
+        apiKey = input;
+        apiModal.style.display = 'none';
+        alert("API key successfully linked!");
+    }
 
-            try {
-                 const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
-                   method: 'POST',
-                   headers: {
-                      'Content-Type': 'application/json',
-                    },
-                   body: JSON.stringify({
-                     contents: [{
-                         parts: [{
-                              text: `[${promptType}] ${prompt}`
-                         }]
-                     }]
-                    })
-               });
+    function toggleSidebar() {
+        isSidebarOpen = !isSidebarOpen;
+        sidebar.classList.toggle('open', isSidebarOpen);
+        sidebarButton.classList.toggle('open', isSidebarOpen);
+        sidebarButton.style.right = isSidebarOpen ? '320px' : '20px';
+    }
 
-                const data = await response.json();
-                 thinking.remove();
-
-                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                   addMessage(data.candidates[0].content.parts[0].text.trim(), false);
-                 } else {
-                    addMessage(`No response from ${botName}.`, false);
-                }
-           } catch (error) {
-                 thinking.remove();
-               addMessage("Error connecting to the API.", false);
-            }
+    sidebarButton.addEventListener('click', toggleSidebar);
+    profileUploadInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                userImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
-        trainingInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                 e.preventDefault();
-                 sendTrainingPrompt();
-            }
+    });
+
+    function addMessage(content, isUser, isEdited = false, id = null) {
+        const message = document.createElement('div');
+        message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        if (id) {
+            message.setAttribute('data-message-id', id);
+        }
+
+        const img = document.createElement('img');
+        img.src = isUser ? userImage.src : previewImage.src;
+        message.appendChild(img);
+
+        const text = document.createElement('span');
+        text.innerHTML = content;  // Use innerHTML to allow HTML rendering
+        message.appendChild(text);
+
+
+        const options = document.createElement('div')
+        options.className = 'message-options'
+        if (isUser) {
+            const editButton = document.createElement('button')
+            editButton.innerHTML = '<i class="fas fa-pen"></i>';
+            editButton.onclick = () => startEdit(message, content)
+            options.appendChild(editButton);
+        }
+        const copyButton = document.createElement('button')
+        copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+        copyButton.onclick = () => copyMessage(content)
+        options.appendChild(copyButton);
+        message.appendChild(options);
+
+
+        if (isEdited) {
+            const editedNote = document.createElement('span');
+            editedNote.textContent = " (edited)";
+            editedNote.style.fontStyle = 'italic';
+            editedNote.style.fontSize = '0.8em';
+            text.appendChild(editedNote);
+        }
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+
+    function copyMessage(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Message copied to clipboard!");
+        }).catch((err) => {
+            console.error("Failed to copy: ", err)
         });
-         function applyTheme(theme) {
-             currentTheme = theme;
-            if (theme === 'light') {
-                document.body.style.setProperty('--bg', '#e8f1f2');
-                document.body.style.setProperty('--text-color', '#0b0f14');
-             } else if (theme === 'dark') {
-                document.body.style.setProperty('--bg', '#0b0f14');
-                document.body.style.setProperty('--text-color', '#e8f1f2');
-            } else if(theme === 'system'){
-               if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
-                    document.body.style.setProperty('--bg', '#0b0f14');
-                   document.body.style.setProperty('--text-color', '#e8f1f2');
-                 } else {
-                     document.body.style.setProperty('--bg', '#e8f1f2');
-                     document.body.style.setProperty('--text-color', '#0b0f14');
-                 }
+    }
+
+    function startEdit(messageElement, originalContent) {
+        messageToEdit = messageElement;
+        trainingInput.value = originalContent
+        trainingInput.focus();
+    }
+
+
+    async function sendTrainingPrompt() {
+        const prompt = trainingInput.value.trim();
+        const promptType = document.getElementById('prompt-type').value;
+        if (!prompt) return;
+
+        if (messageToEdit) {
+            const messageId = messageToEdit.getAttribute('data-message-id');
+            const messageTextElement = messageToEdit.querySelector('span');
+            if (messageId) {
+                addMessage(`[${promptType}] ${prompt}`, true, true, messageId);
+                messageToEdit = null
+            } else {
+                messageTextElement.textContent = `[${promptType}] ${prompt}`;
+                const editedNote = document.createElement('span');
+                editedNote.textContent = " (edited)";
+                editedNote.style.fontStyle = 'italic';
+                editedNote.style.fontSize = '0.8em';
+                messageTextElement.appendChild(editedNote);
+                messageToEdit = null;
             }
-         }
-        function applyPrimaryColor(color) {
-           document.documentElement.style.setProperty('--primary', color);
+            trainingInput.value = '';
+            return;
         }
-         function applyAccentColor(color) {
-          document.documentElement.style.setProperty('--accent', color);
-       }
-          function applyBackgroundColor(color) {
-           document.body.style.setProperty('--bg', color);
-         }
-        function applyBubbleStyle(style) {
-           const messages = document.querySelectorAll('.message');
-           messages.forEach(message => {
-               if(style === 'rounded'){
-                    message.style.borderRadius = '15px';
-                }else {
-                    message.style.borderRadius = '0';
-                 }
-           });
-         }
-          function applyUserBubbleColor(color){
-            const messages = document.querySelectorAll('.user-message');
-            messages.forEach(message => {
-                message.style.backgroundColor = color;
+        addMessage(`[${promptType}] ${prompt}`, true);
+        trainingInput.value = '';
+        const thinking = document.createElement('div');
+        thinking.className = 'thinking';
+        thinking.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+        messages.appendChild(thinking);
+        messages.scrollTop = messages.scrollHeight;
+
+        try {
+            const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: `${defaultPrompt} [${promptType}] ${prompt}`
+                        }]
+                    }]
+                })
             });
-         }
-        function applyBotBubbleColor(color){
-            const messages = document.querySelectorAll('.bot-message');
-            messages.forEach(message => {
-              message.style.backgroundColor = color;
-            });
-         }
-         function applyFontFamily(fontFamily) {
-           document.body.style.fontFamily = fontFamily;
-         }
-          function applyFontSize(size) {
-           document.body.style.fontSize = `${size}px`;
-         }
-         function applyBotImage(file) {
-            if(file){
-                 const reader = new FileReader();
-                reader.onload = function(e){
-                    previewImage.src = e.target.result;
-                 };
-              reader.readAsDataURL(file)
-           }
-         }
-        function applyBotName(name) {
-              botName = name;
+
+            const data = await response.json();
+            thinking.remove();
+
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                 let responseText = data.candidates[0].content.parts[0].text.trim();
+
+                // Attempt to auto format the content if it looks like a list or code
+                if (responseText.startsWith('- ') || responseText.startsWith('* ') || responseText.match(/^\d+\.\s/m)) {
+                  //  Format as a list
+                  const listItems = responseText.split(/[-*] |^\d+\.\s/m).filter(Boolean);
+                    responseText = `<ul>${listItems.map(item => `<li>${item.trim()}</li>`).join('')}</ul>`;
+                  }else if (responseText.startsWith("```")) {
+                         // Format as a code block
+                        const codeContent = responseText.match(/```.*\n([\s\S]*?)```/)?.[1] || responseText;
+                         responseText = `<pre><code>${codeContent.trim()}</code></pre>`;
+                  }
+                addMessage(responseText, false);
+
+            } else {
+                 addMessage(`No response from ${botName}.`, false);
+            }
+        } catch (error) {
+            thinking.remove();
+            addMessage("Error connecting to the API.", false);
         }
-       function applyBubbleSpacing(spacing){
-             messages.style.gap = `${spacing}px`;
-         }
-         function applySidebarWidth(width){
-             sidebar.style.width = `${width}px`;
-              sidebarButton.style.right = isSidebarOpen ? `${parseInt(width) + 20}px` : '20px';
-          }
-          function applyContentAlignment(alignment) {
-              messages.style.alignItems = alignment === "left" ? "flex-start" : "flex-end";
+    }
+
+    trainingInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendTrainingPrompt();
         }
-        function resetToDefaults(){
-            document.body.style.setProperty('--primary', '#00ff9d');
-            document.body.style.setProperty('--accent', '#ff5722');
+    });
+
+    function applyTheme(theme) {
+        currentTheme = theme;
+        if (theme === 'light') {
+            document.body.style.setProperty('--bg', '#e8f1f2');
+            document.body.style.setProperty('--text-color', '#0b0f14');
+        } else if (theme === 'dark') {
             document.body.style.setProperty('--bg', '#0b0f14');
             document.body.style.setProperty('--text-color', '#e8f1f2');
-            document.body.style.fontFamily = 'Roboto, sans-serif';
-             document.body.style.fontSize = '16px';
-             document.querySelector('input[name="theme-mode"][value="dark"]').checked = true;
-            document.getElementById('primary-color').value = '#00ff9d';
-             document.getElementById('accent-color').value = '#ff5722';
-           document.getElementById('background-color').value = '#0b0f14';
-            document.querySelector('input[name="bubble-style"][value="rounded"]').checked = true;
-           document.getElementById('font-family').value = 'Roboto';
-           document.getElementById('font-size').value = '16';
-           document.getElementById('bot-name').value = "Codi";
-             document.getElementById('bubble-spacing').value = '10';
-           document.getElementById('sidebar-width').value = '300';
-              document.querySelector('input[name="content-align"][value="right"]').checked = true;
-              previewImage.src = 'https://i.imgur.com/H7z7a4r.png';
-            messages.style.alignItems = "flex-end";
-            applyTheme("dark");
-             applyBubbleStyle('rounded');
-             applyFontSize(16)
-              applyContentAlignment('right')
-            messages.style.gap = '10px'
-             sidebar.style.width = '300px'
-              botName = "Codi"
-         }
-    </script>
+        } else if (theme === 'system') {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.style.setProperty('--bg', '#0b0f14');
+                document.body.style.setProperty('--text-color', '#e8f1f2');
+            } else {
+                document.body.style.setProperty('--bg', '#e8f1f2');
+                document.body.style.setProperty('--text-color', '#0b0f14');
+            }
+        }
+    }
+
+    function applyPrimaryColor(color) {
+        document.documentElement.style.setProperty('--primary', color);
+    }
+
+    function applyAccentColor(color) {
+        document.documentElement.style.setProperty('--accent', color);
+    }
+
+    function applyBackgroundColor(color) {
+        document.body.style.setProperty('--bg', color);
+    }
+
+    function applyBubbleStyle(style) {
+        const messages = document.querySelectorAll('.message');
+        messages.forEach(message => {
+            if (style === 'rounded') {
+                message.style.borderRadius = '15px';
+            } else {
+                message.style.borderRadius = '0';
+            }
+        });
+    }
+
+    function applyUserBubbleColor(color) {
+        const messages = document.querySelectorAll('.user-message');
+        messages.forEach(message => {
+            message.style.backgroundColor = color;
+        });
+    }
+
+    function applyBotBubbleColor(color) {
+        const messages = document.querySelectorAll('.bot-message');
+        messages.forEach(message => {
+            message.style.backgroundColor = color;
+        });
+    }
+
+    function applyFontFamily(fontFamily) {
+        document.body.style.fontFamily = fontFamily;
+    }
+
+    function applyFontSize(size) {
+        document.body.style.fontSize = `${size}px`;
+    }
+
+    function applyBotImage(file) {
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file)
+        }
+    }
+
+    function applyBotName(name) {
+        botName = name;
+    }
+
+    function applyBubbleSpacing(spacing) {
+        messages.style.gap = `${spacing}px`;
+    }
+
+    function applySidebarWidth(width) {
+        sidebar.style.width = `${width}px`;
+        sidebarButton.style.right = isSidebarOpen ? `${parseInt(width) + 20}px` : '20px';
+    }
+
+    function applyContentAlignment(alignment) {
+        messages.style.alignItems = alignment === "left" ? "flex-start" : "flex-end";
+    }
+
+    function resetToDefaults() {
+        document.body.style.setProperty('--primary', '#00ff9d');
+        document.body.style.setProperty('--accent', '#ff5722');
+        document.body.style.setProperty('--bg', '#0b0f14');
+        document.body.style.setProperty('--text-color', '#e8f1f2');
+        document.body.style.fontFamily = 'Roboto, sans-serif';
+        document.body.style.fontSize = '16px';
+        document.querySelector('input[name="theme-mode"][value="dark"]').checked = true;
+        document.getElementById('primary-color').value = '#00ff9d';
+        document.getElementById('accent-color').value = '#ff5722';
+        document.getElementById('background-color').value = '#0b0f14';
+        document.querySelector('input[name="bubble-style"][value="rounded"]').checked = true;
+        document.getElementById('font-family').value = 'Roboto';
+        document.getElementById('font-size').value = '16';
+        document.getElementById('bot-name').value = "Codi";
+        document.getElementById('bubble-spacing').value = '10';
+        document.getElementById('sidebar-width').value = '300';
+        document.querySelector('input[name="content-align"][value="right"]').checked = true;
+        previewImage.src = 'https://i.imgur.com/H7z7a4r.png';
+        messages.style.alignItems = "flex-end";
+        applyTheme("dark");
+        applyBubbleStyle('rounded');
+        applyFontSize(16)
+        applyContentAlignment('right')
+        messages.style.gap = '10px'
+        sidebar.style.width = '300px'
+        botName = "Codi"
+    }
+
+   // Initialize the bot with a greeting
+    clearChat()
+
+</script>
 </body>
 
 </html>
