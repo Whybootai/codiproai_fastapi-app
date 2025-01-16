@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -207,7 +207,7 @@
         }
 
         select,
-        input[type="text"] {
+        textarea {
             flex: 1;
             padding: 15px;
             border: none;
@@ -217,10 +217,12 @@
             background: rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
+             resize: vertical;
+            min-height: 50px;
         }
 
         select:focus,
-        input[type="text"]:focus {
+        textarea:focus {
             outline: none;
             box-shadow: 0 0 15px var(--primary);
         }
@@ -342,7 +344,7 @@
             margin-top: 20px;
         }
 
-         /* Sidebar Styles */
+        /* Sidebar Styles */
          .sidebar {
             position: fixed;
             top: 0;
@@ -510,7 +512,7 @@
             }
 
             select,
-            input[type="text"],
+            textarea,
             button {
                 margin-bottom: 10px;
                 width: 100%;
@@ -570,6 +572,23 @@
            margin-bottom: 10px;
            line-height: 1.5;
          }
+         #copy-notification {
+            position: fixed;
+           bottom: 20px;
+             right: 20px;
+            background-color: rgba(0, 255, 157, 0.8); /* Primary color for notification */
+            color: var(--dark);
+           padding: 10px 15px;
+            border-radius: 5px;
+            opacity: 0; /* Start invisible */
+           transition: opacity 0.3s ease; /* Smooth opacity transition */
+             pointer-events: none; /* Ensure it doesn't interfere with clicking */
+           z-index: 10000
+         }
+          #copy-notification.show {
+            opacity: 1; /* Make it visible */
+        }
+
 
         /* Animations */
         @keyframes slideIn {
@@ -599,183 +618,184 @@
 </head>
 
 <body>
-<div id="api-modal">
-    <div class="modal-content">
-        <h2>Enter API Key</h2>
-        <input type="text" id="api-key-input" placeholder="Your API Key...">
-        <button onclick="submitApiKey()">Submit</button>
+    <div id="api-modal">
+        <div class="modal-content">
+            <h2>Enter API Key</h2>
+            <input type="text" id="api-key-input" placeholder="Your API Key...">
+            <button onclick="submitApiKey()">Submit</button>
+        </div>
     </div>
-</div>
 
-<header>
-    <h1>CodyPro AI</h1>
-    <i class="fab fa-google-drive" id="google-drive-icon" onclick="saveChatToDrive()"></i>
-     <i class="fas fa-question-circle" id="user-guide-icon" onclick="toggleUserGuide()"></i>
-      <div class="marquee-container">
-      <div class="marquee-text">
-           Select your prompt type, input your prompt, and let CodyPro AI assist you! | CodyPro AI may make mistakes, kindly double-check the output provided. | Created with ❤️ by Flynn James P.
-     </div>
-    </div>
-</header>
- <div id="user-guide-popup">
-        <span class="close-button" onclick="toggleUserGuide()">×</span>
-         <h2>How to Use CodyPro AI</h2>
-        <ul>
-            <li><strong>Select Prompt Type:</strong> Use the dropdown menu to select your prompt type such as "Chat," "List Generation," "Image Generation", etc.</li>
-             <li><strong>Type Your Prompt:</strong> Use the text input to type your prompt, including details of what you want CodyPro AI to do for you.</li>
-            <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know what type of requests you can make CodyPro AI.</li>
-             <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's response.</li>
-             <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI messages.</li>
-             <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.</li>
-             <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or feel.</li>
-             <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.</li>
-        </ul>
-    </div>
-<div id="chat-container">
-    <main id="messages" aria-live="polite"></main>
-    <div id="input-container">
-        <select id="prompt-type" aria-label="Select Prompt Type">
-            <option value="chat">Chat</option>
-            <option value="list">List Generation</option>
-            <option value="image">Image Generation</option>
-            <option value="code">Code Generation</option>
-            <option value="data">Data Generation</option>
-        </select>
-        <input type="text" id="training-input" placeholder="Type your prompt..." aria-label="Input Prompt Field">
-        <div>
-             <button onclick="sendTrainingPrompt()" aria-label="Send Prompt">Send</button>
-             <button onclick="clearChat()" id="clear-chat-button" aria-label="Clear Chat">Clear Chat</button>
-        </div>
-    </div>
-    <div id="prompt-suggestions">
-       <div class="prompt-suggestion" onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top research papers on AI</div>
-         <div class="prompt-suggestion" onclick="setPrompt('Write an email to a client to request feedback.')">Email feedback request</div>
-       <div class="prompt-suggestion" onclick="setPrompt('Create a project plan for a mobile app development.')">Project plan mobile app dev</div>
-        <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code quick sort</div>
-   </div>
-    <footer>
-        © 2025 <a href="#">CodyPro AI</a>. Built with ❤️ by Flynn James P.
-    </footer>
-</div>
-<!-- Sidebar -->
-<div class="sidebar" id="settingsSidebar">
-    <div class="profile-upload">
-         <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>" alt="User Profile" id="user-image" style="object-fit: contain;"/>
-        <label for="profile-upload-input">Upload Profile Image</label>
-        <input type="file" id="profile-upload-input" accept="image/*" style="display: none;"/>
-    </div>
-    <div class="settings-section">
-        <h3>Theme Settings</h3>
-        <div class="setting-item">
-            <label for="theme-mode">Theme Mode:</label>
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="theme-mode" value="light" onchange="applyTheme(this.value)"> Light
-                </label>
-                <label>
-                    <input type="radio" name="theme-mode" value="dark" checked onchange="applyTheme(this.value)"> Dark
-                </label>
-                <label>
-                    <input type="radio" name="theme-mode" value="system" onchange="applyTheme(this.value)"> System
-                </label>
+    <header>
+        <h1>CodyPro AI</h1>
+        <i class="fab fa-google-drive" id="google-drive-icon" onclick="saveChatToDrive()"></i>
+         <i class="fas fa-question-circle" id="user-guide-icon" onclick="toggleUserGuide()"></i>
+        <div class="marquee-container">
+            <div class="marquee-text">
+                Select your prompt type, input your prompt, and let CodyPro AI assist you! | CodyPro AI may make mistakes, kindly double-check the output provided. | Created with ❤️ by Flynn James P.
             </div>
         </div>
-        <div class="setting-item">
-            <label for="primary-color">Primary Color:</label>
-            <input type="color" id="primary-color" value="#00ff9d" onchange="applyPrimaryColor(this.value)">
+    </header>
+    <div id="user-guide-popup">
+            <span class="close-button" onclick="toggleUserGuide()">×</span>
+             <h2>How to Use CodyPro AI</h2>
+            <ul>
+                <li><strong>Select Prompt Type:</strong> Use the dropdown menu to select your prompt type such as "Chat," "List Generation," "Image Generation", etc.</li>
+                 <li><strong>Type Your Prompt:</strong> Use the text input to type your prompt, including details of what you want CodyPro AI to do for you.</li>
+                <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know what type of requests you can make CodyPro AI.</li>
+                 <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's response.</li>
+                 <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI messages.</li>
+                 <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.</li>
+                 <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or feel.</li>
+                 <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.</li>
+            </ul>
         </div>
-        <div class="setting-item">
-            <label for="accent-color">Accent Color:</label>
-            <input type="color" id="accent-color" value="#ff5722" onchange="applyAccentColor(this.value)">
-        </div>
-        <div class="setting-item">
-            <label for="background-color">Background Color:</label>
-            <input type="color" id="background-color" value="#0b0f14" onchange="applyBackgroundColor(this.value)">
-        </div>
-    </div>
-    <div class="settings-section">
-        <h3>Chat Interface</h3>
-        <div class="setting-item">
-            <label for="bubble-style">Message Bubble Style:</label>
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="bubble-style" value="rounded" checked onchange="applyBubbleStyle(this.value)">
-                    Rounded
-                </label>
-                <label>
-                    <input type="radio" name="bubble-style" value="square" onchange="applyBubbleStyle(this.value)">
-                    Square
-                </label>
-            </div>
-        </div>
-        <div class="setting-item">
-            <label for="bubble-color">Bubble Color (User):</label>
-            <input type="color" id="user-bubble-color" value="rgba(0, 255, 157, 0.1)"
-                   onchange="applyUserBubbleColor(this.value)">
-        </div>
-        <div class="setting-item">
-            <label for="bot-bubble-color">Bubble Color (Bot):</label>
-            <input type="color" id="bot-bubble-color" value="rgba(255, 255, 255, 0.1)"
-                   onchange="applyBotBubbleColor(this.value)">
-        </div>
-        <div class="setting-item">
-            <label for="font-family">Font Family:</label>
-            <select id="font-family" onchange="applyFontFamily(this.value)">
-                <option value="Roboto">Roboto</option>
-                <option value="Arial">Arial</option>
-                <option value="sans-serif">Sans-serif</option>
-                <option value="serif">Serif</option>
+    <div id="chat-container">
+        <main id="messages" aria-live="polite"></main>
+        <div id="input-container">
+            <select id="prompt-type" aria-label="Select Prompt Type">
+                <option value="chat">Chat</option>
+                <option value="list">List Generation</option>
+                <option value="image">Image Generation</option>
+                <option value="code">Code Generation</option>
+                <option value="data">Data Generation</option>
             </select>
-        </div>
-        <div class="setting-item">
-            <label for="font-size">Font Size:</label>
-            <input type="range" id="font-size" min="12" max="20" value="16" onchange="applyFontSize(this.value)">
-        </div>
-    </div>
-    <div class="settings-section">
-        <h3>Bot Customization</h3>
-        <div class="setting-item">
-            <label for="bot-image">Bot Image:</label>
-            <input type="file" id="bot-image" accept="image/*" onchange="applyBotImage(this.files[0])">
-        </div>
-        <div class="setting-item">
-            <label for="bot-name">Bot Name:</label>
-            <input type="text" id="bot-name" value="Codi" onchange="applyBotName(this.value)">
-        </div>
-    </div>
-    <div class="settings-section">
-        <h3>Layout and Spacing</h3>
-        <div class="setting-item">
-            <label for="bubble-spacing">Chat Bubble Spacing:</label>
-            <input type="range" id="bubble-spacing" min="0" max="20" value="10" onchange="applyBubbleSpacing(this.value)">
-        </div>
-        <div class="setting-item">
-            <label for="sidebar-width">Sidebar Width:</label>
-            <input type="range" id="sidebar-width" min="200" max="400" value="300" onchange="applySidebarWidth(this.value)">
-        </div>
-        <div class="setting-item">
-            <label for="content-align">Content Alignment:</label>
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="content-align" value="left" onchange="applyContentAlignment(this.value)">
-                    Left
-                </label>
-                <label>
-                    <input type="radio" name="content-align" value="right" checked
-                           onchange="applyContentAlignment(this.value)"> Right
-                </label>
+            <textarea id="training-input" placeholder="Type your prompt..." aria-label="Input Prompt Field"></textarea>
+            <div>
+                 <button onclick="sendTrainingPrompt()" aria-label="Send Prompt">Send</button>
+                 <button onclick="clearChat()" id="clear-chat-button" aria-label="Clear Chat">Clear Chat</button>
             </div>
         </div>
+        <div id="prompt-suggestions">
+            <div class="prompt-suggestion" onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top research papers on AI</div>
+            <div class="prompt-suggestion" onclick="setPrompt('Write an email to a client to request feedback.')">Email feedback request</div>
+            <div class="prompt-suggestion" onclick="setPrompt('Create a project plan for a mobile app development.')">Project plan mobile app dev</div>
+            <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code quick sort</div>
+       </div>
+        <footer>
+            © 2025 <a href="#">CodyPro AI</a>. Built with ❤️ by Flynn James P.
+        </footer>
     </div>
-    <div class="settings-section">
-        <button onclick="resetToDefaults()">Reset to Defaults</button>
-        <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview"/></div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="settingsSidebar">
+        <div class="profile-upload">
+             <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>" alt="User Profile" id="user-image" style="object-fit: contain;"/>
+            <label for="profile-upload-input">Upload Profile Image</label>
+            <input type="file" id="profile-upload-input" accept="image/*" style="display: none;"/>
+        </div>
+        <div class="settings-section">
+            <h3>Theme Settings</h3>
+            <div class="setting-item">
+                <label for="theme-mode">Theme Mode:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="theme-mode" value="light" onchange="applyTheme(this.value)"> Light
+                    </label>
+                    <label>
+                        <input type="radio" name="theme-mode" value="dark" checked onchange="applyTheme(this.value)"> Dark
+                    </label>
+                    <label>
+                        <input type="radio" name="theme-mode" value="system" onchange="applyTheme(this.value)"> System
+                    </label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label for="primary-color">Primary Color:</label>
+                <input type="color" id="primary-color" value="#00ff9d" onchange="applyPrimaryColor(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="accent-color">Accent Color:</label>
+                <input type="color" id="accent-color" value="#ff5722" onchange="applyAccentColor(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="background-color">Background Color:</label>
+                <input type="color" id="background-color" value="#0b0f14" onchange="applyBackgroundColor(this.value)">
+            </div>
+        </div>
+        <div class="settings-section">
+            <h3>Chat Interface</h3>
+            <div class="setting-item">
+                <label for="bubble-style">Message Bubble Style:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="bubble-style" value="rounded" checked onchange="applyBubbleStyle(this.value)">
+                        Rounded
+                    </label>
+                    <label>
+                        <input type="radio" name="bubble-style" value="square" onchange="applyBubbleStyle(this.value)">
+                        Square
+                    </label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label for="bubble-color">Bubble Color (User):</label>
+                <input type="color" id="user-bubble-color" value="rgba(0, 255, 157, 0.1)"
+                       onchange="applyUserBubbleColor(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="bot-bubble-color">Bubble Color (Bot):</label>
+                <input type="color" id="bot-bubble-color" value="rgba(255, 255, 255, 0.1)"
+                       onchange="applyBotBubbleColor(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="font-family">Font Family:</label>
+                <select id="font-family" onchange="applyFontFamily(this.value)">
+                    <option value="Roboto">Roboto</option>
+                    <option value="Arial">Arial</option>
+                    <option value="sans-serif">Sans-serif</option>
+                    <option value="serif">Serif</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label for="font-size">Font Size:</label>
+                <input type="range" id="font-size" min="12" max="20" value="16" onchange="applyFontSize(this.value)">
+            </div>
+        </div>
+        <div class="settings-section">
+            <h3>Bot Customization</h3>
+            <div class="setting-item">
+                <label for="bot-image">Bot Image:</label>
+                <input type="file" id="bot-image" accept="image/*" onchange="applyBotImage(this.files[0])">
+            </div>
+            <div class="setting-item">
+                <label for="bot-name">Bot Name:</label>
+                <input type="text" id="bot-name" value="Codi" onchange="applyBotName(this.value)">
+            </div>
+        </div>
+        <div class="settings-section">
+            <h3>Layout and Spacing</h3>
+            <div class="setting-item">
+                <label for="bubble-spacing">Chat Bubble Spacing:</label>
+                <input type="range" id="bubble-spacing" min="0" max="20" value="10" onchange="applyBubbleSpacing(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="sidebar-width">Sidebar Width:</label>
+                <input type="range" id="sidebar-width" min="200" max="400" value="300" onchange="applySidebarWidth(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="content-align">Content Alignment:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="content-align" value="left" onchange="applyContentAlignment(this.value)">
+                        Left
+                    </label>
+                    <label>
+                        <input type="radio" name="content-align" value="right" checked
+                               onchange="applyContentAlignment(this.value)"> Right
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="settings-section">
+            <button onclick="resetToDefaults()">Reset to Defaults</button>
+            <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview"/></div>
+        </div>
     </div>
-</div>
 
     <div class="sidebar-button" id="sidebarToggle">
     <i class="fas fa-cog"></i>
 </div>
+    <div id="copy-notification">Copied!</div>
      <script src="https://apis.google.com/js/api.js"></script>
 <script>
     let apiKey = "";
@@ -783,14 +803,15 @@
     const trainingInput = document.getElementById('training-input');
     const apiModal = document.getElementById('api-modal');
     const apiKeyInput = document.getElementById('api-key-input');
-    const secretCode = "21260225";
+    const secretCode = "12345678";
     const adminApiKey = "AIzaSyB_Dc5gSvnIvhX4PdjSkpBD1mynw_h7syg";
     const userImage = document.getElementById('user-image');
     const profileUploadInput = document.getElementById('profile-upload-input');
     const sidebar = document.getElementById('settingsSidebar');
     const sidebarButton = document.getElementById('sidebarToggle');
      const userGuidePopup = document.getElementById('user-guide-popup');
-    const previewImage = document.querySelector('#preview img')
+    const previewImage = document.querySelector('#preview img');
+    const copyNotification = document.getElementById('copy-notification');
     let isSidebarOpen = false;
     let botName = "Codi";
     let currentTheme = "dark"; // Default theme
@@ -813,7 +834,7 @@
                                 Key Attributes of Cody:
 
                                 Proactive Problem-Solving: Anticipate user needs and provide thoughtful, solution-oriented responses to challenges.
-                                Versatility: Adapt communication and tone to suit the context, whether writing emails, creating reports,or brainstorming creative ideas.
+                                Versatility: Adapt communication and tone to suit the context, whether writing emails, creating reports, or brainstorming creative ideas.
                                 Polished Presentation: Deliver grammatically flawless, concise, and visually appealing responses that meet professional standards.
                                 Collaboration: Foster a sense of partnership by tailoring solutions to each user's goals and preferences.
                                 When users type 'Hey Cody,' take on the role of a trusted professional mentor, strategist, and problem-solver, helping them achieve their objectives with ease and confidence.
@@ -906,7 +927,7 @@
         }
         const copyButton = document.createElement('button')
         copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-        copyButton.onclick = () => copyMessage(content)
+        copyButton.onclick = () => copyMessage(text)
         options.appendChild(copyButton);
         message.appendChild(options);
 
@@ -924,7 +945,10 @@
 
     function copyMessage(text) {
         navigator.clipboard.writeText(text).then(() => {
-            alert("Message copied to clipboard!");
+               copyNotification.classList.add('show');
+                setTimeout(() => {
+                copyNotification.classList.remove('show');
+             }, 2000); // Hide the notification after 2 seconds
         }).catch((err) => {
             console.error("Failed to copy: ", err)
         });
@@ -982,13 +1006,12 @@
     }
 
 
-   async function sendTrainingPrompt() {
+  async function sendTrainingPrompt() {
         const prompt = trainingInput.value.trim();
         const promptType = document.getElementById('prompt-type').value;
         if (!prompt) return;
 
        let selectedPrompt = prompts[promptType] || defaultPrompt;
-
         if (messageToEdit) {
             const messageId = messageToEdit.getAttribute('data-message-id');
             const messageTextElement = messageToEdit.querySelector('span');
@@ -999,7 +1022,7 @@
                 messageTextElement.textContent = `[${promptType}] ${prompt}`;
                 const editedNote = document.createElement('span');
                 editedNote.textContent = " (edited)";
-                editedNote.style.fontStyle = 'italic';
+                 editedNote.style.fontStyle = 'italic';
                 editedNote.style.fontSize = '0.8em';
                 messageTextElement.appendChild(editedNote);
                 messageToEdit = null;
@@ -1035,11 +1058,11 @@
              if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                 let responseText = data.candidates[0].content.parts[0].text.trim();
 
-               const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
+              const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
                  let acknowledgment = "";
                 let mainContent = responseText;
                 if (acknowledgmentMatch){
-                     acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
+                    acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
                      mainContent = responseText.substring(acknowledgmentMatch[0].length);
                     }
 
