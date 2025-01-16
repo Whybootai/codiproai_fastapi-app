@@ -572,7 +572,7 @@
            margin-bottom: 10px;
            line-height: 1.5;
          }
-         #copy-notification {
+          #copy-notification {
             position: fixed;
            bottom: 20px;
              right: 20px;
@@ -588,7 +588,6 @@
           #copy-notification.show {
             opacity: 1; /* Make it visible */
         }
-
 
         /* Animations */
         @keyframes slideIn {
@@ -637,25 +636,27 @@
         </div>
     </header>
     <div id="user-guide-popup">
-            <span class="close-button" onclick="toggleUserGuide()">×</span>
-             <h2>How to Use CodyPro AI</h2>
-            <ul>
-                <li><strong>Select Prompt Type:</strong> Use the dropdown menu to select your prompt type such as "Chat," "List Generation," "Image Generation", etc.</li>
-                 <li><strong>Type Your Prompt:</strong> Use the text input to type your prompt, including details of what you want CodyPro AI to do for you.</li>
-                <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know what type of requests you can make CodyPro AI.</li>
-                 <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's response.</li>
-                 <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI messages.</li>
-                 <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.</li>
-                 <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or feel.</li>
-                 <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.</li>
-            </ul>
-        </div>
+        <span class="close-button" onclick="toggleUserGuide()">×</span>
+         <h2>How to Use CodyPro AI</h2>
+        <ul>
+            <li><strong>Select Prompt Type:</strong> Use the dropdown menu to select your prompt type such as "Chat," "List Generation," "Image Generation", etc.</li>
+             <li><strong>Type Your Prompt:</strong> Use the text input to type your prompt, including details of what you want CodyPro AI to do for you.</li>
+            <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know what type of requests you can make CodyPro AI.</li>
+             <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's response.</li>
+             <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI messages.</li>
+             <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.</li>
+             <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or feel.</li>
+             <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.</li>
+        </ul>
+    </div>
     <div id="chat-container">
         <main id="messages" aria-live="polite"></main>
         <div id="input-container">
             <select id="prompt-type" aria-label="Select Prompt Type">
                 <option value="chat">Chat</option>
                 <option value="list">List Generation</option>
+                 <option value="scrape">Scrape Page</option>
+                 <option value="crawl">Crawl Page</option>
                 <option value="image">Image Generation</option>
                 <option value="code">Code Generation</option>
                 <option value="data">Data Generation</option>
@@ -667,10 +668,12 @@
             </div>
         </div>
         <div id="prompt-suggestions">
-            <div class="prompt-suggestion" onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top research papers on AI</div>
+           <div class="prompt-suggestion" onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top research papers on AI</div>
             <div class="prompt-suggestion" onclick="setPrompt('Write an email to a client to request feedback.')">Email feedback request</div>
             <div class="prompt-suggestion" onclick="setPrompt('Create a project plan for a mobile app development.')">Project plan mobile app dev</div>
-            <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code quick sort</div>
+             <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code quick sort</div>
+           <div class="prompt-suggestion" onclick="setPrompt('Scrape the text from https://www.example.com')">Scrape example.com</div>
+           <div class="prompt-suggestion" onclick="setPrompt('Crawl the links from https://www.example.com')">Crawl example.com</div>
        </div>
         <footer>
             © 2025 <a href="#">CodyPro AI</a>. Built with ❤️ by Flynn James P.
@@ -735,7 +738,7 @@
             <div class="setting-item">
                 <label for="bot-bubble-color">Bubble Color (Bot):</label>
                 <input type="color" id="bot-bubble-color" value="rgba(255, 255, 255, 0.1)"
-                       onchange="applyBotBubbleColor(this.value)">
+                   onchange="applyBotBubbleColor(this.value)">
             </div>
             <div class="setting-item">
                 <label for="font-family">Font Family:</label>
@@ -795,7 +798,7 @@
     <div class="sidebar-button" id="sidebarToggle">
     <i class="fas fa-cog"></i>
 </div>
-    <div id="copy-notification">Copied!</div>
+   <div id="copy-notification">Copied!</div>
      <script src="https://apis.google.com/js/api.js"></script>
 <script>
     let apiKey = "";
@@ -809,14 +812,14 @@
     const profileUploadInput = document.getElementById('profile-upload-input');
     const sidebar = document.getElementById('settingsSidebar');
     const sidebarButton = document.getElementById('sidebarToggle');
-     const userGuidePopup = document.getElementById('user-guide-popup');
-    const previewImage = document.querySelector('#preview img');
-    const copyNotification = document.getElementById('copy-notification');
+     const userGuidePopup  = document.getElementById('user-guide-popup');
+    const previewImage = document.querySelector('#preview img')
+      const copyNotification = document.getElementById('copy-notification');
     let isSidebarOpen = false;
     let botName = "Codi";
     let currentTheme = "dark"; // Default theme
     let messageToEdit = null;
-     const prompts = {
+      const prompts = {
          "Data Generation": "You are an expert in academic research and data analysis, tasked with generating high-quality datasets for interdisciplinary research. Your role is to create structured, evidence-based, and domain-specific data tailored to support scholarly investigations. Provide datasets, summaries, or mock data examples with clear methodologies, ensuring relevance and academic rigor. Use a structured format such as tables or JSON where appropriate.",
 
          "Cody": "You are Cody, a highly skilled academic expert and researcher. Your role is to assist with scholarly writing, critical analysis, and interdisciplinary research while embodying professionalism, clarity, and academic rigor. Respond to questions with in-depth knowledge, evidence-based insights, and structured guidance tailored to the user's needs. Act as an academic mentor, providing step-by-step strategies, writing guidance, and critical evaluations in any discipline.",
@@ -825,7 +828,9 @@
 
          "Image Generation": "You are an expert in generating academic or illustrative images to support scholarly work. Produce visuals such as graphs, charts, schematics, or conceptual illustrations tailored to specific research fields. Ensure the visuals are clear, professional, and align with academic publication standards. Provide captions or explanations for each image to clarify its context and relevance.",
 
-         "List Generation": "You are an academic assistant, skilled in creating structured, comprehensive lists to support research and learning. Generate categorized lists such as key concepts, research methodologies, influential scholars, relevant literature, or annotated bibliographies. Ensure the lists are thorough, logically organized, and align with academic standards for clarity and depth."
+        "List Generation": "You are an academic assistant, skilled in creating structured, comprehensive lists to support research and learning. Generate categorized lists such as key concepts, research methodologies, influential scholars, relevant literature, or annotated bibliographies. Ensure the lists are thorough, logically organized, and align with academic standards for clarity and depth.",
+          "scrape": "You are a web scraping expert who extracts useful text information from a single webpage. When given a URL, your task is to visit the webpage and extract the text content, excluding HTML tags or elements that don't provide meaning. Only include content that a user would see in their browser. Provide the scraped text as clean, readable HTML content.",
+           "crawl": "You are a web crawler and link extraction expert, tasked with identifying and extracting links from a given webpage. When given a URL, you should visit the webpage and identify all hyperlinks, providing the absolute URLs from the HTML. Only provide a list of links."
      };
      const defaultPrompt = `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
 
@@ -927,7 +932,7 @@
         }
         const copyButton = document.createElement('button')
         copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-        copyButton.onclick = () => copyMessage(text)
+        copyButton.onclick = () => copyMessage(content)
         options.appendChild(copyButton);
         message.appendChild(options);
 
@@ -944,7 +949,7 @@
     }
 
     function copyMessage(text) {
-        navigator.clipboard.writeText(text).then(() => {
+         navigator.clipboard.writeText(text).then(() => {
                copyNotification.classList.add('show');
                 setTimeout(() => {
                 copyNotification.classList.remove('show');
@@ -1005,8 +1010,42 @@
         return text;
     }
 
+  async function scrapePage(url){
+     try{
+          const response = await fetch(url);
+           if (!response.ok) {
+              throw new Error(`Failed to fetch the webpage ${response.statusText}`)
+            }
+          const html = await response.text();
+           const parser = new DOMParser();
+           const doc = parser.parseFromString(html, 'text/html');
+           const bodyText = doc.body.textContent;
+        return bodyText;
+     }catch(error){
+       console.error(error);
+        return `There was an error when scraping the page: ${error}`
+    }
+  }
+   async function crawlPage(url){
+       try{
+             const response = await fetch(url);
+             if (!response.ok) {
+                 throw new Error(`Failed to fetch the webpage ${response.statusText}`)
+            }
+            const html = await response.text();
+           const parser = new DOMParser();
+           const doc = parser.parseFromString(html, 'text/html');
+           const links = Array.from(doc.querySelectorAll('a')).map(a => a.href);
 
-  async function sendTrainingPrompt() {
+        return links.filter(Boolean).join('<br>');
+       }catch(error){
+           console.error(error);
+            return `There was an error when crawling the page: ${error}`;
+        }
+   }
+
+
+   async function sendTrainingPrompt() {
         const prompt = trainingInput.value.trim();
         const promptType = document.getElementById('prompt-type').value;
         if (!prompt) return;
@@ -1022,7 +1061,7 @@
                 messageTextElement.textContent = `[${promptType}] ${prompt}`;
                 const editedNote = document.createElement('span');
                 editedNote.textContent = " (edited)";
-                 editedNote.style.fontStyle = 'italic';
+                editedNote.style.fontStyle = 'italic';
                 editedNote.style.fontSize = '0.8em';
                 messageTextElement.appendChild(editedNote);
                 messageToEdit = null;
@@ -1037,44 +1076,52 @@
         thinking.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
         messages.appendChild(thinking);
         messages.scrollTop = messages.scrollHeight;
-
+        let responseText;
         try {
-            const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: `${selectedPrompt} [${promptType}] ${prompt}`
-                        }]
-                    }]
-                })
-            });
+            if(promptType === 'scrape')
+            {
+                 responseText = await scrapePage(prompt)
+            } else if(promptType === 'crawl'){
+               responseText = await crawlPage(prompt)
+           }else{
+                 const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json',
+                     },
+                     body: JSON.stringify({
+                         contents: [{
+                             parts: [{
+                                 text: `${selectedPrompt} [${promptType}] ${prompt}`
+                            }]
+                         }]
+                     })
+                });
 
-            const data = await response.json();
-            thinking.remove();
-             if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                let responseText = data.candidates[0].content.parts[0].text.trim();
+                 const data = await response.json();
+                 thinking.remove();
+                 if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                       responseText = data.candidates[0].content.parts[0].text.trim();
+                   }else{
+                         addMessage(`No response from ${botName}.`, false);
+                         return
+                   }
+           }
+           thinking.remove();
 
-              const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
-                 let acknowledgment = "";
-                let mainContent = responseText;
-                if (acknowledgmentMatch){
-                    acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
-                     mainContent = responseText.substring(acknowledgmentMatch[0].length);
-                    }
-
-                 addMessage(acknowledgment + parseBotResponse(mainContent), false);
-
-             } else {
-                 addMessage(`No response from ${botName}.`, false);
+          const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
+            let acknowledgment = "";
+           let mainContent = responseText;
+             if (acknowledgmentMatch){
+                 acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
+                 mainContent = responseText.substring(acknowledgmentMatch[0].length);
             }
+
+             addMessage(acknowledgment + parseBotResponse(mainContent), false);
 
         } catch (error) {
             thinking.remove();
-            addMessage("Error connecting to the API.", false);
+            addMessage("Error connecting to the API or when fetching the page.", false);
         }
     }
   function saveChatToDrive() {
