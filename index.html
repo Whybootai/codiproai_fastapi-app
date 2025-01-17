@@ -828,11 +828,10 @@
     const trainingInput = document.getElementById('training-input');
     const apiModal = document.getElementById('api-modal');
     const apiKeyInput = document.getElementById('api-key-input');
-    const secretCode = "21260225";
-    const adminApiKey = "AIzaSyB_Dc5gSvnIvhX4PdjSkpBD1mynw_h7syg";
+    const secretCode = "123456";
+     const adminApiKey = "AIzaSyBQKOdFOb4R4u3EI963qccLFneLNe5xN-g";
     const userImage = document.getElementById('user-image');
-    const profileUploadInput = document.getElementById('profile-upload-input
-);
+    const profileUploadInput = document.getElementById('profile-upload-input');
     const sidebar = document.getElementById('settingsSidebar');
     const sidebarButton = document.getElementById('sidebarToggle');
     const userGuidePopup = document.getElementById('user-guide-popup');
@@ -854,7 +853,7 @@
     };
     const defaultPrompt = `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
 
-                                Your responses should embody professionalism, adaptability, and clarity. Respond to inquiries with precision, well-structured guidance, and a tone that is approachable yet professional. Ensure your language reflects the needs of diverse users, offering actionable insights and suggestions to help them succeed in their goals.
+                                Your responses should embody professionalism, adaptability, and clarity. Respond to inquiries with precision, well-structured guidance, and a tone that  is approachable yet professional. Ensure your language reflects the needs of diverse users, offering actionable insights and suggestions to help them succeed in their goals.
 
                                 Key Attributes of Cody:
 
@@ -876,10 +875,10 @@
     function submitApiKey() {
         const input = apiKeyInput.value.trim();
         if (input === secretCode) {
-            apiKey = adminApiKey;
+           apiKey = adminApiKey;
             apiKeyInput.value = adminApiKey;
             apiModal.style.display = 'none';
-            alert("Admin API key activated!");
+             alert("Admin API key activated!");
             addMessage('Admin API key activated', false)
             return;
         }
@@ -891,7 +890,7 @@
         apiKey = input;
         apiModal.style.display = 'none';
         alert("API key successfully linked!");
-          addMessage('API key successfully linked!', false)
+        addMessage('API key successfully linked!', false)
 
     }
 
