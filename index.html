@@ -34,12 +34,12 @@
             width: 100%;
             padding: 20px;
             text-align: center;
-             position: relative;
+            position: relative;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             top: 0;
             z-index: 1000;
-          overflow: hidden;
+            overflow: hidden;
         }
 
         header h1 {
@@ -49,50 +49,60 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-         #google-drive-icon {
-           position: absolute;
+
+        #google-drive-icon {
+            position: absolute;
             top: 20px;
-             right: 60px;
+            right: 60px;
             cursor: pointer;
             font-size: 1.8em;
-           color: var(--light);
+            color: var(--light);
             transition: color 0.3s ease;
         }
-         #google-drive-icon:hover {
+
+        #google-drive-icon:hover {
             color: var(--primary);
-         }
-          #user-guide-icon {
+        }
+
+        #user-guide-icon {
             position: absolute;
-             top: 20px;
-              right: 20px;
-             cursor: pointer;
-             font-size: 1.8em;
-             color: var(--light);
-              transition: color 0.3s ease;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.8em;
+            color: var(--light);
+            transition: color 0.3s ease;
         }
+
         #user-guide-icon:hover {
-           color: var(--primary);
+            color: var(--primary);
         }
+
         /* Marquee Styles */
         .marquee-container {
-             width: 100%;
-             position: absolute;
-              bottom: 0;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
             overflow: hidden;
-              background: rgba(255, 255, 255, 0.1);
-             padding: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 0;
         }
 
         .marquee-text {
             display: inline-block;
-             white-space: nowrap;
+            white-space: nowrap;
             animation: marquee 20s linear infinite;
-              color: var(--light);
+            color: var(--light);
         }
 
         @keyframes marquee {
-          0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         #chat-container {
@@ -183,9 +193,10 @@
             margin-bottom: 10px;
             padding-left: 30px; /* Add padding for list indentation */
         }
+
         .bot-message li {
-             line-height: 1.6;
-         }
+            line-height: 1.6;
+        }
 
         .bot-message pre {
             background: rgba(255, 255, 255, 0.05);
@@ -236,8 +247,9 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             font-size: 1rem;
         }
-          #clear-chat-button {
-           margin-top: 10px;
+
+        #clear-chat-button {
+            margin-top: 10px;
             background: var(--accent);
             color: var(--light);
         }
@@ -247,24 +259,26 @@
             box-shadow: 0 10px 20px rgba(0, 255, 157, 0.4);
         }
 
-         #prompt-suggestions {
-           display: flex;
-             flex-wrap: wrap;
-              gap: 10px;
+        #prompt-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
             margin-top: 10px;
-             justify-content: center;
+            justify-content: center;
         }
 
         .prompt-suggestion {
-          background: rgba(255,255,255,0.1);
-          padding: 10px 15px;
-           border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-         .prompt-suggestion:hover{
-            background-color: rgba(255,255,255,0.2);
-         }
+
+        .prompt-suggestion:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
         .thinking {
             display: flex;
             gap: 8px;
@@ -342,8 +356,8 @@
             margin-top: 20px;
         }
 
-         /* Sidebar Styles */
-         .sidebar {
+        /* Sidebar Styles */
+        .sidebar {
             position: fixed;
             top: 0;
             left: -300px; /* Start off screen on the left */
@@ -362,10 +376,10 @@
 
         .sidebar.open {
             left: 0; /* Slide in from the left */
-         }
+        }
 
         .sidebar-button {
-             position: fixed;
+            position: fixed;
             top: 20px;
             left: 20px; /* Position the button on the left */
             padding: 10px;
@@ -378,8 +392,8 @@
         }
 
         .sidebar-button.open {
-           left: 320px;
-         }
+            left: 320px;
+        }
 
         .sidebar-button i {
             font-size: 1.2em;
@@ -401,12 +415,12 @@
             font-weight: bold;
         }
 
-         #user-image {
+        #user-image {
             width: 80px;
             height: 80px;
             border-radius: 50%;
             object-fit: contain;
-             margin-bottom: 10px;
+            margin-bottom: 10px;
             border: 2px solid var(--accent);
         }
 
@@ -516,60 +530,67 @@
                 width: 100%;
             }
 
-             .sidebar-button {
-                 left: 10px;
-             }
+            .sidebar-button {
+                left: 10px;
+            }
 
-             .sidebar-button.open {
-                 left: 310px;
-             }
+            .sidebar-button.open {
+                left: 310px;
+            }
 
             .sidebar {
                 width: 280px;
             }
         }
+
         /* User Guide Popup */
-         #user-guide-popup {
+        #user-guide-popup {
             position: fixed;
-           top: 25%;
-             left: 25%;
+            top: 25%;
+            left: 25%;
             width: 50%;
-           height: 50%;
+            height: 50%;
             background: rgba(0, 0, 0, 0.8);
-             border-radius: 15px;
-             color: var(--light);
-           padding: 30px;
+            border-radius: 15px;
+            color: var(--light);
+            padding: 30px;
             z-index: 10000;
             display: none;
             overflow-y: auto; /* Enable scrolling for long instructions */
             box-shadow: 0 0 40px rgba(0, 255, 157, 0.2);
-         }
-          #user-guide-popup.active {
-             display: block;
-         }
-         #user-guide-popup .close-button {
-             position: absolute;
+        }
+
+        #user-guide-popup.active {
+            display: block;
+        }
+
+        #user-guide-popup .close-button {
+            position: absolute;
             top: 10px;
             right: 10px;
-           font-size: 1.5em;
+            font-size: 1.5em;
             cursor: pointer;
-             color: var(--accent);
+            color: var(--accent);
             transition: color 0.3s ease;
         }
+
         #user-guide-popup .close-button:hover {
             color: var(--primary);
         }
+
         #user-guide-popup h2 {
-           margin-bottom: 20px;
-          text-align: center;
+            margin-bottom: 20px;
+            text-align: center;
         }
+
         #user-guide-popup ul {
-           padding-left: 30px;
+            padding-left: 30px;
         }
+
         #user-guide-popup li {
-           margin-bottom: 10px;
-           line-height: 1.5;
-         }
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
 
         /* Animations */
         @keyframes slideIn {
@@ -610,27 +631,40 @@
 <header>
     <h1>CodyPro AI</h1>
     <i class="fab fa-google-drive" id="google-drive-icon" onclick="saveChatToDrive()"></i>
-     <i class="fas fa-question-circle" id="user-guide-icon" onclick="toggleUserGuide()"></i>
-      <div class="marquee-container">
-      <div class="marquee-text">
-           Select your prompt type, input your prompt, and let CodyPro AI assist you! | CodyPro AI may make mistakes, kindly double-check the output provided. | Created with ❤️ by Flynn James P.
-     </div>
+    <i class="fas fa-question-circle" id="user-guide-icon" onclick="toggleUserGuide()"></i>
+    <div class="marquee-container">
+        <div class="marquee-text">
+            Select your prompt type, input your prompt, and let CodyPro AI assist you! | CodyPro AI may make mistakes, kindly double-check the output provided. | Created with ❤️ by Flynn James P.
+        </div>
     </div>
 </header>
- <div id="user-guide-popup">
-        <span class="close-button" onclick="toggleUserGuide()">×</span>
-         <h2>How to Use CodyPro AI</h2>
-        <ul>
-            <li><strong>Select Prompt Type:</strong> Use the dropdown menu to select your prompt type such as "Chat," "List Generation," "Image Generation", etc.</li>
-             <li><strong>Type Your Prompt:</strong> Use the text input to type your prompt, including details of what you want CodyPro AI to do for you.</li>
-            <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know what type of requests you can make CodyPro AI.</li>
-             <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's response.</li>
-             <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI messages.</li>
-             <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.</li>
-             <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or feel.</li>
-             <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.</li>
-        </ul>
-    </div>
+<div id="user-guide-popup">
+    <span class="close-button" onclick="toggleUserGuide()">×</span>
+    <h2>How to Use CodyPro AI</h2>
+    <ul>
+        <li><strong>Select Prompt Type:</strong> Use the dropdown menu to select your prompt type such as "Chat," "List
+            Generation," "Image Generation", etc.
+        </li>
+        <li><strong>Type Your Prompt:</strong> Use the text input to type your prompt, including details of what you want
+            CodyPro AI to do for you.
+        </li>
+        <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know what
+            type of requests you can make CodyPro AI.
+        </li>
+        <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's response.
+        </li>
+        <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI
+            messages.
+        </li>
+        <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.
+        </li>
+        <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or
+            feel.
+        </li>
+        <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.
+        </li>
+    </ul>
+</div>
 <div id="chat-container">
     <main id="messages" aria-live="polite"></main>
     <div id="input-container">
@@ -643,16 +677,25 @@
         </select>
         <input type="text" id="training-input" placeholder="Type your prompt..." aria-label="Input Prompt Field">
         <div>
-             <button onclick="sendTrainingPrompt()" aria-label="Send Prompt">Send</button>
-             <button onclick="clearChat()" id="clear-chat-button" aria-label="Clear Chat">Clear Chat</button>
+            <button onclick="sendTrainingPrompt()" aria-label="Send Prompt">Send</button>
+            <button onclick="clearChat()" id="clear-chat-button" aria-label="Clear Chat">Clear Chat</button>
         </div>
     </div>
     <div id="prompt-suggestions">
-       <div class="prompt-suggestion" onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top research papers on AI</div>
-         <div class="prompt-suggestion" onclick="setPrompt('Write an email to a client to request feedback.')">Email feedback request</div>
-       <div class="prompt-suggestion" onclick="setPrompt('Create a project plan for a mobile app development.')">Project plan mobile app dev</div>
-        <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code quick sort</div>
-   </div>
+        <div class="prompt-suggestion"
+             onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top
+            research papers on AI
+        </div>
+        <div class="prompt-suggestion" onclick="setPrompt('Write an email to a client to request feedback.')">Email
+            feedback request
+        </div>
+        <div class="prompt-suggestion" onclick="setPrompt('Create a project plan for a mobile app development.')">Project
+            plan mobile app dev
+        </div>
+        <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code quick
+            sort
+        </div>
+    </div>
     <footer>
         © 2025 <a href="#">CodyPro AI</a>. Built with ❤️ by Flynn James P.
     </footer>
@@ -660,7 +703,9 @@
 <!-- Sidebar -->
 <div class="sidebar" id="settingsSidebar">
     <div class="profile-upload">
-         <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>" alt="User Profile" id="user-image" style="object-fit: contain;"/>
+        <img
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>"
+            alt="User Profile" id="user-image" style="object-fit: contain;"/>
         <label for="profile-upload-input">Upload Profile Image</label>
         <input type="file" id="profile-upload-input" accept="image/*" style="display: none;"/>
     </div>
@@ -773,10 +818,10 @@
     </div>
 </div>
 
-    <div class="sidebar-button" id="sidebarToggle">
+<div class="sidebar-button" id="sidebarToggle">
     <i class="fas fa-cog"></i>
 </div>
-     <script src="https://apis.google.com/js/api.js"></script>
+<script src="https://apis.google.com/js/api.js"></script>
 <script>
     let apiKey = "";
     const messages = document.getElementById('messages');
@@ -789,24 +834,24 @@
     const profileUploadInput = document.getElementById('profile-upload-input');
     const sidebar = document.getElementById('settingsSidebar');
     const sidebarButton = document.getElementById('sidebarToggle');
-     const userGuidePopup = document.getElementById('user-guide-popup');
+    const userGuidePopup = document.getElementById('user-guide-popup');
     const previewImage = document.querySelector('#preview img')
     let isSidebarOpen = false;
     let botName = "Codi";
     let currentTheme = "dark"; // Default theme
     let messageToEdit = null;
-     const prompts = {
-         "Data Generation": "You are an expert in academic research and data analysis, tasked with generating high-quality datasets for interdisciplinary research. Your role is to create structured, evidence-based, and domain-specific data tailored to support scholarly investigations. Provide datasets, summaries, or mock data examples with clear methodologies, ensuring relevance and academic rigor. Use a structured format such as tables or JSON where appropriate.",
+    const prompts = {
+        "Data Generation": "You are an expert in academic research and data analysis, tasked with generating high-quality datasets for interdisciplinary research. Your role is to create structured, evidence-based, and domain-specific data tailored to support scholarly investigations. Provide datasets, summaries, or mock data examples with clear methodologies, ensuring relevance and academic rigor. Use a structured format such as tables or JSON where appropriate.",
 
-         "Cody": "You are Cody, a highly skilled academic expert and researcher. Your role is to assist with scholarly writing, critical analysis, and interdisciplinary research while embodying professionalism, clarity, and academic rigor. Respond to questions with in-depth knowledge, evidence-based insights, and structured guidance tailored to the user's needs. Act as an academic mentor, providing step-by-step strategies, writing guidance, and critical evaluations in any discipline.",
+        "Cody": "You are Cody, a highly skilled academic expert and researcher. Your role is to assist with scholarly writing, critical analysis, and interdisciplinary research while embodying professionalism, clarity, and academic rigor. Respond to questions with in-depth knowledge, evidence-based insights, and structured guidance tailored to the user's needs. Act as an academic mentor, providing step-by-step strategies, writing guidance, and critical evaluations in any discipline.",
 
-         "Code Generation": "You are a code generation assistant, specialized in creating efficient, optimized, and well-documented code for academic and research purposes. Write code in languages such as Python, R, or MATLAB to automate research tasks, analyze datasets, or simulate models. Provide clear explanations of the logic and context for each script, and ensure the code is modular and reusable. Incorporate comments and references to relevant libraries or methods where applicable.",
+        "Code Generation": "You are a code generation assistant, specialized in creating efficient, optimized, and well-documented code for academic and research purposes. Write code in languages such as Python, R, or MATLAB to automate research tasks, analyze datasets, or simulate models. Provide clear explanations of the logic and context for each script, and ensure the code is modular and reusable. Incorporate comments and references to relevant libraries or methods where applicable.",
 
-         "Image Generation": "You are an expert in generating academic or illustrative images to support scholarly work. Produce visuals such as graphs, charts, schematics, or conceptual illustrations tailored to specific research fields. Ensure the visuals are clear, professional, and align with academic publication standards. Provide captions or explanations for each image to clarify its context and relevance.",
+        "Image Generation": "You are an expert in generating academic or illustrative images to support scholarly work. Produce visuals such as graphs, charts, schematics, or conceptual illustrations tailored to specific research fields. Ensure the visuals are clear, professional, and align with academic publication standards. Provide captions or explanations for each image to clarify its context and relevance.",
 
-         "List Generation": "You are an academic assistant, skilled in creating structured, comprehensive lists to support research and learning. Generate categorized lists such as key concepts, research methodologies, influential scholars, relevant literature, or annotated bibliographies. Ensure the lists are thorough, logically organized, and align with academic standards for clarity and depth."
-     };
-     const defaultPrompt = `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
+        "List Generation": "You are an academic assistant, skilled in creating structured, comprehensive lists to support research and learning. Generate categorized lists such as key concepts, research methodologies, influential scholars, relevant literature, or annotated bibliographies. Ensure the lists are thorough, logically organized, and align with academic standards for clarity and depth."
+    };
+    const defaultPrompt = `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
 
                                 Your responses should embody professionalism, adaptability, and clarity. Respond to inquiries with precision, well-structured guidance, and a tone that is approachable yet professional. Ensure your language reflects the needs of diverse users, offering actionable insights and suggestions to help them succeed in their goals.
 
@@ -818,11 +863,11 @@
                                 Collaboration: Foster a sense of partnership by tailoring solutions to each user's goals and preferences.
                                 When users type 'Hey Cody,' take on the role of a trusted professional mentor, strategist, and problem-solver, helping them achieve their objectives with ease and confidence.
                             `;
-     const CLIENT_ID = '112450391570-r8m4v9j8r1t86n6g42b1v587q9n20387.apps.googleusercontent.com';
-     const SCOPES = 'https://www.googleapis.com/auth/drive.file';
-     let gapiInited = false;
+    const CLIENT_ID = '112450391570-r8m4v9j8r1t86n6g42b1v587q9n20387.apps.googleusercontent.com';
+    const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+    let gapiInited = false;
 
-     function clearChat() {
+    function clearChat() {
         messages.innerHTML = ''; // Clear all messages
         addMessage(`Hello! I'm Cody, ready to assist you with your tasks!`, false);
     }
@@ -834,6 +879,7 @@
             apiKeyInput.value = adminApiKey;
             apiModal.style.display = 'none';
             alert("Admin API key activated!");
+            addMessage('Admin API key activated', false)
             return;
         }
         if (!input) {
@@ -844,27 +890,32 @@
         apiKey = input;
         apiModal.style.display = 'none';
         alert("API key successfully linked!");
+          addMessage('API key successfully linked!', false)
+
     }
 
     function toggleSidebar() {
-         isSidebarOpen = !isSidebarOpen;
-            sidebar.classList.toggle('open', isSidebarOpen);
-            sidebarButton.classList.toggle('open', isSidebarOpen);
-            sidebarButton.style.left = isSidebarOpen ? '320px' : '20px';
+        isSidebarOpen = !isSidebarOpen;
+        sidebar.classList.toggle('open', isSidebarOpen);
+        sidebarButton.classList.toggle('open', isSidebarOpen);
+        sidebarButton.style.left = isSidebarOpen ? '320px' : '20px';
     }
-    function handleClientLoad(){
-      gapi.load('client:auth2', initClient)
-    }
-    async function initClient(){
-       await gapi.client.init({
-           clientId: CLIENT_ID,
-           scope: SCOPES
-       });
 
-      gapiInited = true;
-       gapi.client.setApiKey(apiKey);
+    function handleClientLoad() {
+        gapi.load('client:auth2', initClient)
     }
-     handleClientLoad();
+
+    async function initClient() {
+        await gapi.client.init({
+            clientId: CLIENT_ID,
+            scope: SCOPES
+        });
+
+        gapiInited = true;
+        gapi.client.setApiKey(apiKey);
+    }
+
+    handleClientLoad();
 
     sidebarButton.addEventListener('click', toggleSidebar);
     profileUploadInput.addEventListener('change', function (event) {
@@ -877,9 +928,11 @@
             reader.readAsDataURL(file);
         }
     });
-     function setPrompt(prompt) {
+
+    function setPrompt(prompt) {
         trainingInput.value = prompt;
-     }
+    }
+
     function addMessage(content, isUser, isEdited = false, id = null) {
         const message = document.createElement('div');
         message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
@@ -949,45 +1002,45 @@
             return `<pre><code>${code.trim()}</code></pre>`;
         });
         // Handle lists
-       const listRegex = /([-*]|\d+\.)\s+([^\n]+)/g;
+        const listRegex = /([-*]|\d+\.)\s+([^\n]+)/g;
         let listMatch;
         let listType = null; // Store the list type
         let newList = '';
         let listOpen = false;
 
-      while ((listMatch = listRegex.exec(text)) !== null) {
+        while ((listMatch = listRegex.exec(text)) !== null) {
             const marker = listMatch[1];
             const listItemText = listMatch[2].trim();
-           if (!listOpen){
-                 listType =  (marker === '-' || marker === '*') ? 'ul' : 'ol';
-                 newList += `<${listType}>`
-                 listOpen = true;
+            if (!listOpen) {
+                listType = (marker === '-' || marker === '*') ? 'ul' : 'ol';
+                newList += `<${listType}>`
+                listOpen = true;
             }
-          newList += `<li>${listItemText}</li>`
+            newList += `<li>${listItemText}</li>`
 
-       }
+        }
 
-        if (listOpen){
-          newList += `</${listType}>`
+        if (listOpen) {
+            newList += `</${listType}>`
         }
 
         text = text.replace(listRegex, '')
-       if (newList) {
-             text =  newList + text
-         }
+        if (newList) {
+            text = newList + text
+        }
         //Handle new lines
-       text = text.split('\n').filter(Boolean).join('<br>');
+        text = text.split('\n').filter(Boolean).join('<br>');
 
         return text;
     }
 
 
-   async function sendTrainingPrompt() {
+    async function sendTrainingPrompt() {
         const prompt = trainingInput.value.trim();
         const promptType = document.getElementById('prompt-type').value;
         if (!prompt) return;
 
-       let selectedPrompt = prompts[promptType] || defaultPrompt;
+        let selectedPrompt = prompts[promptType] || defaultPrompt;
 
         if (messageToEdit) {
             const messageId = messageToEdit.getAttribute('data-message-id');
@@ -1032,21 +1085,21 @@
 
             const data = await response.json();
             thinking.remove();
-             if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                 let responseText = data.candidates[0].content.parts[0].text.trim();
 
-               const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
-                 let acknowledgment = "";
+                const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
+                let acknowledgment = "";
                 let mainContent = responseText;
-                if (acknowledgmentMatch){
-                     acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
-                     mainContent = responseText.substring(acknowledgmentMatch[0].length);
-                    }
+                if (acknowledgmentMatch) {
+                    acknowledgment = parseBotResponse(acknowledgmentMatch[1]);
+                    mainContent = responseText.substring(acknowledgmentMatch[0].length);
+                }
 
-                 addMessage(acknowledgment + parseBotResponse(mainContent), false);
+                addMessage(acknowledgment + parseBotResponse(mainContent), false);
 
-             } else {
-                 addMessage(`No response from ${botName}.`, false);
+            } else {
+                addMessage(`No response from ${botName}.`, false);
             }
 
         } catch (error) {
@@ -1054,48 +1107,50 @@
             addMessage("Error connecting to the API.", false);
         }
     }
-  function saveChatToDrive() {
-      if (!gapiInited){
-        alert("Google API not loaded yet!");
-         return;
-      }
-            gapi.auth2.getAuthInstance().signIn()
-              .then(function() {
-                   const chatHistory = document.getElementById('messages').innerHTML;
-                   const fileMetadata = {
-                       'name': `Chat_History_${new Date().toISOString()}.html`,
-                        'mimeType': 'text/html'
-                    };
-                    const fileContent = new Blob([chatHistory], {type: 'text/html'});
 
-                   const form = new FormData();
-                   form.append('metadata', new Blob([JSON.stringify(fileMetadata)], {type: 'application/json'}));
-                   form.append('file', fileContent);
+    function saveChatToDrive() {
+        if (!gapiInited) {
+            alert("Google API not loaded yet!");
+            return;
+        }
+        gapi.auth2.getAuthInstance().signIn()
+            .then(function () {
+                const chatHistory = document.getElementById('messages').innerHTML;
+                const fileMetadata = {
+                    'name': `Chat_History_${new Date().toISOString()}.html`,
+                    'mimeType': 'text/html'
+                };
+                const fileContent = new Blob([chatHistory], {type: 'text/html'});
 
-                  gapi.client.request({
-                     path: '/upload/drive/v3/files',
-                       method: 'POST',
-                       params: {'uploadType': 'multipart'},
-                       body: form
-                   }).then(response => {
-                       if(response.status === 200){
-                            alert("Chat history saved to Google Drive!");
-                       }else{
-                          alert("Error saving chat to Google Drive!");
-                         console.error(response)
-                       }
-                   }).catch((error) => {
-                      alert("Error connecting to Google Drive!");
+                const form = new FormData();
+                form.append('metadata', new Blob([JSON.stringify(fileMetadata)], {type: 'application/json'}));
+                form.append('file', fileContent);
+
+                gapi.client.request({
+                    path: '/upload/drive/v3/files',
+                    method: 'POST',
+                    params: {'uploadType': 'multipart'},
+                    body: form
+                }).then(response => {
+                    if (response.status === 200) {
+                        alert("Chat history saved to Google Drive!");
+                    } else {
+                        alert("Error saving chat to Google Drive!");
+                        console.error(response)
+                    }
+                }).catch((error) => {
+                    alert("Error connecting to Google Drive!");
                     console.error(error);
-                   })
-              }).catch((error) => {
-                  console.error("Error signing in: ", error);
-                  alert("Error signing in to Google Drive.")
-              })
-      }
-      function toggleUserGuide(){
-          userGuidePopup.classList.toggle('active')
-      }
+                })
+            }).catch((error) => {
+            console.error("Error signing in: ", error);
+            alert("Error signing in to Google Drive.")
+        })
+    }
+
+    function toggleUserGuide() {
+        userGuidePopup.classList.toggle('active')
+    }
 
     trainingInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -1223,8 +1278,10 @@
         sidebar.style.width = '300px'
         botName = "Codi"
     }
-   // Initialize the bot with a greeting
+    // Initialize the bot with a greeting
     clearChat()
+    apiModal.style.display = 'flex'; // Show modal on load
+
 
 </script>
 </body>
