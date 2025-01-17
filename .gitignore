@@ -1,5 +1,5 @@
 
-API_KEY = YOUR_API_KEY
+GOOGLE_API_Key = "YOUR_API_KEY"
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
