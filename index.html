@@ -15,7 +15,7 @@
              transition: background 0.3s, color 0.3s;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Ensure at least full viewport height */
+            min-height: 100vh;
         }
 
         body.dark-mode {
@@ -146,6 +146,12 @@
               background: #333;
              color: #fff;
          }
+        .output pre{
+              white-space: pre-wrap;
+            font-family: inherit;
+             margin: 0;
+             padding: 0;
+        }
 
         .copy-icon {
              position: absolute;
@@ -190,7 +196,6 @@
        }
 
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -305,7 +310,7 @@
             color: #777;
            margin-top: 20px;
            transition: color 0.3s;
-            border-top: 1px solid #ddd; /* Add a top border for separation */
+            border-top: 1px solid #ddd;
 
         }
 
@@ -487,7 +492,7 @@
             }
         }
 
-         adminCodeModal.style.display = 'block'; // Show the admin code modal first
+         adminCodeModal.style.display = 'block';
 
 
 
@@ -516,7 +521,7 @@
                 return;
             }
 
-             outputDiv.innerHTML = "<p>Loading...</p>"; // Show loading state
+             outputDiv.innerHTML = "<p>Loading...</p>";
 
             let prompt = '';
 
@@ -565,7 +570,7 @@
 
                 const data = await response.json();
                 const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                outputDiv.innerHTML =  `<strong>Email Body:</strong><br>${generatedText.replace(/\n/g, "<br>")} <i class="fas fa-copy copy-icon" onclick="copyEmail(this)"></i>`;
+                  outputDiv.innerHTML =  `<strong>Email Body:</strong><br><pre>${generatedText}</pre><i class="fas fa-copy copy-icon" onclick="copyEmail(this)"></i>`;
 
             } catch (error) {
                 console.error("API call failed:", error);
@@ -574,25 +579,31 @@
         }
 
 
-        function copyEmail(icon){
-             const outputDiv = icon.parentElement;
-              const emailBody = outputDiv.innerHTML.replace('<i class="fas fa-copy copy-icon" onclick="copyEmail(this)"></i>', '');
+         function copyEmail(icon) {
+        const outputDiv = icon.parentElement;
+        const preElement = outputDiv.querySelector('pre'); // Get the <pre> element
+        if (!preElement) {
+            console.error("No <pre> element found!");
+            return;
+        }
+        const emailBody = preElement.textContent || preElement.innerText;
 
-               const notificationDiv = document.createElement('div');
+           const notificationDiv = document.createElement('div');
               notificationDiv.classList.add('notification');
              notificationDiv.innerHTML = '<i class="fas fa-check"></i> Copied';
                outputDiv.appendChild(notificationDiv);
 
-            navigator.clipboard.writeText(emailBody).then(() => {
+         navigator.clipboard.writeText(emailBody).then(() => {
                 setTimeout(() => {
                      notificationDiv.style.opacity = '0';
                      setTimeout(() => {
                          notificationDiv.remove();
                        },300);
-                }, 1000); // fade out after 1 second
+                }, 1000);
             }).catch((err) => {
                 console.error('Failed to copy: ', err);
              });
+
         }
     </script>
 </body>
