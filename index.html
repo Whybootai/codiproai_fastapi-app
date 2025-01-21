@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lightning Leads - Automotive Lead Generation</title>
+    <title>LightningLeads AZ - Automotive Lead Generation</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+   <script src="https://accounts.google.com/gsi/client"></script>
     <style>
         /* Basic styles for the preview image */
-        .preview-image {
+       .preview-image {
             width: 100%;
             max-width: 600px;
             height: auto;
@@ -23,10 +24,10 @@
         .form-group {
             margin-bottom: 1.25rem;
         }
-        .form-group label {
+       .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 600;
+           font-weight: 600;
             color: #374151;
         }
         .form-group input,
@@ -34,11 +35,11 @@
             width: 100%;
             padding: 0.8rem;
             border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
+             border-radius: 0.375rem;
             color: #374151;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
+       }
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
@@ -46,78 +47,78 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
         }
         .error-message {
-            color: #ef4444;
+             color: #ef4444;
             font-size: 0.875rem;
             margin-top: 0.25rem;
         }
         .btn-primary {
-            background-color: #2563eb;
+           background-color: #2563eb;
             color: white;
-            padding: 0.8rem 1.5rem;
+           padding: 0.8rem 1.5rem;
             border-radius: 0.375rem;
             font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
-        }
+           transition: background-color 0.2s ease-in-out;
+       }
         .btn-primary:hover {
             background-color: #1d4ed8;
         }
         .btn-secondary {
-            background-color: #6b7280;
+           background-color: #6b7280;
             color: white;
             padding: 0.8rem 1.5rem;
             border-radius: 0.375rem;
-            font-weight: 600;
+             font-weight: 600;
             transition: background-color 0.2s ease-in-out;
         }
         .btn-secondary:hover {
             background-color: #4b5563;
-        }
+       }
         .hero-section {
-            background-image: url('https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
+           background-image: url('https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+           background-size: cover;
             background-position: center;
             position: relative;
-            z-index: 1;
-        }
+           z-index: 1;
+       }
         .hero-section::before {
-            content: '';
+           content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
+           left: 0;
+           right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: -1;
+           background-color: rgba(0, 0, 0, 0.5);
+           z-index: -1;
         }
         .hero-content {
-            position: relative;
+           position: relative;
             z-index: 2;
         }
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #48bb78;
+           background-color: #48bb78;
             color: white;
             padding: 1rem 1.5rem;
-            border-radius: 0.375rem;
+           border-radius: 0.375rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            z-index: 1000;
+           z-index: 1000;
         }
         .fade-out {
             animation: fadeOut 3s ease-in-out forwards;
-        }
-        @keyframes fadeOut {
+       }
+       @keyframes fadeOut {
             0% { opacity: 1; }
-            100% { opacity: 0; display: none; }
+             100% { opacity: 0; display: none; }
         }
         .search-form-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+           background-color: rgba(255, 255, 255, 0.9);
+           border-radius: 0.5rem;
+           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        .initial-placeholder-container {
-            background-color: rgba(255, 255, 255, 0.1);
+       .initial-placeholder-container {
+           background-color: rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin-top: 1rem;
@@ -126,17 +127,17 @@
             color: white;
         }
         .initial-placeholder-container button {
-            background-color: #48bb78;
+           background-color: #48bb78;
             color: white;
-            padding: 0.8rem 1.5rem;
+           padding: 0.8rem 1.5rem;
             border-radius: 0.375rem;
             font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
+           transition: background-color 0.2s ease-in-out;
         }
         .initial-placeholder-container button:hover {
-            background-color: #38a169;
+           background-color: #38a169;
         }
-        .timer-popup {
+       .timer-popup {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -146,175 +147,175 @@
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             z-index: 1001;
-            text-align: center;
+           text-align: center;
         }
-        .timer-popup p {
+       .timer-popup p {
             font-size: 1.2rem;
-            margin-bottom: 1rem;
+           margin-bottom: 1rem;
         }
-        .timer-popup .timer {
-            font-size: 2rem;
+       .timer-popup .timer {
+           font-size: 2rem;
             font-weight: bold;
             margin-bottom: 1rem;
+       }
+       .blur {
+           filter: blur(5px);
         }
-        .blur {
-            filter: blur(5px);
-        }
-        .lead-form-popup {
+       .lead-form-popup {
             position: fixed;
             top: 50%;
-            left: 50%;
+           left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.95);
+           background-color: rgba(255, 255, 255, 0.95);
             padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+           border-radius: 0.5rem;
+           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             z-index: 1002;
-            max-width: 90%;
-            max-height: 90%;
+           max-width: 90%;
+           max-height: 90%;
             overflow-y: auto;
         }
-        .lead-form-popup h2 {
-            text-align: center;
-            margin-bottom: 1.5rem;
+       .lead-form-popup h2 {
+           text-align: center;
+           margin-bottom: 1.5rem;
         }
         .lead-form-popup .form-group {
             margin-bottom: 1rem;
-        }
+       }
         .lead-form-popup .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: #374151;
+             color: #374151;
         }
         .lead-form-popup .form-group input,
-        .lead-form-popup .form-group select {
+       .lead-form-popup .form-group select {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #d1d5db;
+             padding: 0.8rem;
+           border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             color: #374151;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
         .lead-form-popup .form-group input:focus,
         .lead-form-popup .form-group select:focus {
-            outline: none;
-            border-color: #2563eb;
+             outline: none;
+             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
-        }
+       }
         .lead-form-popup .error-message {
             color: #ef4444;
             font-size: 0.875rem;
-            margin-top: 0.25rem;
+             margin-top: 0.25rem;
         }
-        .lead-form-popup .btn-primary {
+       .lead-form-popup .btn-primary {
             display: block;
             margin: 1rem auto 0;
         }
-        .signup-popup {
+         .signup-popup {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
-            border-radius: 0.5rem;
+             transform: translate(-50%, -50%);
+             background-color: rgba(255, 255, 255, 0.95);
+           padding: 2rem;
+             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            z-index: 1003;
+             z-index: 1003;
             max-width: 90%;
             max-height: 90%;
-            overflow-y: auto;
-            text-align: center;
+             overflow-y: auto;
+           text-align: center;
         }
-        .signup-popup h2 {
+         .signup-popup h2 {
             margin-bottom: 1.5rem;
-        }
-        .signup-popup .social-icons {
+         }
+         .signup-popup .social-icons {
             margin-top: 1.5rem;
-        }
-        .signup-popup .social-icons a {
+         }
+       .signup-popup .social-icons a {
             display: inline-block;
-            margin: 0 0.5rem;
+           margin: 0 0.5rem;
             font-size: 1.5rem;
             color: #374151;
             transition: color 0.2s ease-in-out;
-        }
+         }
         .signup-popup .social-icons a:hover {
             color: #2563eb;
-        }
-        .signup-popup .company-logo {
+         }
+       .signup-popup .company-logo {
             width: 100px;
             height: auto;
             margin: 0 auto 1rem;
         }
-        .survey-container {
+         .survey-container {
             position: fixed;
-            top: 50%;
-            left: 50%;
+             top: 50%;
+           left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.95);
+             background-color: rgba(255, 255, 255, 0.95);
             padding: 2rem;
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             z-index: 1004;
-            max-width: 90%;
-            max-height: 90%;
+           max-width: 90%;
+             max-height: 90%;
             overflow-y: auto;
-            text-align: center;
+           text-align: center;
         }
-        .survey-container h2 {
+         .survey-container h2 {
             margin-bottom: 1.5rem;
-        }
+         }
         .survey-container .survey-step {
-            margin-bottom: 2rem;
+           margin-bottom: 2rem;
         }
         .survey-container .survey-step img {
-            max-width: 100%;
+           max-width: 100%;
             height: auto;
             margin-bottom: 1rem;
-        }
-        .survey-container .survey-step button {
+         }
+         .survey-container .survey-step button {
             background-color: #2563eb;
             color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
+             padding: 0.8rem 1.5rem;
+             border-radius: 0.375rem;
+           font-weight: 600;
+           transition: background-color 0.2s ease-in-out;
             margin: 0.5rem;
         }
         .survey-container .survey-step button:hover {
             background-color: #1d4ed8;
-        }
-        .download-options {
+         }
+         .download-options {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+           top: 50%;
+           left: 50%;
+             transform: translate(-50%, -50%);
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
+             padding: 2rem;
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             z-index: 1005;
             max-width: 90%;
-            max-height: 90%;
+           max-height: 90%;
             overflow-y: auto;
-            text-align: center;
+           text-align: center;
         }
-        .download-options h2 {
+       .download-options h2 {
             margin-bottom: 1.5rem;
-        }
-        .download-options button {
+         }
+         .download-options button {
             background-color: #48bb78;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
-            margin: 0.5rem;
-        }
-        .download-options button:hover {
-            background-color: #38a169;
+           color: white;
+           padding: 0.8rem 1.5rem;
+             border-radius: 0.375rem;
+             font-weight: 600;
+           transition: background-color 0.2s ease-in-out;
+           margin: 0.5rem;
+         }
+         .download-options button:hover {
+             background-color: #38a169;
         }
         /* Style for search suggestions */
         .search-suggestions {
@@ -323,28 +324,61 @@
             background-color: #fff;
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
-            margin-top: 0.25rem;
-            width: calc(100% - 2px);
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+           margin-top: 0.25rem;
+           width: calc(100% - 2px);
+           box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
             max-height: 200px; /* Adjust as needed */
-            overflow-y: auto;
-        }
+           overflow-y: auto;
+         }
         .search-suggestions ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+             list-style: none;
+           padding: 0;
+           margin: 0;
         }
         .search-suggestions li {
             padding: 0.5rem;
-            cursor: pointer;
+           cursor: pointer;
             transition: background-color 0.2s ease-in-out;
-        }
-        .search-suggestions li:hover {
+         }
+         .search-suggestions li:hover {
             background-color: #f0f0f0;
         }
-        /* Style for active suggestion */
+         /* Style for active suggestion */
         .search-suggestions li.active {
             background-color: #e0e0e0;
+        }
+         .passwordless-signup {
+            text-align: center;
+            margin-top: 1rem;
+         }
+         .passwordless-signup button {
+            background-color: #2563eb;
+             color: white;
+            padding: 0.8rem 1.5rem;
+           border-radius: 0.375rem;
+             font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+          }
+        .passwordless-signup button:hover {
+             background-color: #1d4ed8;
+         }
+        .passwordless-signup-popup {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background-color: rgba(255, 255, 255, 0.95);
+               padding: 2rem;
+              border-radius: 0.5rem;
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+              z-index: 1006;
+            max-width: 90%;
+            max-height: 90%;
+               overflow-y: auto;
+            text-align: center;
+        }
+        .passwordless-signup-popup h2{
+             margin-bottom: 1.5rem;
         }
     </style>
 </head>
@@ -354,244 +388,273 @@
         <div class="container mx-auto px-4 py-16 hero-content">
             <div class="text-center">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4">Accelerate Your Sales with Targeted Leads</h1>
-                <p class="text-xl mb-8">Connect with car buyers actively searching for their next vehicle</p>
+               <p class="text-xl mb-8">Connect with car buyers actively searching for their next vehicle</p>
 
-                <!-- Search Section -->
-                <div class="max-w-4xl mx-auto search-form-container p-6 mb-8">
+               <!-- Search Section -->
+               <div class="max-w-4xl mx-auto search-form-container p-6 mb-8">
                     <form id="searchForm">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+                         <div class="form-group">
+                             <label for="adminCode">Admin Security Code</label>
+                            <input type="password" id="adminCode" placeholder="Enter security code">
+                             <div id="adminCodeError" class="error-message hidden">Incorrect security code</div>
+                         </div>
+                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
                             <div class="form-group">
                                 <label for="country">Select Country</label>
                                 <select id="country">
-                                    <option value="">Select Country</option>
-                                    <option value="US">United States</option>
-                                    <option value="CA">Canada</option>
-                                </select>
-                                <div id="countryError" class="error-message hidden">Please select a country</div>
+                                     <option value="">Select Country</option>
+                                     <option value="US">United States</option>
+                                     <option value="CA">Canada</option>
+                                 </select>
+                                 <div id="countryError" class="error-message hidden">Please select a country</div>
                             </div>
-                            <div class="form-group">
-                                <label for="state">Select State</label>
+                             <div class="form-group">
+                                 <label for="state">Select State</label>
                                 <select id="state">
-                                    <option value="">Select State</option>
-                                    <option value="AL">Alabama</option>
-                                    <option value="AZ">Arizona</option>
-                                    <option value="CA">California</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="GA">Georgia</option>
-                                    <option value="IL">Illinois</option>
-                                    <option value="NY">New York</option>
-                                    <option value="NC">North Carolina</option>
-                                    <option value="OH">Ohio</option>
-                                    <option value="TX">Texas</option>
-                                </select>
+                                     <option value="">Select State</option>
+                                     <option value="AL">Alabama</option>
+                                     <option value="AZ">Arizona</option>
+                                     <option value="CA">California</option>
+                                     <option value="FL">Florida</option>
+                                     <option value="GA">Georgia</option>
+                                     <option value="IL">Illinois</option>
+                                     <option value="NY">New York</option>
+                                     <option value="NC">North Carolina</option>
+                                     <option value="OH">Ohio</option>
+                                     <option value="TX">Texas</option>
+                                 </select>
                                 <div id="stateError" class="error-message hidden">Please select a state</div>
                             </div>
-                            <div class="form-group">
-                                <label for="city">Enter City</label>
-                                <input type="text" id="city" placeholder="Enter City">
-                                <!-- Search suggestions will be appended here -->
-                                <div id="citySuggestions" class="search-suggestions hidden">
-                                    <ul>
-                                        <!-- City suggestions will be dynamically populated here -->
-                                    </ul>
+                             <div class="form-group">
+                                 <label for="city">Enter City</label>
+                                 <input type="text" id="city" placeholder="Enter City">
+                                 <!-- Search suggestions will be appended here -->
+                                  <div id="citySuggestions" class="search-suggestions hidden">
+                                     <ul>
+                                         <!-- City suggestions will be dynamically populated here -->
+                                     </ul>
                                 </div>
-                                <div id="cityError" class="error-message hidden">Please enter a valid city</div>
+                                 <div id="cityError" class="error-message hidden">Please enter a valid city</div>
+                             </div>
+                             <div class="form-group">
+                                 <label for="distance">Select Distance</label>
+                                 <select id="distance">
+                                     <option value="25">Within 25 miles</option>
+                                     <option value="50">Within 50 miles</option>
+                                     <option value="100">Within 100 miles</option>
+                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="distance">Select Distance</label>
-                                <select id="distance">
-                                    <option value="25">Within 25 miles</option>
-                                    <option value="50">Within 50 miles</option>
-                                    <option value="100">Within 100 miles</option>
-                                </select>
-                            </div>
-                        </div>
+                         </div>
                         <div class="flex justify-center space-x-4 mt-4">
                             <button type="submit" class="btn-primary">
                                 <i class="fas fa-search mr-2"></i>Search Now
-                            </button>
-                            <button class="btn-secondary">
-                                <i class="fas fa-location-arrow mr-2"></i>Use My Location
+                             </button>
+                             <button class="btn-secondary">
+                                 <i class="fas fa-location-arrow mr-2"></i>Use My Location
                             </button>
                         </div>
-                    </form>
-                </div>
-                <div id="initialPlaceholder" class="hidden mt-4 text-center initial-placeholder-container">
+                     </form>
+                 </div>
+                 <div id="initialPlaceholder" class="hidden mt-4 text-center initial-placeholder-container">
                     <p class="text-xl mb-4">Potential Customers: <span id="customerCount"></span></p>
-                    <button id="generateLeadsButton">Generate Your Leads</button>
+                   <button id="generateLeadsButton">Generate Your Leads</button>
                 </div>
-                <img class="preview-image" src="https://via.placeholder.com/1200x600/007bff/fff?text=Preview+Image" alt="Preview Image">
-            </div>
-        </div>
-    </div>
+               <img class="preview-image" src="https://via.placeholder.com/1200x600/007bff/fff?text=Preview+Image" alt="Preview Image">
+             </div>
+         </div>
+     </div>
 
-    <div id="timerPopup" class="timer-popup hidden">
-        <p>Analyzing your ideal customer...</p>
-        <div id="timer" class="timer">20</div>
-        <p class="blur">
+     <div id="timerPopup" class="timer-popup hidden">
+         <p>Analyzing your ideal customer...</p>
+         <div id="timer" class="timer">20</div>
+       <p class="blur">
             Included Customers: <br>
             - High-Income Individuals <br>
             - Families with Growing Needs <br>
-            - Tech-Savvy Car Enthusiasts
+           - Tech-Savvy Car Enthusiasts
         </p>
-    </div>
+     </div>
 
-    <div id="leadFormPopup" class="lead-form-popup hidden">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Customer Qualification</h2>
-        <form id="leadDetailsForm">
+     <div id="leadFormPopup" class="lead-form-popup hidden">
+         <h2 class="text-2xl font-bold mb-4 text-gray-800">Customer Qualification</h2>
+         <form id="leadDetailsForm">
             <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" placeholder="Enter your full name">
-                <div id="nameError" class="error-message hidden">Please enter your full name</div>
+               <label for="name">Full Name</label>
+                 <input type="text" id="name" placeholder="Enter your full name">
+               <div id="nameError" class="error-message hidden">Please enter your full name</div>
             </div>
-            <div class="form-group">
-                <label for="email">Email Address</label>
+           <div class="form-group">
+                 <label for="email">Email Address</label>
                 <input type="email" id="email" placeholder="Enter your email address">
-                <div id="emailError" class="error-message hidden">Please enter a valid email address</div>
-            </div>
+                 <div id="emailError" class="error-message hidden">Please enter a valid email address</div>
+             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" placeholder="Enter your phone number">
+                 <input type="tel" id="phone" placeholder="Enter your phone number">
                 <div id="phoneError" class="error-message hidden">Please enter a valid phone number</div>
-            </div>
+             </div>
             <div class="form-group">
-                <label for="dealership">Dealership Name</label>
-                <input type="text" id="dealership" placeholder="Enter your dealership name">
+                 <label for="dealership">Dealership Name</label>
+               <input type="text" id="dealership" placeholder="Enter your dealership name">
                 <div id="dealershipError" class="error-message hidden">Please enter your dealership name</div>
             </div>
-            <div class="form-group">
-                <label for="role">Your Role</label>
+             <div class="form-group">
+                 <label for="role">Your Role</label>
                 <select id="role">
-                    <option value="">Select your role</option>
-                    <option value="owner">Owner</option>
+                     <option value="">Select your role</option>
+                     <option value="owner">Owner</option>
                     <option value="manager">Manager</option>
                     <option value="sales">Sales Representative</option>
-                    <option value="other">Other</option>
+                     <option value="other">Other</option>
                 </select>
-                <div id="roleError" class="error-message hidden">Please select your role</div>
+                 <div id="roleError" class="error-message hidden">Please select your role</div>
             </div>
             <div class="form-group">
-                <label for="listSize">Desired List Size</label>
-                <input type="number" id="listSize" placeholder="Enter the number of leads you need">
-                <div id="listSizeError" class="error-message hidden">Please enter the number of leads</div>
-            </div>
-            <div class="form-group">
+               <label for="listSize">Desired List Size</label>
+               <input type="number" id="listSize" placeholder="Enter the number of leads you need">
+                 <div id="listSizeError" class="error-message hidden">Please enter the number of leads</div>
+             </div>
+           <div class="form-group">
                 <label for="budget">Monthly Budget</label>
                 <input type="number" id="budget" placeholder="Enter your monthly budget for leads">
                 <div id="budgetError" class="error-message hidden">Please enter your monthly budget</div>
-            </div>
+             </div>
              <div class="form-group">
-                <label for="timeline">Purchase Timeline</label>
-                <select id="timeline">
-                    <option value="">Select your purchase timeline</option>
+                 <label for="timeline">Purchase Timeline</label>
+                 <select id="timeline">
+                     <option value="">Select your purchase timeline</option>
                     <option value="1-3">1-3 Months</option>
-                    <option value="3-6">3-6 Months</option>
-                    <option value="6+">6+ Months</option>
+                   <option value="3-6">3-6 Months</option>
+                     <option value="6+">6+ Months</option>
                 </select>
-                 <div id="timelineError" class="error-message hidden">Please select your purchase timeline</div>
+                <div id="timelineError" class="error-message hidden">Please select your purchase timeline</div>
             </div>
-            <button type="submit" class="btn-primary">Submit</button>
+             <button type="submit" class="btn-primary">Submit</button>
         </form>
     </div>
 
     <div id="signupPopup" class="signup-popup hidden">
         <img src="https://via.placeholder.com/100x50/007bff/fff?text=Logo" alt="Company Logo" class="company-logo">
         <h2>Unlock Your Leads</h2>
-        <p>Sign up or sign in to access your targeted leads.</p>
-        <div class="social-icons">
-            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" title="Google"><i class="fab fa-google"></i></a>
-            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+         <p>Sign up or sign in to access your targeted leads.</p>
+        <div id="googleButton" class="g_id_signin"
+             data-type="standard"
+              data-size="large"
+              data-theme="outline"
+              data-text="sign_in_with"
+               data-shape="rectangular"
+               data-logo_alignment="left">
+          </div>
+          <div class="passwordless-signup">
+              <button id="passwordlessSignupButton">Sign up with Email</button>
+         </div>
+    </div>
+    <div id="passwordlessSignupPopup" class="passwordless-signup-popup hidden">
+        <h2>Verify Your Email</h2>
+         <div class="form-group">
+           <label for="emailSignup">Email Address</label>
+              <input type="email" id="emailSignup" placeholder="Enter your email address">
+           <div id="emailSignupError" class="error-message hidden">Please enter a valid email address</div>
         </div>
+        <button id="verifyEmailButton" class="btn-primary">Verify Email</button>
     </div>
 
-    <div id="surveyContainer" class="survey-container hidden">
-        <h2>Let's Personalize Your Lead Experience</h2>
-        <div id="surveyStep1" class="survey-step">
+   <div id="surveyContainer" class="survey-container hidden">
+         <h2>Let's Personalize Your Lead Experience</h2>
+         <div id="surveyStep1" class="survey-step">
             <img src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+1:+Target+Audience" alt="Target Audience">
-            <p>What type of customers are you most interested in?</p>
-            <button onclick="showSurveyStep(2, 'High-Income')">High-Income</button>
-            <button onclick="showSurveyStep(2, 'Families')">Families</button>
+             <p>What type of customers are you most interested in?</p>
+             <button onclick="showSurveyStep(2, 'High-Income')">High-Income</button>
+             <button onclick="showSurveyStep(2, 'Families')">Families</button>
             <button onclick="showSurveyStep(2, 'Tech-Savvy')">Tech-Savvy</button>
-        </div>
+         </div>
         <div id="surveyStep2" class="survey-step hidden">
             <img src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+2:+Vehicle+Preference" alt="Vehicle Preference">
-            <p>What type of vehicles do your ideal customers prefer?</p>
-            <button onclick="showSurveyStep(3, 'SUVs')">SUVs</button>
-            <button onclick="showSurveyStep(3, 'Sedans')">Sedans</button>
-            <button onclick="showSurveyStep(3, 'Trucks')">Trucks</button>
+             <p>What type of vehicles do your ideal customers prefer?</p>
+             <button onclick="showSurveyStep(3, 'SUVs')">SUVs</button>
+             <button onclick="showSurveyStep(3, 'Sedans')">Sedans</button>
+             <button onclick="showSurveyStep(3, 'Trucks')">Trucks</button>
         </div>
-        <div id="surveyStep3" class="survey-step hidden">
+         <div id="surveyStep3" class="survey-step hidden">
             <img src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+3:+Purchase+Timeline" alt="Purchase Timeline">
-            <p>How soon are your ideal customers looking to purchase?</p>
-            <button onclick="showDownloadOptions('1-3')">1-3 Months</button>
+           <p>How soon are your ideal customers looking to purchase?</p>
+             <button onclick="showDownloadOptions('1-3')">1-3 Months</button>
             <button onclick="showDownloadOptions('3-6')">3-6 Months</button>
-            <button onclick="showDownloadOptions('6+')">6+ Months</button>
+             <button onclick="showDownloadOptions('6+')">6+ Months</button>
         </div>
-    </div>
+     </div>
 
-    <div id="downloadOptions" class="download-options hidden">
+     <div id="downloadOptions" class="download-options hidden">
         <h2>Choose Your Download Format</h2>
         <p>Select the document format you prefer to download your leads.</p>
-        <button onclick="downloadLeads('csv')">Download as CSV</button>
-        <button onclick="downloadLeads('pdf')">Download as PDF</button>
-    </div>
+         <button onclick="downloadLeads('csv')">Download as CSV</button>
+         <button onclick="downloadLeads('pdf')">Download as PDF</button>
+     </div>
 
-     <script>
-         document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const searchForm = document.getElementById('searchForm');
-            const initialPlaceholder = document.getElementById('initialPlaceholder');
-            const generateLeadsButton = document.getElementById('generateLeadsButton');
-            const leadFormPopup = document.getElementById('leadFormPopup');
+             const initialPlaceholder = document.getElementById('initialPlaceholder');
+           const generateLeadsButton = document.getElementById('generateLeadsButton');
+             const leadFormPopup = document.getElementById('leadFormPopup');
             const customerCountSpan = document.getElementById('customerCount');
-            const leadDetailsForm = document.getElementById('leadDetailsForm');
-            const timerPopup = document.getElementById('timerPopup');
+             const leadDetailsForm = document.getElementById('leadDetailsForm');
+             const timerPopup = document.getElementById('timerPopup');
             const timerDisplay = document.getElementById('timer');
             const signupPopup = document.getElementById('signupPopup');
-            const surveyContainer = document.getElementById('surveyContainer');
-            const downloadOptions = document.getElementById('downloadOptions');
-            const cityInput = document.getElementById('city');
+             const surveyContainer = document.getElementById('surveyContainer');
+           const downloadOptions = document.getElementById('downloadOptions');
+             const cityInput = document.getElementById('city');
             const citySuggestions = document.getElementById('citySuggestions');
             const citySuggestionsList = document.querySelector('#citySuggestions ul');
+            const googleButton = document.getElementById('googleButton');
+            const passwordlessSignupButton = document.getElementById('passwordlessSignupButton');
+            const passwordlessSignupPopup = document.getElementById('passwordlessSignupPopup');
+            const verifyEmailButton = document.getElementById('verifyEmailButton');
+            const emailSignupInput = document.getElementById('emailSignup');
 
-            // Error message elements
-            const countryError = document.getElementById('countryError');
-            const stateError = document.getElementById('stateError');
+
+           // Error message elements
+           const countryError = document.getElementById('countryError');
+             const stateError = document.getElementById('stateError');
             const cityError = document.getElementById('cityError');
             const nameError = document.getElementById('nameError');
-            const phoneError = document.getElementById('phoneError');
+             const phoneError = document.getElementById('phoneError');
             const dealershipError = document.getElementById('dealershipError');
-            const listSizeError = document.getElementById('listSizeError');
+           const listSizeError = document.getElementById('listSizeError');
             const emailError = document.getElementById('emailError');
              const roleError = document.getElementById('roleError');
-             const budgetError = document.getElementById('budgetError');
+              const budgetError = document.getElementById('budgetError');
              const timelineError = document.getElementById('timelineError');
+            const adminCodeError = document.getElementById('adminCodeError');
+             const adminCodeInput = document.getElementById('adminCode');
+             const emailSignupError = document.getElementById('emailSignupError');
 
-
-            let timerInterval;
-            let notificationInterval;
-            let currentSuggestionIndex = -1;
+             let timerInterval;
+             let notificationInterval;
+             let currentSuggestionIndex = -1;
+            const correctAdminCode = "123456";
+              let apiKey = "";
+             let googleUser = null;
 
             function showNotification(message) {
                 const notificationKey = 'notificationShown_' + message.replace(/\s/g, '_');
-                if (!localStorage.getItem(notificationKey)) {
-                    const notificationDiv = document.createElement('div');
+                 if (!localStorage.getItem(notificationKey)) {
+                     const notificationDiv = document.createElement('div');
                     notificationDiv.classList.add('notification');
-                    notificationDiv.textContent = message;
+                     notificationDiv.innerHTML = `${message} <br><br> Developed by: Thomas S`;
                     document.body.appendChild(notificationDiv);
                     setTimeout(() => {
                         notificationDiv.classList.add('fade-out');
                         setTimeout(() => {
-                            document.body.removeChild(notificationDiv);
+                           document.body.removeChild(notificationDiv);
                         }, 3000);
                     }, 3000);
-                    localStorage.setItem(notificationKey, 'true');
+                     localStorage.setItem(notificationKey, 'true');
                 }
-            }
+           }
 
-            function getRandomNotification() {
-                const notifications = [
+           function getRandomNotification() {                const notifications = [
                     "New lead generated for a luxury SUV!",
                     "Dealership in your area just got 15 new leads!",
                     "High-income customer looking for a new sedan!",
@@ -606,74 +669,58 @@
                     showNotification(getRandomNotification());
                 }, 10000);
             }
-
-
-           async function fetchCitySuggestions(state, query) {
-               citySuggestionsList.innerHTML = "";
+             async function fetchCitySuggestions(state, query) {
+                citySuggestionsList.innerHTML = "";
                if (!state || !query) {
                     citySuggestions.classList.add('hidden');
-                    return;
+                     return;
                 }
-
-               const apiKey = "AIzaSyB5d5y28l4tturMwYRN8b2lAAoqah5I0CE";
-               const baseUrl = "https://api.example.com" // Replace this with your deployed API URL
-
-               try {
+                const baseUrl = "https://api.example.com" // Replace this with your deployed API URL
+                 try {
                     const response = await fetch(`${baseUrl}/api/cities?stateCode=${state}&cityName=${query}`, {
                         headers: {
-                            'Authorization': apiKey,
-                        },
-                    });
-
-
+                             'Authorization': apiKey,
+                       },
+                   });
                     if (!response.ok) {
-                       console.error(`HTTP error! status: ${response.status}`);
-                       citySuggestions.classList.add('hidden');
-                       return;
-                    }
-
-
-                    const data = await response.json();
-
-
-                    if (data && data.cities && data.cities.length > 0) {
+                        console.error(`HTTP error! status: ${response.status}`);
+                         citySuggestions.classList.add('hidden');
+                        return;
+                   }
+                     const data = await response.json();
+                   if (data && data.cities && data.cities.length > 0) {
                         data.cities.forEach((city, index) => {
                            const li = document.createElement('li');
                             li.textContent = city.name;
-                             li.addEventListener('click', () => {
+                              li.addEventListener('click', () => {
                                 cityInput.value = city.name;
-                                citySuggestions.classList.add('hidden');
-                                 currentSuggestionIndex = -1;
+                                 citySuggestions.classList.add('hidden');
+                                  currentSuggestionIndex = -1;
                             });
-                             // Set the 'active' class for the currently selected suggestion
+                            // Set the 'active' class for the currently selected suggestion
                             li.addEventListener('mouseover', function () {
-                                 removeActiveClassFromSuggestions(); // Remove active class from previous suggestion
-                                  this.classList.add('active');
-                                  currentSuggestionIndex = index; // Update the current active suggestion index
-                             });
-
-                           citySuggestionsList.appendChild(li);
-                       });
+                                removeActiveClassFromSuggestions(); // Remove active class from previous suggestion
+                                this.classList.add('active');
+                                 currentSuggestionIndex = index; // Update the current active suggestion index
+                            });
+                            citySuggestionsList.appendChild(li);
+                        });
                          citySuggestions.classList.remove('hidden');
-                    } else {
-                         citySuggestions.classList.add('hidden');
-                     }
+                     } else {
+                       citySuggestions.classList.add('hidden');
+                   }
 
-
-               } catch (error) {
-                    console.error("Error fetching data:", error);
-               }
-           }
-
-            function removeActiveClassFromSuggestions() {
+                } catch (error) {
+                     console.error("Error fetching data:", error);
+                 }
+            }
+             function removeActiveClassFromSuggestions() {
                 // Remove the 'active' class from all list items in the suggestions list
                 const allSuggestions = citySuggestionsList.querySelectorAll('li.active');
                 allSuggestions.forEach(item => {
                     item.classList.remove('active');
                 });
             }
-
-
             cityInput.addEventListener('input', function() {
                 const state = document.getElementById('state').value;
                 const query = cityInput.value.trim();
@@ -681,58 +728,63 @@
             });
 
             // Keyboard navigation for city suggestions
-            cityInput.addEventListener('keydown', function (event) {
+             cityInput.addEventListener('keydown', function (event) {
                  if (citySuggestions.classList.contains('hidden')) return;
 
                   const allSuggestions = citySuggestionsList.querySelectorAll('li');
                 if (allSuggestions.length === 0) return;
-
-
-                // Move the active suggestion up
+                 // Move the active suggestion up
                  if (event.key === 'ArrowUp') {
-                     event.preventDefault(); // Prevent cursor moving to start of input
-                     removeActiveClassFromSuggestions();
-                     currentSuggestionIndex--;
-                     if (currentSuggestionIndex < 0) {
-                        currentSuggestionIndex = allSuggestions.length - 1; // Wrap to last suggestion
-                     }
-                      allSuggestions[currentSuggestionIndex].classList.add('active');
-                 }
-                                 // Move the active suggestion down
-                else if (event.key === 'ArrowDown') {
-                    event.preventDefault(); // Prevent cursor moving to end of input
+                    event.preventDefault(); // Prevent cursor moving to start of input
                     removeActiveClassFromSuggestions();
+                     currentSuggestionIndex--;
+                    if (currentSuggestionIndex < 0) {
+                       currentSuggestionIndex = allSuggestions.length - 1; // Wrap to last suggestion
+                   }
+                   allSuggestions[currentSuggestionIndex].classList.add('active');
+                }
+                // Move the active suggestion down
+                 else if (event.key === 'ArrowDown') {
+                    event.preventDefault(); // Prevent cursor moving to end of input
+                     removeActiveClassFromSuggestions();
                     currentSuggestionIndex++;
-                    if (currentSuggestionIndex >= allSuggestions.length) {
+                     if (currentSuggestionIndex >= allSuggestions.length) {
                         currentSuggestionIndex = 0; // Wrap to first suggestion
-                    }
-                    allSuggestions[currentSuggestionIndex].classList.add('active');
+                   }
+                   allSuggestions[currentSuggestionIndex].classList.add('active');
                 }
-                // Select the active suggestion and close suggestions
+                 // Select the active suggestion and close suggestions
                 else if (event.key === 'Enter') {
-                   event.preventDefault();
-                    if (currentSuggestionIndex !== -1 && allSuggestions[currentSuggestionIndex]) {
-                         cityInput.value = allSuggestions[currentSuggestionIndex].textContent;
+                     event.preventDefault();
+                     if (currentSuggestionIndex !== -1 && allSuggestions[currentSuggestionIndex]) {
+                        cityInput.value = allSuggestions[currentSuggestionIndex].textContent;
                     }
                     citySuggestions.classList.add('hidden');
                     currentSuggestionIndex = -1;
-                }
+               }
                  else if (event.key === 'Escape'){
-                     citySuggestions.classList.add('hidden');
-                    currentSuggestionIndex = -1;
-                 }
-            });
-
-           // Close suggestions when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!citySuggestions.contains(event.target) && event.target !== cityInput) {
                     citySuggestions.classList.add('hidden');
-                    currentSuggestionIndex = -1; // Reset index when closed
+                    currentSuggestionIndex = -1;
                 }
-             });
+            });
+            // Close suggestions when clicking outside
+            document.addEventListener('click', function(event) {
+                 if (!citySuggestions.contains(event.target) && event.target !== cityInput) {
+                    citySuggestions.classList.add('hidden');
+                     currentSuggestionIndex = -1; // Reset index when closed
+                }
+           });
 
-
-            searchForm.addEventListener('submit', function(event) {
+              adminCodeInput.addEventListener('input', function() {
+                  if (adminCodeInput.value === correctAdminCode) {
+                    apiKey = "AIzaSyBSbInj88uaaA3EpXdT9XWkg2cPRKQ49aA";
+                      adminCodeError.classList.add('hidden');
+                 } else {
+                    apiKey = "";
+                     adminCodeError.classList.remove('hidden');
+                }
+            });
+             searchForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 // Reset error messages
@@ -740,174 +792,228 @@
                 stateError.classList.add('hidden');
                 cityError.classList.add('hidden');
 
-
                 // Validate form
-                let isValid = true;
+                 let isValid = true;
                 const country = document.getElementById('country').value;
-                const state = document.getElementById('state').value;
+                 const state = document.getElementById('state').value;
                 const city = document.getElementById('city').value;
 
 
                 if (!country) {
                     countryError.classList.remove('hidden');
-                    isValid = false;
-                }
-                if (!state) {
+                     isValid = false;
+               }
+               if (!state) {
                     stateError.classList.remove('hidden');
-                    isValid = false;
+                     isValid = false;
                 }
-               if (!city) {
-                        cityError.classList.remove('hidden');
-                        isValid = false;
+                if (!city) {
+                    cityError.classList.remove('hidden');
+                     isValid = false;
+                 }
+                 if (!apiKey) {
+                   adminCodeError.classList.remove('hidden');
+                    isValid = false;
                 }
 
-                if (isValid) {
-                    timerPopup.classList.remove('hidden');
-                    let timeLeft = 20;
+                 if (isValid) {
+                     timerPopup.classList.remove('hidden');
+                     let timeLeft = 20;
                     timerDisplay.textContent = timeLeft;
                     timerInterval = setInterval(() => {
                         timeLeft--;
                         timerDisplay.textContent = timeLeft;
-                        if (timeLeft <= 0) {
+                         if (timeLeft <= 0) {
                             clearInterval(timerInterval);
-                            timerPopup.classList.add('hidden');
+                             timerPopup.classList.add('hidden');
                             const randomCustomers = Math.floor(Math.random() * 1000) + 100;
                             customerCountSpan.textContent = randomCustomers;
                             initialPlaceholder.classList.remove('hidden');
                         }
-                    }, 1000);
+                   }, 1000);
                 }
             });
-
             generateLeadsButton.addEventListener('click', function() {
                 leadFormPopup.classList.remove('hidden');
-                initialPlaceholder.classList.add('hidden');
-                document.body.classList.add('overflow-hidden');
+               initialPlaceholder.classList.add('hidden');
+                 document.body.classList.add('overflow-hidden');
             });
-
-            leadDetailsForm.addEventListener('submit', function(event) {
+           leadDetailsForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 // Reset error messages
                 nameError.classList.add('hidden');
-                phoneError.classList.add('hidden');
+                 phoneError.classList.add('hidden');
                 dealershipError.classList.add('hidden');
                 listSizeError.classList.add('hidden');
-                emailError.classList.add('hidden');
-                roleError.classList.add('hidden');
+                 emailError.classList.add('hidden');
+                 roleError.classList.add('hidden');
                  budgetError.classList.add('hidden');
                  timelineError.classList.add('hidden');
 
                 // Validate lead form
-                let isValid = true;
-                const name = document.getElementById('name').value;
+                 let isValid = true;
+                 const name = document.getElementById('name').value;
                 const phone = document.getElementById('phone').value;
                 const dealership = document.getElementById('dealership').value;
                 const listSize = document.getElementById('listSize').value;
-                const email = document.getElementById('email').value;
-                const role = document.getElementById('role').value;
-                 const budget = document.getElementById('budget').value;
+                 const email = document.getElementById('email').value;
+                 const role = document.getElementById('role').value;
+                const budget = document.getElementById('budget').value;
                  const timeline = document.getElementById('timeline').value;
 
 
-                if (!name) {
+                 if (!name) {
                     nameError.classList.remove('hidden');
                     isValid = false;
                 }
                 if (!/^\d{10}$/.test(phone)) {
-                     phoneError.classList.remove('hidden');
-                    isValid = false;
-                }
-                if (!dealership) {
+                   phoneError.classList.remove('hidden');
+                   isValid = false;
+                 }
+                 if (!dealership) {
                     dealershipError.classList.remove('hidden');
-                    isValid = false;
+                     isValid = false;
                  }
                 if (!listSize || isNaN(listSize) || listSize <= 0) {
-                     listSizeError.classList.remove('hidden');
-                     isValid = false;
+                   listSizeError.classList.remove('hidden');
+                   isValid = false;
+               }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                   emailError.classList.remove('hidden');
+                   isValid = false;
+                }
+                if (!role) {
+                    roleError.classList.remove('hidden');
+                    isValid = false;
                  }
-                 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    emailError.classList.remove('hidden');
-                     isValid = false;
-                 }
-                 if (!role) {
-                     roleError.classList.remove('hidden');
+               if (!budget || isNaN(budget) || budget <= 0) {
+                    budgetError.classList.remove('hidden');
                      isValid = false;
                 }
-                 if (!budget || isNaN(budget) || budget <= 0) {
-                    budgetError.classList.remove('hidden');
+                 if (!timeline) {
+                    timelineError.classList.remove('hidden');
                     isValid = false;
                 }
-                  if (!timeline) {
-                     timelineError.classList.remove('hidden');
-                     isValid = false;
-                 }
-
-
                 if (isValid) {
                     leadFormPopup.classList.add('hidden');
-                    document.body.classList.remove('overflow-hidden');
-                    signupPopup.classList.remove('hidden');
-                     document.body.classList.add('overflow-hidden');
+                     document.body.classList.remove('overflow-hidden');
+                   signupPopup.classList.remove('hidden');
+                   document.body.classList.add('overflow-hidden');
                 }
-            });
+             });
 
-            showNotification("Welcome to Lightning Leads! We're excited to help you generate more leads.");
+            showNotification("Welcome to LightningLeads AZ! We're excited to help you generate more leads.");
             startRandomNotifications();
 
-            function scrollToForm() {
-                const searchForm = document.getElementById('searchForm');
+
+              function scrollToForm() {
+                 const searchForm = document.getElementById('searchForm');
                 searchForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // Initialize Google Sign-in
+              google.accounts.id.initialize({
+                  client_id: '110734038276713630623',
+                  callback: handleGoogleSignIn,
+              });
+
+             google.accounts.id.renderButton(
+                  googleButton, // The element ID
+                 { theme: "outline", size: "large",  text: 'sign_in_with',  logo_alignment: 'left' }  // customization attributes
+               );
+
+             function handleGoogleSignIn(response) {
+                console.log("Google Sign-in Response:", response);
+                if (response.credential) {
+                     // Decode the JWT
+                    const decoded = JSON.parse(atob(response.credential.split('.')[1]));
+                     googleUser = decoded;
+                    signupPopup.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                      surveyContainer.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                 }
              }
 
-            // Close signup popup
+
+              // Passwordless Sign-up
+               passwordlessSignupButton.addEventListener('click', function() {
+                   signupPopup.classList.add('hidden');
+                   passwordlessSignupPopup.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+               });
+
+             verifyEmailButton.addEventListener('click', function() {
+                 const email = emailSignupInput.value;
+                 emailSignupError.classList.add('hidden');
+               if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    emailSignupError.classList.remove('hidden');
+                     return;
+                }
+               // Simulate email verification and storage here.
+                 passwordlessSignupPopup.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+                surveyContainer.classList.remove('hidden');
+                 document.body.classList.add('overflow-hidden');
+                console.log("Email verified:", email);
+
+             });
+           // Close signup popup
             signupPopup.addEventListener('click', function(event) {
-                if (event.target === signupPopup) {
-                     signupPopup.classList.add('hidden');
+               if (event.target === signupPopup) {
+                   signupPopup.classList.add('hidden');
                      document.body.classList.remove('overflow-hidden');
-                     surveyContainer.classList.remove('hidden');
-                     document.body.classList.add('overflow-hidden');
-                }
+                   surveyContainer.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+
+               }
             });
 
-            // Close survey container
-            surveyContainer.addEventListener('click', function(event) {
-                 if (event.target === surveyContainer) {
+            // Close passwordless popup
+            passwordlessSignupPopup.addEventListener('click', function(event) {
+               if (event.target === passwordlessSignupPopup) {
+                    passwordlessSignupPopup.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+               }
+           });
+         // Close survey container
+             surveyContainer.addEventListener('click', function(event) {
+                if (event.target === surveyContainer) {
                      surveyContainer.classList.add('hidden');
-                      document.body.classList.remove('overflow-hidden');
-                 }
-            });
-
-           // Close downloadOptions container
-           downloadOptions.addEventListener('click', function(event) {
-                if (event.target === downloadOptions) {
-                     downloadOptions.classList.add('hidden');
-                      document.body.classList.remove('overflow-hidden');
+                    document.body.classList.remove('overflow-hidden');
                 }
             });
-         });
 
-        let currentSurveyStep = 1;
 
+            // Close downloadOptions container
+             downloadOptions.addEventListener('click', function(event) {
+                if (event.target === downloadOptions) {
+                    downloadOptions.classList.add('hidden');
+                     document.body.classList.remove('overflow-hidden');
+                }
+           });
+        });
+         let currentSurveyStep = 1;
             function showSurveyStep(step, selectedOption) {
                 document.getElementById('surveyStep' + currentSurveyStep).classList.add('hidden');
-                 document.getElementById('surveyStep' + step).classList.remove('hidden');
-                 currentSurveyStep = step;
+                document.getElementById('surveyStep' + step).classList.remove('hidden');
+                currentSurveyStep = step;
                  if (step === 3) {
-                     console.log('User selected audience: ', selectedOption)
-                 }
-            }
-              function showDownloadOptions(selectedTimeline) {
-                 document.getElementById('surveyStep' + currentSurveyStep).classList.add('hidden');
-                 document.getElementById('downloadOptions').classList.remove('hidden');
-                 document.body.classList.remove('overflow-hidden');
-                 console.log('User selected timeline: ', selectedTimeline)
-            }
-             function downloadLeads(format) {
-               downloadOptions.classList.add('hidden');
-               document.body.classList.remove('overflow-hidden');
-              alert(`Simulating download in ${format} format.`);
-            }
+                    console.log('User selected audience: ', selectedOption)
+                }
+           }
+               function showDownloadOptions(selectedTimeline) {
+                  document.getElementById('surveyStep' + currentSurveyStep).classList.add('hidden');
+                   document.getElementById('downloadOptions').classList.remove('hidden');
+                   document.body.classList.remove('overflow-hidden');
+                    console.log('User selected timeline: ', selectedTimeline)
+              }
+               function downloadLeads(format) {
+                downloadOptions.classList.add('hidden');
+                  document.body.classList.remove('overflow-hidden');
+                alert(`Simulating download in ${format} format.`);
+             }
     </script>
 </body>
 </html>
