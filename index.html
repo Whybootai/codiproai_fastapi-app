@@ -4,118 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Tone Generator</title>
-     <style>
-          :root {
-                --primary-color: #ff4081;
-            }
-
-        body {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb, #90caf9);
             margin: 0;
             padding: 0;
+            color: #333;
+             transition: background 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure at least full viewport height */
+        }
+
+        body.dark-mode {
+             background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
             color: #fff;
-            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-             transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-         body.light-theme {
-            background: #f8f9fa;
-            color: #333;
          }
 
-         .light-theme .modal-content,
-         .light-theme .input-box,
-         .light-theme .select,
-        .light-theme .textarea,
-        .light-theme .output{
-            background-color: #fff;
-            color: #333;
-        }
-
-          .light-theme .modal-content input[type="text"],
-         .light-theme .textarea{
-              background: #f0f0f0;
-             color: #333;
-          }
-
-
-
-         .light-theme .tool-header{
-            color: var(--primary-color);
-         }
-
-         .light-theme .generate-btn{
-           background: var(--primary-color);
-         }
-
-         .light-theme .generate-btn:hover{
-            background:  #0056b3;
-         }
-
-
-
-        .container {
+          .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             flex-direction: column;
-             transition: all 0.3s ease;
+            flex: 1;
         }
-
-         .container.light-theme{
-             background: #f8f9fa;
-            color: #333;
-         }
 
         .tool-header {
             font-size: 2rem;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
-             color: var(--primary-color);
-             transition: color 0.3s ease;
+            color: #1976d2;
+            transition: color 0.3s;
         }
 
-        .input-box {
+         .dark-mode .tool-header{
+            color: #ff4081;
+         }
+
+         .input-box {
             margin-bottom: 20px;
             padding: 10px;
             width: 300px;
-             background: #333;
-            border: 2px solid var(--primary-color);
+            background: #fff;
+            border: 2px solid #1976d2;
             border-radius: 8px;
-            color: #fff;
+            color: #333;
             font-size: 1rem;
             box-sizing: border-box;
             transition: all 0.3s ease;
         }
 
+         .dark-mode .input-box{
+             background: #333;
+             border-color: #ff4081;
+             color: #fff;
+         }
+
+
         .input-box:focus {
-            border-color: #fff;
+            border-color: #1976d2;
             outline: none;
         }
 
+        .dark-mode .input-box:focus {
+            border-color: #fff;
+            outline: none;
+         }
+
         .select {
             padding: 10px;
-             background: #333;
-            border: 2px solid var(--primary-color);
+            background: #fff;
+            border: 2px solid #1976d2;
             border-radius: 8px;
             width: 320px;
             margin-bottom: 20px;
-            color: #fff;
+            color: #333;
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
+        .dark-mode .select {
+             background: #333;
+             border-color: #ff4081;
+             color: #fff;
+         }
+
+
         .select:focus {
-            border-color: #fff;
+            border-color: #1976d2;
             outline: none;
         }
 
+         .dark-mode .select:focus {
+            border-color: #fff;
+            outline: none;
+         }
+
         .generate-btn {
             padding: 12px 20px;
-            background: var(--primary-color);
+            background: #1976d2;
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -124,43 +115,80 @@
             transition: all 0.3s ease;
         }
 
+        .dark-mode .generate-btn{
+             background: #ff4081;
+         }
+
         .generate-btn:hover {
-            background: #f50057;
+            background: #0d47a1;
         }
+         .dark-mode .generate-btn:hover{
+             background: #f50057;
+         }
 
-        .output {
+         .output {
             margin-top: 20px;
-            width: 80%;
+             width: 80%;
+             position: relative;
             padding: 15px;
-             background: #333;
+            background: #fff;
             border-radius: 8px;
             font-size: 1rem;
-            color: #fff;
-             text-align: left;
-            max-height: 400px;
-            overflow-y: auto;
-            transition: all 0.3s ease;
+             color: #333;
+            text-align: left;
+             max-height: 400px;
+             overflow-y: auto;
+            transition: background 0.3s, color 0.3s;
+             position: relative;
         }
 
-         .textarea{
-            margin-bottom: 20px;
-            padding: 10px;
-            width: calc(100% - 20px);
-            background: #333;
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            height: 150px;
-            resize: vertical;
+         .dark-mode .output{
+              background: #333;
+             color: #fff;
+         }
+
+        .copy-icon {
+             position: absolute;
+             top: 10px;
+            right: 10px;
+             cursor: pointer;
+             font-size: 1.2rem;
+            color: #1976d2;
+             transition: color 0.3s;
         }
 
-        .textarea:focus{
-            border-color: #fff;
-            outline: none;
+         .dark-mode .copy-icon{
+             color:#ff4081;
+         }
+
+        .copy-icon:hover {
+            color: #0d47a1;
         }
+        .dark-mode .copy-icon:hover{
+           color: #f50057;
+         }
+
+       .notification {
+          position: absolute;
+          top: 50%;
+           right: 20px;
+          transform: translateY(-50%);
+         padding: 5px 10px;
+          background-color: #4caf50;
+          color: white;
+          border-radius: 5px;
+         z-index: 1000;
+          display: none;
+          transition: opacity 0.3s ease-in-out;
+         font-size: 0.9rem;
+         align-items: center;
+        display: inline-flex;
+         white-space: nowrap;
+        }
+        .notification i{
+           margin-right: 5px;
+       }
+
 
         /* Modal Styles */
         .modal {
@@ -176,34 +204,52 @@
         }
 
         .modal-content {
-             background-color: #333;
-             margin: 15% auto;
+            background-color: #fff;
+            margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
             max-width: 500px;
             border-radius: 10px;
-             transition: all 0.3s ease;
+             color: #333;
+             transition: background 0.3s, color 0.3s;
         }
 
-         .modal-content input[type="text"] {
+          .dark-mode .modal-content{
+            background-color: #333;
+            color: #fff;
+        }
+
+        .modal-content input[type="text"] {
              margin-bottom: 20px;
             padding: 10px;
             width: calc(100% - 20px);
-             background: #555;
-            border: 1px solid var(--primary-color);
+            background: #f0f0f0;
+            border: 1px solid #1976d2;
             border-radius: 8px;
-            color: #fff;
+             color: #333;
             font-size: 1rem;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+             transition: all 0.3s ease;
             display:block;
         }
+         .dark-mode .modal-content input[type="text"]{
+             background: #555;
+             border-color: #ff4081;
+              color: #fff;
+         }
+
 
         .modal-content input[type="text"]:focus{
-            border-color: #fff;
+            border-color: #1976d2;
             outline: none;
         }
+
+          .dark-mode .modal-content input[type="text"]:focus{
+             border-color: #fff;
+              outline: none;
+        }
+
 
         .modal-content .close {
             color: #aaa;
@@ -214,6 +260,13 @@
 
         .modal-content .close:hover,
         .modal-content .close:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+          .dark-mode .modal-content .close:hover,
+        .dark-mode .modal-content .close:focus {
             color: #fff;
             text-decoration: none;
             cursor: pointer;
@@ -221,7 +274,7 @@
 
          .modal-content button {
             padding: 12px 20px;
-             background: var(--primary-color);
+            background: #1976d2;
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -230,188 +283,133 @@
             transition: all 0.3s ease;
              display: block;
              margin: 0 auto;
+        }
+           .dark-mode .modal-content button {
+              background: #ff4081;
         }
 
         .modal-content button:hover {
-            background: #f50057;
+            background: #0d47a1;
         }
-
-         .error-message{
+          .dark-mode .modal-content button:hover {
+             background: #f50057;
+        }
+        .error-message{
             color: #ff4081;
             margin-top: 10px;
         }
+        .footer {
+             text-align: center;
+            padding: 10px 0;
+            font-size: 0.8rem;
+            color: #777;
+           margin-top: 20px;
+           transition: color 0.3s;
+            border-top: 1px solid #ddd; /* Add a top border for separation */
 
-        /* Slide-Out Panels */
-        .slide-panel {
-            position: fixed;
-            top: 0;
-            height: 100%;
-            width: 300px;
-            background-color: #333;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            z-index: 2;
-            overflow-y: auto;
         }
 
-        .slide-panel.left {
-            left: 0;
-            transform: translateX(-100%);
-        }
-
-        .slide-panel.right {
-            right: 0;
-            transform: translateX(100%);
-             text-align: left;
-        }
-
-        .slide-panel.show {
-            transform: translateX(0);
-        }
-
-         .slide-panel h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #fff;
-            text-align: center;
+         .dark-mode .footer{
+              color: #ddd;
+             border-top: 1px solid #555;
          }
 
-         .slide-panel label{
-           display: block;
-           margin-bottom: 10px;
-            color: #fff;
-         }
-
-
-         .slide-panel input[type="color"] {
-           width: calc(100% - 20px);
-            height: 30px;
-            padding: 0;
-             margin-bottom: 10px;
-           border-radius: 4px;
-         }
-
-          .slide-panel select {
-             width: calc(100% - 20px);
-            padding: 10px;
-              border-radius: 4px;
-            margin-bottom: 10px;
-           cursor: pointer;
-          }
-
-         .slide-panel button{
-            padding: 12px 20px;
-            background: #ff4081;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1.1rem;
+        .top-icons{
+           display: flex;
+           justify-content: space-between;
+           width: 100%;
+           padding: 10px 0;
+        }
+        .top-icons i{
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-             display: block;
-             margin: 0 auto;
         }
 
-         .slide-panel button:hover {
-            background: #f50057;
+        .top-icons i:hover{
+            opacity: 0.8;
         }
 
-        .slide-toggle-btn {
-            position: fixed;
-            top: 20px;
-            background: #555;
-            border: none;
-            color: #fff;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-         .slide-toggle-btn.left{
-            left: 20px;
+         .dark-mode .top-icons i{
+             color: #fff;
          }
 
-          .slide-toggle-btn.right{
-             right: 20px;
+         #userGuideModal .modal-content{
+             max-width: 700px;
+         }
+
+         #userGuideModal .modal-content h2{
+             margin-bottom: 20px;
+         }
+
+         #userGuideModal .modal-content p{
+             line-height: 1.6;
          }
     </style>
 </head>
 <body>
-     <button class="slide-toggle-btn left" id="themeToggleBtn">Theme</button>
-    <button class="slide-toggle-btn right" id="guideToggleBtn">Guide</button>
-
-    <div class="slide-panel left" id="themePanel">
-        <h2>Theme Settings</h2>
-        <label for="themeColorPicker">Primary Color:</label>
-        <input type="color" id="themeColorPicker" value="#ff4081" />
-        <label for="themeStyleSelect">Theme Style:</label>
-        <select id="themeStyleSelect">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-        </select>
-
-        <button id="themeResetBtn">Reset</button>
-    </div>
-
-     <div class="slide-panel right" id="guidePanel">
-        <h2>User Guide</h2>
-        <p>
-             Welcome to the Email Tone Generator! Here's how to use it:
-        </p>
-         <ol>
-           <li>
-               <strong>Admin Code:</strong> Before using the tool, enter the admin code.
-            </li>
-           <li>
-                <strong>Event Name:</strong> Enter the name of your event in the input box.
-            </li>
-           <li>
-               <strong>Email Type:</strong> Choose a type from the "Email Type" dropdown like an Initial Invite, Missed Call Follow-up, Follow-up Call, Voicemail Follow-up or a Final Follow-up.
-            </li>
-           <li>
-                <strong>Customize template:</strong> Use the provided textarea to edit the email template, or you can use the default one.
-            </li>
-           <li>
-                <strong>Audience Type:</strong> Choose the audience type using the "Audience Type" dropdown.
-            </li>
-            <li>
-                 <strong>Generate Email:</strong> Click the "Generate Email" button to create the email using the Gemini API.
-             </li>
-            <li>
-               <strong>Theme:</strong> Use the left side "Theme" button to toggle settings to customize the design of the app.
-            </li>
-            <li>
-                <strong>Guide:</strong> Use the right side "Guide" button to access this information
-            </li>
-         </ol>
-         <p>
-             Enjoy using the Email Tone Generator!
-         </p>
-    </div>
-
     <div class="modal" id="adminCodeModal">
         <div class="modal-content">
             <span class="close" id="closeAdminModal">×</span>
             <h2>Enter Admin Code</h2>
-            <input type="text" id="adminCodeInput" placeholder="Enter Admin Code" />
-            <div id="adminCodeError" class="error-message" style="display:none;">Invalid Admin Code</div>
+             <input type="text" id="adminCodeInput" placeholder="Enter Admin Code" />
+             <div id="adminCodeError" class="error-message" style="display:none;">Invalid Admin Code</div>
             <button onclick="validateAdminCode()">Submit Admin Code</button>
         </div>
     </div>
-
+     <div class="modal" id="userGuideModal">
+        <div class="modal-content">
+            <span class="close" id="closeUserGuideModal">×</span>
+            <h2>User Guide</h2>
+             <p>
+                 Welcome to the Email Tone Generator! This tool helps you create emails for various scenarios related to event management.
+             </p>
+             <p>
+                 <strong>How to Use:</strong>
+             </p>
+             <ol>
+                 <li>
+                      <strong>Enter Event Name:</strong> Input the name of your event in the "Enter Event Name" field. This is a required field.
+                 </li>
+                 <li>
+                      <strong>Select Email Type:</strong> Choose the type of email you want to generate from the dropdown menu. The available email types are:
+                     <ul>
+                         <li><strong>Initial Invite:</strong> For sending out the first invitation to the event.</li>
+                         <li><strong>Missed Call Follow-Up:</strong> To send after trying to call someone.</li>
+                         <li><strong>Follow-Up Call:</strong> For sending an email after a call has taken place.</li>
+                         <li><strong>Voicemail Follow-Up:</strong> For emails after leaving a voicemail.</li>
+                         <li><strong>Final Follow-Up / Last Chance:</strong> When it is the last opportunity to join the event.</li>
+                      </ul>
+                </li>
+                <li>
+                      <strong>Select Audience Type:</strong> Choose whether the email is intended for "Participants" or "Organizers"
+                 </li>
+                 <li>
+                       <strong>Generate Email:</strong> Click the "Generate Email" button to create the email content. The generated email will be displayed below the button.
+                 </li>
+                 <li>
+                      <strong>Copy Email:</strong> Click the copy icon to copy the generated email to your clipboard. A small notification will appear to confirm the copy process
+                 </li>
+             </ol>
+            <p>
+                 Use the sun/moon icons on the top left to toggle between light and dark mode.
+             </p>
+        </div>
+    </div>
     <div class="container" id="toolContainer" style="display: none;">
+         <div class="top-icons">
+             <i class="fas fa-sun" id="themeToggle"></i>
+            <i class="fas fa-question-circle" id="userGuide"></i>
+         </div>
         <div class="tool-header">Email Tone Generator</div>
 
         <input type="text" id="eventName" class="input-box" placeholder="Enter Event Name" />
 
-         <select id="emailType" class="select">
+        <select id="emailType" class="select">
             <option value="initial-invite">Initial Invite</option>
-            <option value="missed-call">Missed Call Follow-up</option>
-            <option value="follow-up-call">Follow-up Call</option>
-            <option value="voicemail-follow-up">Voicemail Follow-up</option>
-            <option value="final-follow-up">Final Follow-up/Last Chance</option>
+            <option value="missed-call-follow-up">Missed Call Follow-Up</option>
+            <option value="follow-up-call">Follow-Up Call</option>
+            <option value="voicemail-follow-up">Voicemail Follow-Up</option>
+            <option value="final-follow-up">Final Follow-Up / Last Chance</option>
         </select>
 
         <select id="audienceType" class="select">
@@ -419,215 +417,183 @@
             <option value="organizers">Organizers</option>
         </select>
 
-        <textarea id="emailTemplate" class="textarea" placeholder="Customize Email Template Here"></textarea>
-
         <button class="generate-btn" onclick="generateEmail()">Generate Email</button>
 
         <div id="generatedEmail" class="output"></div>
     </div>
-
-     <script>
-          const adminCodeModal = document.getElementById('adminCodeModal');
+     <footer class="footer">
+        <p>Developed by Flynn James P.</p>
+      </footer>
+    <script>
+        const adminCodeModal = document.getElementById('adminCodeModal');
         const toolContainer = document.getElementById('toolContainer');
         const closeAdminModalBtn = document.getElementById('closeAdminModal');
         const adminCodeInput = document.getElementById('adminCodeInput');
         const adminCodeError = document.getElementById('adminCodeError');
-
-         const themeToggleBtn = document.getElementById('themeToggleBtn');
-        const themePanel = document.getElementById('themePanel');
-         const guideToggleBtn = document.getElementById('guideToggleBtn');
-        const guidePanel = document.getElementById('guidePanel');
-        const themeColorPicker = document.getElementById('themeColorPicker');
-        const themeStyleSelect = document.getElementById('themeStyleSelect');
-         const themeResetBtn = document.getElementById('themeResetBtn');
-
+        const userGuideModal = document.getElementById('userGuideModal');
+        const closeUserGuideModalBtn = document.getElementById('closeUserGuideModal');
+       const themeToggle = document.getElementById('themeToggle');
+        const userGuide = document.getElementById('userGuide');
+         const body = document.body;
 
         const ADMIN_CODE = "123456";
         const API_KEY = "AIzaSyBQKOdFOb4R4u3EI963qccLFneLNe5xN-g";
         let apiKey = null;
 
-        const emailTypeSelect = document.getElementById('emailType');
-        const emailTemplateTextarea = document.getElementById('emailTemplate');
+          let isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        if(isDarkMode){
+          body.classList.add('dark-mode');
+            themeToggle.classList.remove('fa-sun');
+             themeToggle.classList.add('fa-moon');
+        }
 
 
-       const defaultTemplates = {
-            'initial-invite': 'Dear [Audience],\n\nYou are invited to the [Event Name].\nDetails: [Event Date], [Event Time], [Event Venue].\n\nBest regards,\nThe Event Team',
-            'missed-call': 'Dear [Audience],\n\nWe tried to reach you. Please reply so we can continue the discussion about the event [Event Name].\n\nBest regards,\nThe Event Team',
-             'follow-up-call': 'Dear [Audience],\n\nFollowing up on our call regarding [Event Name].\nPlease let me know if you are interested to join.\n\nBest regards,\nThe Event Team',
-            'voicemail-follow-up': 'Dear [Audience],\n\nThis is a follow-up from the voicemail regarding [Event Name].\n\nPlease let us know if you have any questions.\n\nBest regards,\nThe Event Team',
-            'final-follow-up': 'Dear [Audience],\n\nThis is our final attempt to reach you about [Event Name].\nDo not miss this last chance.\n\nBest regards,\nThe Event Team'
-        };
+          themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+               isDarkMode = !isDarkMode;
+                localStorage.setItem('darkMode', isDarkMode);
+
+               if(isDarkMode){
+                     themeToggle.classList.remove('fa-sun');
+                     themeToggle.classList.add('fa-moon');
+                 }else{
+                     themeToggle.classList.remove('fa-moon');
+                     themeToggle.classList.add('fa-sun');
+                }
+
+        });
 
 
+        userGuide.addEventListener('click', () => {
+            userGuideModal.style.display = 'block';
+        });
 
-          function applyTheme(color, style){
-                 document.documentElement.style.setProperty('--primary-color', color);
-                  const body = document.body;
-
-                 if(style === 'light'){
-                     body.classList.add('light-theme')
-                     toolContainer.classList.add('light-theme')
-                 } else{
-                    body.classList.remove('light-theme');
-                    toolContainer.classList.remove('light-theme');
-                 }
-
-
-                localStorage.setItem('theme_color', color)
-                localStorage.setItem('theme_style', style)
-          }
-
-
-         function loadThemeSettings(){
-           const storedColor = localStorage.getItem('theme_color');
-           const storedStyle = localStorage.getItem('theme_style');
-
-           const color = storedColor || '#ff4081';
-           const style = storedStyle || 'dark'
-
-           themeColorPicker.value = color;
-           themeStyleSelect.value = style;
-
-           applyTheme(color, style)
-         }
-
+         closeUserGuideModalBtn.onclick = () =>{
+            userGuideModal.style.display = 'none';
+        }
 
         closeAdminModalBtn.onclick = () =>{
             adminCodeModal.style.display = 'none';
         }
 
-        window.onclick = (event) =>{
+         window.onclick = (event) =>{
             if(event.target === adminCodeModal){
                  adminCodeModal.style.display = 'none';
             }
-        }
 
-        adminCodeModal.style.display = 'block'; // Show the admin code modal first
-
-
-         function loadTemplateFromStorage(emailType){
-             const savedTemplate = localStorage.getItem(`template_${emailType}`);
-            if(savedTemplate){
-                emailTemplateTextarea.value = savedTemplate;
-            }else{
-                emailTemplateTextarea.value = defaultTemplates[emailType] || '';
+            if(event.target === userGuideModal){
+                userGuideModal.style.display = 'none';
             }
         }
 
-        emailTypeSelect.addEventListener('change', function () {
-            const selectedType = emailTypeSelect.value;
-              loadTemplateFromStorage(selectedType);
-        });
+         adminCodeModal.style.display = 'block'; // Show the admin code modal first
 
 
-         emailTemplateTextarea.addEventListener('input', function(){
-             const selectedType = emailTypeSelect.value;
-             localStorage.setItem(`template_${selectedType}`, emailTemplateTextarea.value);
-         })
 
+         function validateAdminCode(){
+                adminCodeError.style.display = 'none';
+                 const code = adminCodeInput.value;
+                  if (code !== ADMIN_CODE) {
+                    adminCodeError.style.display = 'block';
+                    adminCodeError.textContent = "Invalid Admin Code";
+                    return;
+                  }
+                  apiKey = API_KEY;
+                  adminCodeModal.style.display = 'none';
+                  toolContainer.style.display = 'flex';
 
-       function validateAdminCode(){
-           adminCodeError.style.display = 'none';
-           const code = adminCodeInput.value;
-              if (code !== ADMIN_CODE) {
-                adminCodeError.style.display = 'block';
-                adminCodeError.textContent = "Invalid Admin Code";
-                return;
-              }
-              apiKey = API_KEY;
-              adminCodeModal.style.display = 'none';
-              toolContainer.style.display = 'flex';
-              loadTemplateFromStorage(emailTypeSelect.value);
-              loadThemeSettings();
+            }
 
-        }
-
-
-         themeToggleBtn.addEventListener('click', () =>{
-            themePanel.classList.toggle('show')
-         });
-
-        guideToggleBtn.addEventListener('click', () =>{
-              guidePanel.classList.toggle('show')
-         });
-
-
-         themeColorPicker.addEventListener('input', () =>{
-           applyTheme(themeColorPicker.value, themeStyleSelect.value);
-         });
-
-         themeStyleSelect.addEventListener('change', () =>{
-             applyTheme(themeColorPicker.value, themeStyleSelect.value);
-         })
-
-         themeResetBtn.addEventListener('click', () =>{
-             applyTheme('#ff4081', 'dark')
-           themeColorPicker.value = '#ff4081';
-            themeStyleSelect.value = 'dark';
-            localStorage.removeItem('theme_color');
-            localStorage.removeItem('theme_style')
-
-         });
-
-
-        async function generateEmail() {
+          async function generateEmail() {
              const eventName = document.getElementById("eventName").value;
             const emailType = document.getElementById("emailType").value;
             const audienceType = document.getElementById("audienceType").value;
-            const customTemplate = document.getElementById('emailTemplate').value;
             const outputDiv = document.getElementById("generatedEmail");
 
-             if (eventName === "") {
+            if (eventName === "") {
                 outputDiv.innerHTML = "<span style='color: #ff4081;'>Please enter an event name.</span>";
                 return;
             }
 
-            outputDiv.innerHTML = "<p>Loading...</p>"; // Show loading state
+             outputDiv.innerHTML = "<p>Loading...</p>"; // Show loading state
 
-            let prompt;
+            let prompt = '';
 
-             if (customTemplate && customTemplate.trim() !== "") {
-                 prompt = customTemplate.replace(/\[Event Name\]/g, eventName)
-                     .replace(/\[Audience\]/g, audienceType === 'participants' ? 'Participant' : 'Organizer')
-                  }else{
-                     const defaultTemplate = defaultTemplates[emailType] || `Create an email of type ${emailType} to ${audienceType} for the event ${eventName}. Please keep it short and precise. Use placeholders where required like [Event Date], [Event Time], and [Event Venue]. Include a greeting and a closing.`;
-                    prompt = defaultTemplate.replace(/\[Event Name\]/g, eventName)
-                        .replace(/\[Audience\]/g, audienceType === 'participants' ? 'Participant' : 'Organizer')
-              }
-
+            switch(emailType) {
+              case 'initial-invite':
+                prompt = `Create an initial invitation email to ${audienceType} for the event ${eventName}. Include a brief description, date, time, venue. Make it compelling.`;
+              break;
+              case 'missed-call-follow-up':
+                 prompt = `Create a missed call follow-up email to ${audienceType} for the event ${eventName}. Mention that you tried to call them, state interest on the event, and invite them to reach back`;
+              break;
+              case 'follow-up-call':
+                prompt = `Create a follow-up email after an earlier call with ${audienceType} for the event ${eventName}. Reference something specific discussed on the call, re-emphasize the event benefits, and invite them to confirm their participation.`;
+              break;
+              case 'voicemail-follow-up':
+                  prompt = `Create a follow-up email after leaving a voicemail to ${audienceType} for the event ${eventName}. Mention that you left a message, briefly reiterate the event details, and provide a clear call-to-action.`;
+               break;
+              case 'final-follow-up':
+                prompt = `Create a final follow-up/last chance email to ${audienceType} for the event ${eventName}. Convey urgency, mention that it's the last opportunity to join the event, provide a clear and simple option to register, and mention that this is the last reminder.`;
+               break;
+               default:
+               outputDiv.innerHTML = "<span style='color: #ff4081;'>Invalid email type selected.</span>";
+               return;
+           }
 
             try {
                 const model = "gemini-pro";
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-                 const response = await fetch(url, {
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                          'Content-Type': 'application/json'
-                      },
+                     },
                      body:JSON.stringify({
                         "contents": [{
-                          "parts": [{
-                            "text": prompt
-                           }]
+                           "parts": [{
+                             "text": prompt
+                            }]
                         }]
                     })
-                 });
+                });
 
                 if(!response.ok){
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                  throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                 const data = await response.json();
-                const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text
-                outputDiv.innerHTML =  `<strong>Email Body:</strong><br>${generatedText.replace(/\n/g, "<br>")}`
+                const data = await response.json();
+                const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                outputDiv.innerHTML =  `<strong>Email Body:</strong><br>${generatedText.replace(/\n/g, "<br>")} <i class="fas fa-copy copy-icon" onclick="copyEmail(this)"></i>`;
 
             } catch (error) {
-               console.error("API call failed:", error);
+                console.error("API call failed:", error);
                 outputDiv.innerHTML = `<span style="color: #ff4081;">Failed to generate email. Please check your API key and try again. Error: ${error.message}</span>`;
             }
         }
 
+
+        function copyEmail(icon){
+             const outputDiv = icon.parentElement;
+              const emailBody = outputDiv.innerHTML.replace('<i class="fas fa-copy copy-icon" onclick="copyEmail(this)"></i>', '');
+
+               const notificationDiv = document.createElement('div');
+              notificationDiv.classList.add('notification');
+             notificationDiv.innerHTML = '<i class="fas fa-check"></i> Copied';
+               outputDiv.appendChild(notificationDiv);
+
+            navigator.clipboard.writeText(emailBody).then(() => {
+                setTimeout(() => {
+                     notificationDiv.style.opacity = '0';
+                     setTimeout(() => {
+                         notificationDiv.remove();
+                       },300);
+                }, 1000); // fade out after 1 second
+            }).catch((err) => {
+                console.error('Failed to copy: ', err);
+             });
+        }
     </script>
 </body>
 </html>
