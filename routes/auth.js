@@ -1,13 +1,24 @@
 // routes/auth.js
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const { generateToken } = require('../utils/jwt');
 const router = express.Router();
+const passport = require('passport');
 
-router.post('/register', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// Initiate Google OAuth
+router.get(
+  '/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'], // Requested permissions
+  })
+);
+
+// Handle Google Callback
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/dashboard', // Redirect on success
+    failureRedirect: '/login', // Redirect on failure
+  })
+);
     
     // Check if email already exists
     const existingUser = await User.findOne({ email });
