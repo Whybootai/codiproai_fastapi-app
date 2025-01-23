@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -318,8 +319,7 @@
             max-width: 100%;
             height: auto;
             margin-bottom: 1rem;
-            object-fit: cover;
-            /* Use object-fit to ensure images don't distort */
+             object-fit: cover; /* Use object-fit to ensure images don't distort */
         }
 
         .survey-container .survey-step button {
@@ -454,28 +454,21 @@
 
         /* Loading animation */
         .timer-popup .loading-spinner {
-            border: 8px solid #f3f3f3;
-            /* Light grey */
-            border-top: 8px solid #3498db;
-            /* Blue */
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-            margin: 0 auto 1.5rem;
-        }
+                border: 8px solid #f3f3f3; /* Light grey */
+                border-top: 8px solid #3498db; /* Blue */
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 2s linear infinite;
+                margin: 0 auto 1.5rem;
+            }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+            0% { transform: rotate(0deg); }
+             100% { transform: rotate(360deg); }
+         }
 
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Modal styles from auth_modal.py */
+            /* Modal styles from auth_modal.py */
         .modal {
             display: none;
             position: fixed;
@@ -486,17 +479,15 @@
             background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
-            z-index: 1007;
-            /* Ensure it's above other modals */
+           z-index: 1007; /* Ensure it's above other modals */
         }
 
         .modal-content {
-             background: white;
+            background: white;
             padding: 24px;
             border-radius: 8px;
             width: 380px;
             position: relative;
-            text-align: center; /* Center content horizontally */
         }
 
         .close-button {
@@ -508,106 +499,122 @@
             color: #606770;
         }
 
-         .modal .g_id_signin {
-            margin: 16px 0;
-             display: inline-block; /* Make the sign-in button an inline-block element */
-
-          }
-
-        /* Styles for Arizona Dealership Page*/
-        .dealership-page {
-            font-family: 'Arial', sans-serif;
-            background-image: url('https://via.placeholder.com/1920x1080?text=Dealership+Image');
-            background-size: cover;
-            background-position: center;
+        #signupForm {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: auto;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1008;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            pointer-events: none;
-            /* Disable interactions initially */
-
+            gap: 12px;
         }
 
-        .dealership-page.active {
-            opacity: 1;
-            /* Transition to full opacity */
-            pointer-events: auto;
-            /* Enable interactions */
+        .modal input {
+             padding: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+             font-size: 16px;
+            width: 100%; /* Ensure input fields take up full width */
+              box-sizing: border-box;
         }
+
+        .separator {
+            text-align: center;
+            margin: 16px 0;
+            color: #606770;
+            position: relative;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #dadde1;
+            margin: auto;
+        }
+         .modal .g_id_signin {
+            margin: 16px 0;
+          }
+
+           /* Styles for Arizona Dealership Page*/
+        .dealership-page {
+              font-family: 'Arial', sans-serif;
+              background-image: url('https://via.placeholder.com/1920x1080?text=Dealership+Image');
+              background-size: cover;
+              background-position: center;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              min-height: 100vh;
+             overflow: auto;
+                position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+              z-index: 1008;
+               opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+                pointer-events: none; /* Disable interactions initially */
+
+            }
+            .dealership-page.active {
+                opacity: 1; /* Transition to full opacity */
+                pointer-events: auto; /* Enable interactions */
+            }
 
 
         .dealership-page .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 90%;
-            backdrop-filter: blur(5px);
-            /* Apply blur to the container */
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: 30px;
+          border-radius: 15px;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+          text-align: center;
+          max-width: 90%;
+          backdrop-filter: blur(5px); /* Apply blur to the container */
         }
-
         .dealership-page h1 {
-            color: #333;
+          color: #333;
         }
 
         .dealership-page table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            table-layout: fixed;
-            filter: blur(3px);
-            /* Blur the table content */
-            user-select: none;
-            /* Prevent text selection */
-            pointer-events: none;
-            /* Prevent interaction with the blurred content */
+          width: 100%;
+          margin-top: 20px;
+          border-collapse: collapse;
+          table-layout: fixed;
+          filter: blur(3px); /* Blur the table content */
+           user-select: none; /* Prevent text selection */
+            pointer-events: none; /* Prevent interaction with the blurred content */
 
         }
-
-        .dealership-page th,
-        .dealership-page td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
+        .dealership-page th, .dealership-page td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          text-align: left;
         }
 
         .dealership-page th {
-            background-color: #eee;
-            font-weight: bold;
-            filter: blur(0);
-            /* Keep header clear */
+          background-color: #eee;
+          font-weight: bold;
+           filter: blur(0); /* Keep header clear */
             user-select: auto;
             pointer-events: auto;
         }
 
 
         .dealership-page .notification {
-            margin-top: 20px;
-            font-weight: bold;
-            color: #007bff;
-            filter: blur(0);
-            /* Keep the notification clear */
+          margin-top: 20px;
+          font-weight: bold;
+           color: #007bff;
+            filter: blur(0); /* Keep the notification clear */
         }
 
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .dealership-page table {
-                font-size: 14px;
-            }
-        }
+       /* Responsive adjustments */
+      @media (max-width: 768px) {
+          .dealership-page table {
+            font-size: 14px;
+          }
+       }
+
+
     </style>
 </head>
 
@@ -666,12 +673,7 @@
                                 <div id="cityError" class="error-message hidden">Please enter a valid city</div>
                             </div>
                             <div class="form-group">
-                                <label for="zipcode">Zip Code</label>
-                                <input type="text" id="zipcode" placeholder="Enter Zip Code">
-                                <div id="zipcodeError" class="error-message hidden">Please enter a valid zip code</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="distance">Select Radius</label>
+                                <label for="distance">Select Distance</label>
                                 <select id="distance">
                                     <option value="25">Within 25 miles</option>
                                     <option value="50">Within 50 miles</option>
@@ -769,12 +771,15 @@
         </form>
     </div>
 
-     <div id="signupPopup" class="signup-popup hidden">
+    <div id="signupPopup" class="signup-popup hidden">
         <img src="https://via.placeholder.com/100x50/007bff/fff?text=Logo" alt="Company Logo" class="company-logo">
         <h2>Unlock Your Leads</h2>
         <p>Sign up or sign in to access your targeted leads.</p>
         <div id="googleButton" >
           </div>
+        <div class="passwordless-signup">
+            <button id="passwordlessSignupButton">Sign up with Email</button>
+        </div>
     </div>
     <div id="passwordlessSignupPopup" class="passwordless-signup-popup hidden">
         <h2>Verify Your Email</h2>
@@ -789,15 +794,15 @@
     <div id="surveyContainer" class="survey-container hidden">
         <h2>Let's Personalize Your Lead Experience</h2>
         <div id="surveyStep1" class="survey-step">
-            <img class="lazyload" data-src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+1:+Target+Audience"
-                alt="Target Audience">
+            <img class="lazyload" data-src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+1:+Target+Audience" alt="Target Audience">
             <p>What type of customers are you most interested in?</p>
             <button onclick="showSurveyStep(2, 'High-Income')">High-Income</button>
             <button onclick="showSurveyStep(2, 'Families')">Families</button>
             <button onclick="showSurveyStep(2, 'Tech-Savvy')">Tech-Savvy</button>
         </div>
         <div id="surveyStep2" class="survey-step hidden">
-            <img class="lazyload" data-src="https://via.placeholder.com/400x200/40/4a5568/fff?text=Step+2:+Vehicle+Preference"
+            <img class="lazyload" data-src="https://via.placeholder.com/400x200/40/4a5568/fff?text=Step
+                                            /fff?text=Step+2:+Vehicle+Preference"
                 alt="Vehicle Preference">
             <p>What type of vehicles do your ideal customers prefer?</p>
             <button onclick="showSurveyStep(3, 'SUVs')">SUVs</button>
@@ -805,7 +810,7 @@
             <button onclick="showSurveyStep(3, 'Trucks')">Trucks</button>
         </div>
         <div id="surveyStep3" class="survey-step hidden">
-            <img class="lazyload" data-src="https://via.placeholder.com/400x200 /4a5568/fff?text=Step+3:+Purchase+Timeline"
+            <img class="lazyload" data-src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+3:+Purchase+Timeline"
                 alt="Purchase Timeline">
             <p>How soon are your ideal customers looking to purchase?</p>
             <button onclick="showDownloadOptions('1-3')">1-3 Months</button>
@@ -823,45 +828,52 @@
 
   <!-- Auth modal -->
   <div class="modal" id="authModal">
-        <div class="modal-content">
-            <span class="close-button" id="closeModal">×</span>
-            <h2>Sign in with Google</h2>
-            <div id="g_id_onload"
-                data-client_id="125887328320-lv7sv5otf3bk1ec1gilpb8itk511f1nq.apps.googleusercontent.com"
+    <div class="modal-content">
+        <span class="close-button" id="closeModal">×</span>
+        <h2>Create Account</h2>
+       <div id="g_id_onload"
+              data-client_id="125887328320-lv7sv5otf3bk1ec1gilpb8itk511f1nq.apps.googleusercontent.com"
                 data-callback="handleGoogleSignIn">
-             </div>
-             <div class="g_id_signin" data-type="standard"></div>
-        </div>
+         </div>
+         <div class="g_id_signin" data-type="standard"></div>
+
+        <div class="separator">or</div>
+
+         <form id="signupForm">
+            <input type="email" id="email" placeholder="Email" required>
+             <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Create Account</button>
+        </form>
     </div>
+</div>
 
     <!-- Arizona Dealership Page -->
-    <div class="dealership-page" id="dealershipPage">
-        <div class="container">
-            <h1>Arizona Dealership</h1>
-            <h2>Nearby Customers (100+ in your area)</h2>
+   <div class="dealership-page" id="dealershipPage">
+      <div class="container">
+        <h1>Arizona Dealership</h1>
+        <h2>Nearby Customers (100+ in your area)</h2>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>City</th>
-                        <th>Distance</th>
-                        <th>Phone</th>
-                        <th>Budget</th>
-                        <th>Ideal Car</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>City</th>
+              <th>Distance</th>
+              <th>Phone</th>
+              <th>Budget</th>
+              <th>Ideal Car</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
 
-            <button id="downloadBtn">Download Now</button>
-            <div class="notification" style="display:none;" id="notification">
-                Due to the high volume of customers using our services, please allow up to 48 hours for your download to be
-                processed. Thank you for your patience.
-            </div>
+        <button id="downloadBtn">Download Now</button>
+        <div class="notification" style="display:none;" id="notification">
+          Due to the high volume of customers using our services, please allow up to 48 hours for your download to be processed. Thank you for your patience.
         </div>
     </div>
+ </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -879,10 +891,10 @@
             const cityInput = document.getElementById('city');
             const citySuggestions = document.getElementById('citySuggestions');
             const citySuggestionsList = document.querySelector('#citySuggestions ul');
-            const googleButton = document.getElementById('googleButton');
-            const passwordlessSignupButton = document.getElementById('passwordlessSignupButton');
+             const googleButton = document.getElementById('googleButton');
+             const passwordlessSignupButton = document.getElementById('passwordlessSignupButton');
             const passwordlessSignupPopup = document.getElementById('passwordlessSignupPopup');
-            const verifyEmailButton = document.getElementById('verifyEmailButton');
+             const verifyEmailButton = document.getElementById('verifyEmailButton');
             const emailSignupInput = document.getElementById('emailSignup');
             const loadingMessage = timerPopup.querySelector('.loading-message');
 
@@ -901,8 +913,6 @@
             const adminCodeError = document.getElementById('adminCodeError');
             const adminCodeInput = document.getElementById('adminCode');
             const emailSignupError = document.getElementById('emailSignupError');
-             const zipcodeError = document.getElementById('zipcodeError');
-
 
             let timerInterval;
             let notificationInterval;
@@ -911,8 +921,9 @@
             let apiKey = "";
             let googleUser = null;
 
-            //Auth Modal Variables from auth_modal.py
+             //Auth Modal Variables from auth_modal.py
             const authModal = document.getElementById("authModal");
+             const manualSignupForm = document.getElementById("signupForm");
             const closeModalButton = document.getElementById("closeModal");
 
 
@@ -957,7 +968,7 @@
                 }, 10000);
             }
 
-           async function fetchCitySuggestions(state, query) {
+            async function fetchCitySuggestions(state, query) {
                 citySuggestionsList.innerHTML = "";
                 if (!state || !query) {
                     citySuggestions.classList.add('hidden');
@@ -1003,7 +1014,7 @@
                 }
             }
 
-           function removeActiveClassFromSuggestions() {
+            function removeActiveClassFromSuggestions() {
                 // Remove the 'active' class from all list items in the suggestions list
                 const allSuggestions = citySuggestionsList.querySelectorAll('li.active');
                 allSuggestions.forEach(item => {
@@ -1017,7 +1028,7 @@
                 fetchCitySuggestions(state, query);
             });
 
-             // Keyboard navigation for city suggestions
+            // Keyboard navigation for city suggestions
             cityInput.addEventListener('keydown', function (event) {
                 if (citySuggestions.classList.contains('hidden')) return;
 
@@ -1052,19 +1063,18 @@
                     citySuggestions.classList.add('hidden');
                     currentSuggestionIndex = -1;
                 }
-                 else if (event.key === 'Escape') {
+                else if (event.key === 'Escape') {
                     citySuggestions.classList.add('hidden');
                     currentSuggestionIndex = -1;
                 }
             });
-              // Close suggestions when clicking outside
+            // Close suggestions when clicking outside
             document.addEventListener('click', function (event) {
                 if (!citySuggestions.contains(event.target) && event.target !== cityInput) {
                     citySuggestions.classList.add('hidden');
                     currentSuggestionIndex = -1; // Reset index when closed
                 }
             });
-
 
             adminCodeInput.addEventListener('input', function () {
                 if (adminCodeInput.value === correctAdminCode) {
@@ -1084,15 +1094,12 @@
                 countryError.classList.add('hidden');
                 stateError.classList.add('hidden');
                 cityError.classList.add('hidden');
-                 zipcodeError.classList.add('hidden');
-
 
                 // Validate form
                 let isValid = true;
                 const country = document.getElementById('country').value;
                 const state = document.getElementById('state').value;
                 const city = document.getElementById('city').value;
-                 const zipcode = document.getElementById('zipcode').value;
 
 
                 if (!country) {
@@ -1107,19 +1114,13 @@
                     cityError.classList.remove('hidden');
                     isValid = false;
                 }
-                 if(!/^\d{5}(-\d{4})?$/.test(zipcode)) {
-                      zipcodeError.classList.remove('hidden');
-                        isValid = false;
-                   }
-
-
                  if (!apiKey) {
                    adminCodeError.classList.remove('hidden');
                     isValid = false;
                 }
 
                 if (isValid) {
-                    timerPopup.classList.remove('hidden');
+                   timerPopup.classList.remove('hidden');
                     let messageIndex = 0;
                     const messages = [
                         "Analyzing Your Ideal Customer",
@@ -1211,7 +1212,7 @@
                 if (isValid) {
                     leadFormPopup.classList.add('hidden');
                     document.body.classList.remove('overflow-hidden');
-                     authModal.style.display = "flex";
+                     signupPopup.classList.remove('hidden');
                     document.body.classList.add('overflow-hidden');
                  }
             });
@@ -1244,11 +1245,11 @@
                     // Decode the JWT
                    const decoded = JSON.parse(atob(response.credential.split('.')[1]));
                     googleUser = decoded;
-                     authModal.style.display = "none";
+                    signupPopup.classList.add('hidden');
                     document.body.classList.remove('overflow-hidden');
                     surveyContainer.classList.remove('hidden');
                     document.body.classList.add('overflow-hidden');
-
+                     authModal.style.display = "none";
                  }
            }
 
@@ -1326,6 +1327,18 @@
              if (event.target === authModal) {
                 authModal.style.display = "none";
              }
+        });
+
+        // Manual Sign-up form submission
+        manualSignupForm.addEventListener("submit", (e) => {
+             e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Add your signup logic here
+           console.log("Manual Sign-Up:", { email, password });
+           alert("Account created successfully!");
+          authModal.style.display = "none";
         });
 
 
