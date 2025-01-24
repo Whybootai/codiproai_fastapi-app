@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodyPro AI Assistant</title>
     <style>
-          :root {
+        :root {
             --primary: #00ff9d;
             --secondary: #1a73e8;
             --accent: #ff5722;
@@ -361,7 +362,7 @@
             text-decoration: underline;
         }
 
-     
+      
         /* Sidebar Styles */
         .sidebar {
             position: fixed;
@@ -389,28 +390,27 @@
         }
 
         .sidebar-button {
-             position: fixed;
-                top: 20px;
-                left: 20px;
-                padding: 10px;
-                background: none;
-                 border: none;
-                 color: var(--light);
-                font-size: 1.8em;
-                cursor: pointer;
-                transition: left 0.3s ease;
-                /* Transition the left property */
-                z-index: 1002;
-            }
-             .sidebar-button i {
-                 color: var(--primary)
-            }
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            /* Position the button on the left */
+            padding: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            color: var(--dark);
+            cursor: pointer;
+            transition: left 0.3s ease;
+            /* Transition the left property */
+            z-index: 1002;
+        }
 
         .sidebar-button.open {
             left: 320px;
         }
 
-
+        .sidebar-button i {
+            font-size: 1.2em;
+        }
 
         .profile-upload {
             margin-bottom: 20px;
@@ -475,7 +475,6 @@
         .settings-section .setting-item input[type="color"],
         .settings-section .setting-item select,
         .settings-section .setting-item input[type="text"],
-         .settings-section .setting-item input[type="number"],
         .settings-section .setting-item input[type="range"] {
             background: rgba(255, 255, 255, 0.1);
             border: none;
@@ -485,42 +484,37 @@
             width: 100%;
         }
 
-        .settings-section .setting-item select {
-                appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-                background-repeat: no-repeat;
-                background-position: right 8px top 50%;
-        }
         .settings-section .setting-item .radio-group {
-             display: flex;
+            display: flex;
             align-items: center;
         }
 
         .settings-section .setting-item .radio-group label {
-             display: inline-flex;
-             align-items: center;
+            display: inline-flex;
+            align-items: center;
             margin: 0 15px 0 0;
         }
+
         .settings-section .setting-item .radio-group input[type="radio"] {
-             margin-right: 5px;
+            margin-right: 5px;
         }
 
         .settings-section #preview {
-                margin: 10px auto;
-                padding: 10px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 8px;
-                text-align: center;
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-align: center;
         }
+
         .settings-section #preview img {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                object-fit: cover;
-                border: 2px solid var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
         }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             #chat-container {
@@ -683,26 +677,33 @@
             object-fit: cover;
              border: 2px solid var(--accent);
         }
-
-      #feedback-container{
-          position: fixed;
-           bottom: 20px;
-           right: 20px;
-             z-index: 10000;
-        }
-           #feedback-button {
-                background: var(--secondary);
-                color: var(--light);
-                 padding: 10px 15px;
-                border: none;
-                border-radius: 5px;
-               cursor: pointer;
-               transition: background-color 0.3s ease;
-            }
-        #feedback-button:hover{
-                background-color: #1563cb;
-
-        }
+         .feedback-section {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: inline-flex;
+            background-color: #4285F4;
+             color: white;
+             padding: 10px 15px;
+             text-decoration: none;
+              border-radius: 8px;
+             cursor: pointer;
+            align-items: center;
+              font-size: 0.9em;
+              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+             }
+             .feedback-section:hover{
+                background-color:#3570e8;
+                 transform: translateY(-2px);
+             }
+            .feedback-section a {
+                color: white;
+                text-decoration: none;
+             }
+            .feedback-section i {
+              margin-right: 5px;
+             }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -801,7 +802,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         </footer>
     </div>
     <!-- Sidebar -->
-     <div class="sidebar" id="settingsSidebar">
+    <div class="sidebar" id="settingsSidebar">
         <div class="profile-upload">
             <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>"
                 alt="User Profile" id="user-image" style="object-fit: contain;" />
@@ -877,7 +878,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                 <input type="range" id="font-size" min="12" max="20" value="16" onchange="applyFontSize(this.value)">
             </div>
         </div>
-           <div class="settings-section">
+        <div class="settings-section">
             <h3>Bot Customization</h3>
             <div class="setting-item">
                 <label for="bot-image">Bot Image:</label>
@@ -888,7 +889,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                 <input type="text" id="bot-name" value="Codi" onchange="applyBotName(this.value)">
             </div>
         </div>
-          <div class="settings-section">
+        <div class="settings-section">
             <h3>Layout and Spacing</h3>
             <div class="setting-item">
                 <label for="bubble-spacing">Chat Bubble Spacing:</label>
@@ -913,74 +914,18 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                 </div>
             </div>
         </div>
-      <div class="settings-section">
-          <h3>Training settings</h3>
-          <div class="setting-item">
-              <label for="training-data-quality">Training Data Quality:</label>
-               <select id="training-data-quality" onchange="applyTrainingSetting(this.value,'dataQuality')">
-                <option value="low">Low</option>
-                 <option value="medium" selected>Medium</option>
-                   <option value="high">High</option>
-                </select>
-          </div>
-          <div class="setting-item">
-                <label for="training
-                            -data-quantity">Training Data Quantity:</label>
-                  <input type="range" id="training-data-quantity" min="100" max="10000" step ="100"  value="1000" onchange="applyTrainingSetting(this.value,'dataQuantity')">
-            </div>
-             <div class="setting-item">
-                <label for="pretrained-models">Pre-trained models:</label>
-                 <select id="pretrained-models" onchange="applyTrainingSetting(this.value,'pretrainedModels')">
-                   <option value="none" selected>None</option>
-                   <option value="model1">Model 1</option>
-                    <option value="model2">Model 2</option>
-                 </select>
-            </div>
-          <div class="setting-item">
-                <label for="model-architecture">Model Architecture:</label>
-                 <select id="model-architecture"  onchange="applyTrainingSetting(this.value,'modelArchitecture')">
-                    <option value="transformer" selected>Transformer</option>
-                   <option value="rnn">RNN</option>
-                </select>
-
-            </div>
-          <div class="setting-item">
-                <label for="hyperparameter-tuning">Hyperparameter Tuning:</label>
-                   <input type="number" id="hyperparameter-tuning"  min="0.01" max="1.0" step="0.01" value="0.5" onchange="applyTrainingSetting(this.value,'hyperparameterTuning')">
-
-            </div>
-           <div class="setting-item">
-              <label for="data-preprocessing">Data Preprocessing</label>
-               <select id="data-preprocessing" onchange="applyTrainingSetting(this.value,'dataPreprocessing')">
-                 <option value="basic" selected>Basic</option>
-                   <option value="advanced">Advanced</option>
-                </select>
-          </div>
-        <div class="setting-item">
-                <label for="training-process">Training Process:</label>
-                 <select id="training-process" onchange="applyTrainingSetting(this.value,'trainingProcess')">
-                   <option value="default" selected>Default</option>
-                      <option value="optimized">Optimized</option>
-                </select>
-
-            </div>
-         <div class="setting-item">
-              <label for="evaluation-iteration">Evaluation and Iteration:</label>
-                <input type="range" id="evaluation-iteration" min="1" max="10" step="1" value="5" onchange="applyTrainingSetting(this.value,'evaluationIteration')">
-            </div>
-        </div>
         <div class="settings-section">
             <button onclick="resetToDefaults()">Reset to Defaults</button>
             <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview" /></div>
         </div>
     </div>
-        <div id="feedback-container">
-             <button id="feedback-button" onclick="window.location.href='mailto:flynnpontino@gmail.com';">Send Feedback</button>
-         </div>
 
     <div class="sidebar-button" id="sidebarToggle">
-         <i class="fas fa-cog"></i>
+        <i class="fas fa-cog"></i>
     </div>
+        <div class="feedback-section">
+            <a href="mailto:flynnpontino@gmail.com"><i class="fas fa-envelope"></i> Send Feedback</a>
+        </div>
     <script src="https://apis.google.com/js/api.js"></script>
     <script>
          const CLIENT_ID = '309664778692-6fermb0njkr7uuv03i3lodb4ab4etqt7.apps.googleusercontent.com';
@@ -1023,16 +968,6 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             "academic": "You are an academic assistant specializing in scholarly research and writing. Your responses should be highly formal, detailed, and rigorous, with evidence-based insights and structured guidance. Maintain a clear, precise, and objective tone, appropriate for academic purposes."
         };
            let gapiInited = false;
-       let trainingSettings = {
-            dataQuality:"medium",
-            dataQuantity:1000,
-            pretrainedModels:"none",
-            modelArchitecture:"transformer",
-            hyperparameterTuning:0.5,
-            dataPreprocessing:"basic",
-            trainingProcess:"default",
-            evaluationIteration:5,
-          };
 
 
         function clearChat() {
@@ -1218,18 +1153,17 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             console.log("Selected prompt:", prompt);
 
             if (!prompt) return;
-             let selectedPrompt = prompts[promptType] || prompts['default'];
-             let knowledgeContext = ""
+
+            let selectedPrompt = prompts[promptType] || prompts['default'];
+            let knowledgeContext = ""
             if (driveKnowledge.length > 0) {
                 knowledgeContext = `Based on the information from your saved conversations:\n ${driveKnowledge.join("\n")}\n\n`
             }
-            let trainingContext = `Based on the following model settings:\n Data Quality: ${trainingSettings.dataQuality}, Data quantity: ${trainingSettings.dataQuantity}, Pretrained model: ${trainingSettings.pretrainedModels}, Model architecture: ${trainingSettings.modelArchitecture}, Hyperparameter tuning: ${trainingSettings.hyperparameterTuning},  Data preprocessing: ${trainingSettings.dataPreprocessing}, Training Process: ${trainingSettings.trainingProcess}, Evaluation Iteration: ${trainingSettings.evaluationIteration}.`
              if (!accessToken){
                  alert('Please sign in with google first')
                 return;
              }
             console.log("Knowledge context:", knowledgeContext);
-             console.log("Training context:", trainingContext);
             if (messageToEdit) {
                 const messageId = messageToEdit.getAttribute('data-message-id');
                 const messageTextElement = messageToEdit.querySelector('span');
@@ -1241,7 +1175,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                     const editedNote = document.createElement('span');
                     editedNote.textContent = " (edited)";
                     editedNote.style.fontStyle = 'italic';
-                    editedNote.style.fontSize = '0.8em';
+                    editedNote.fontSize = '0.8em';
                     messageTextElement.appendChild(editedNote);
                     messageToEdit = null;
                 }
@@ -1266,7 +1200,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `${knowledgeContext} ${trainingContext} ${selectedPrompt} ${prompt}`
+                                text: `${knowledgeContext} ${selectedPrompt} ${prompt}`
                             }]
                         }]
                     })
@@ -1308,10 +1242,6 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             }
         }
 
-        function applyTrainingSetting(value, setting) {
-            trainingSettings[setting] = value;
-             console.log('setting:', trainingSettings)
-         }
         function saveChatToDrive() {
              if (!accessToken){
                  alert('Please sign in with google first')
@@ -1489,17 +1419,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             applyContentAlignment('right')
             messages.style.gap = '10px'
             sidebar.style.width = '300px'
-             botName = "Codi";
-              trainingSettings = {
-                dataQuality:"medium",
-                dataQuantity:1000,
-                pretrainedModels:"none",
-                modelArchitecture:"transformer",
-                hyperparameterTuning:0.5,
-                dataPreprocessing:"basic",
-                trainingProcess:"default",
-                evaluationIteration:5,
-             };
+             botName = "Codi"
         }
 
           function buildAuthURL() {
