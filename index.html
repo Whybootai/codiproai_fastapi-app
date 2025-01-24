@@ -125,33 +125,35 @@
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.05);
             padding: 20px;
-             display: flex;
-             flex-direction: column;
-             gap: 10px;
-             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
-             align-items: center;
-             justify-content: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            justify-content: center;
         }
 
-       #messages.open-canvas {
-        align-items: flex-start;
-        justify-content: flex-start;
-       }
+        #messages.open-canvas {
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
 
         #messages.open-canvas .initial-greeting {
-              display: none;
-           }
-           .initial-greeting{
-                 display: flex;
-                 flex-direction: column;
-                 align-items: center;
-                 justify-content: center;
-                text-align: center;
-            }
-           .initial-greeting img {
-                max-width: 150px;
-                  margin-bottom: 10px;
-            }
+            display: none;
+        }
+
+        .initial-greeting {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .initial-greeting img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
 
 
         .message {
@@ -362,7 +364,7 @@
             text-decoration: underline;
         }
 
-      
+
         /* Sidebar Styles */
         .sidebar {
             position: fixed;
@@ -632,7 +634,7 @@
 
         /* Google Sign In Button */
         #google-sign-in-container {
-          display: flex;
+            display: flex;
             justify-content: flex-start;
             align-items: center;
             margin-bottom: 20px;
@@ -641,69 +643,76 @@
         #google-sign-in-button {
             background-color: #4285f4;
             color: white;
-             padding: 15px 30px;
+            padding: 15px 30px;
             font-size: 16px;
             cursor: pointer;
             border: none;
             border-radius: 8px;
             margin: 5px;
-             transition: background-color 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-weight: bold;
             display: inline-flex;
             align-items: center;
             gap: 10px;
         }
-        #google-sign-in-button:hover{
-                background-color: #3570e8;
+
+        #google-sign-in-button:hover {
+            background-color: #3570e8;
         }
-        #google-sign-in-container img{
-           width: 20px;
+
+        #google-sign-in-container img {
+            width: 20px;
             height: 20px;
         }
 
-        #user-profile-info{
-             display: flex;
+        #user-profile-info {
+            display: flex;
             justify-content: flex-start;
             align-items: center;
             margin-bottom: 20px;
             gap: 10px;
 
         }
-           #user-profile-info img {
+
+        #user-profile-info img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-             border: 2px solid var(--accent);
+            border: 2px solid var(--accent);
         }
-         .feedback-section {
+
+        .feedback-section {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            right: 20px; /* Changed to right side */
             display: inline-flex;
             background-color: #4285F4;
-             color: white;
-             padding: 10px 15px;
-             text-decoration: none;
-              border-radius: 8px;
-             cursor: pointer;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
             align-items: center;
-              font-size: 0.9em;
-              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: background-color 0.3s ease, transform 0.2s ease;
-             }
-             .feedback-section:hover{
-                background-color:#3570e8;
-                 transform: translateY(-2px);
-             }
-            .feedback-section a {
-                color: white;
-                text-decoration: none;
-             }
-            .feedback-section i {
-              margin-right: 5px;
-             }
+        }
+
+        .feedback-section:hover {
+            background-color: #3570e8;
+            transform: translateY(-2px);
+        }
+
+        .feedback-section a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .feedback-section i {
+            margin-right: 5px;
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -753,23 +762,25 @@
     </div>
     <div id="chat-container">
         <div id="google-sign-in-container">
-        <button id="google-sign-in-button" onclick="initiateGoogleAuth()"> <img src="https://www.gstatic.com/images/branding/product/1x/google_g_24dp.png" alt="Google Icon"> Sign in with Google</button>
-          </div>
-          <div id="user-profile-info">
-          </div>
+            <button id="google-sign-in-button" onclick="initiateGoogleAuth()"> <img
+                    src="https://www.gstatic.com/images/branding/product/1x/google_g_24dp.png" alt="Google Icon"> Sign in
+                with Google</button>
+        </div>
+        <div id="user-profile-info">
+        </div>
         <main id="messages" aria-live="polite">
-             <div class="initial-greeting">
+            <div class="initial-greeting">
                 <img src="https://i.ibb.co/Wxqm2cc/code-fusion.png" alt="CodyPro AI Logo">
                 <p>Hello! I'm Cody, ready to assist you with your tasks!</p>
-             </div>
+            </div>
         </main>
         <div id="input-container">
             <select id="prompt-type" aria-label="Select Cody Tonality">
-                 <option value="default">Default</option>
+                <option value="default">Default</option>
                 <option value="professional">Professional</option>
                 <option value="casual">Casual</option>
-                 <option value="humorous">Humorous</option>
-                 <option value="academic">Academic</option>
+                <option value="humorous">Humorous</option>
+                <option value="academic">Academic</option>
             </select>
             <textarea id="training-input" placeholder="Type your prompt here...
 You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
@@ -923,17 +934,16 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
     <div class="sidebar-button" id="sidebarToggle">
         <i class="fas fa-cog"></i>
     </div>
-        <div class="feedback-section">
-            <a href="mailto:flynnpontino@gmail.com"><i class="fas fa-envelope"></i> Send Feedback</a>
-        </div>
-    <script src="https://apis.google.com/js/api.js"></script>
+    <div class="feedback-section">
+        <a href="mailto:flynnpontino@gmail.com"><i class="fas fa-envelope"></i> Send Feedback</a>
+    </div>    <script src="https://apis.google.com/js/api.js"></script>
     <script>
-         const CLIENT_ID = '309664778692-6fermb0njkr7uuv03i3lodb4ab4etqt7.apps.googleusercontent.com';
+        const CLIENT_ID = '309664778692-6fermb0njkr7uuv03i3lodb4ab4etqt7.apps.googleusercontent.com';
         const CLIENT_SECRET = "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"; // IMPORTANT: Do not expose this in frontend code
-         const REDIRECT_URI = window.location.origin; // Use current page URL
-         const SCOPE = 'profile email';
+        const REDIRECT_URI = window.location.origin; // Use current page URL
+        const SCOPE = 'profile email';
         let apiKey = "AIzaSyBQKOdFOb4R4u3EI963qccLFneLNe5xN-g"; // Directly injected API key - **INSECURE**
-        const   messages = document.getElementById('messages');
+        const messages = document.getElementById('messages');
         const trainingInput = document.getElementById('training-input');
         const userImage = document.getElementById('user-image');
         const profileUploadInput = document.getElementById('profile-upload-input');
@@ -941,15 +951,15 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         const sidebarButton = document.getElementById('sidebarToggle');
         const userGuidePopup = document.getElementById('user-guide-popup');
         const previewImage = document.querySelector('#preview img')
-         const userProfileContainer = document.getElementById('user-profile-info');
+        const userProfileContainer = document.getElementById('user-profile-info');
         let isSidebarOpen = false;
         let botName = "Codi";
         let currentTheme = "dark"; // Default theme
         let messageToEdit = null;
         let driveKnowledge = [];
-           let accessToken = null;
-           const googleAuthEndpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-          const prompts = {
+        let accessToken = null;
+        const googleAuthEndpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+        const prompts = {
             "default": `You are Cody, a highly skilled professional assistant specializing in research, writing, critical analysis, and project management. Your role is to provide insightful, detail-oriented, and solution-driven support for freelancers, corporate professionals, and teams across various industries.
 
                                     Your responses should embody professionalism, adaptability, and clarity. Respond to inquiries with precision, well-structured guidance, and a tone that is approachable yet professional. Ensure your language reflects the needs of diverse users, offering actionable insights and suggestions to help them succeed in their goals.
@@ -967,7 +977,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             "humorous": "You are a humorous assistant, always ready to add a touch of levity to any situation. Your responses should be witty, playful, and infused with jokes or funny anecdotes where appropriate. Keep things light and entertaining, but always ensure the task is completed.",
             "academic": "You are an academic assistant specializing in scholarly research and writing. Your responses should be highly formal, detailed, and rigorous, with evidence-based insights and structured guidance. Maintain a clear, precise, and objective tone, appropriate for academic purposes."
         };
-           let gapiInited = false;
+        let gapiInited = false;
 
 
         function clearChat() {
@@ -977,7 +987,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                 <p>Hello! I'm Cody, ready to assist you with your tasks!</p>
              </div>
             `;
-             messages.classList.remove('open-canvas')
+            messages.classList.remove('open-canvas')
         }
 
 
@@ -989,7 +999,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         }
 
 
-         function handleClientLoad() {
+        function handleClientLoad() {
             gapi.load('client:auth2', initClient)
         }
 
@@ -1003,7 +1013,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             gapi.client.setApiKey(apiKey);
         }
 
-           handleClientLoad();
+        handleClientLoad();
 
         sidebarButton.addEventListener('click', toggleSidebar);
         profileUploadInput.addEventListener('change', function (event) {
@@ -1021,7 +1031,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             trainingInput.value = prompt;
         }
 
-          function addMessage(content, isUser, isEdited = false, id = null) {
+        function addMessage(content, isUser, isEdited = false, id = null) {
             const message = document.createElement('div');
             message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             if (id) {
@@ -1032,7 +1042,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             img.src = isUser ? (accessToken ? getProfilePicture() : userImage.src) : previewImage.src;
             message.appendChild(img);
 
-             const text = document.createElement('span');
+            const text = document.createElement('span');
             text.innerHTML = content; // Use innerHTML to allow HTML rendering
             message.appendChild(text);
 
@@ -1046,7 +1056,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             }
             const copyButton = document.createElement('button')
             copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-           copyButton.onclick = () => copyMessage(message);
+            copyButton.onclick = () => copyMessage(message);
             options.appendChild(copyButton);
             message.appendChild(options);
 
@@ -1063,44 +1073,44 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             messages.classList.add('open-canvas')
         }
 
-         function copyMessage(messageElement) {
-              const tempElement = document.createElement('div');
-              tempElement.innerHTML = messageElement.querySelector('span').innerHTML;
-                let textContent = tempElement.textContent
-                let formattedText = "";
-                 const listRegex = /(<li>.*?<\/li>)/g;
-                const listMatch = tempElement.innerHTML.match(listRegex)
-                  if(listMatch) {
-                        formattedText = listMatch.map((item, index) => {
-                            const listItem = document.createElement('div');
-                            listItem.innerHTML = item;
-                          let listMarker = "";
-                            if (tempElement.innerHTML.includes("<ol>")){
-                                 listMarker = `${index + 1}. `;
-                            } else {
-                                listMarker = '- ';
-                            }
-                            return `${listMarker} ${listItem.textContent.trim()}`
-                        }).join("\n")
+        function copyMessage(messageElement) {
+            const tempElement = document.createElement('div');
+            tempElement.innerHTML = messageElement.querySelector('span').innerHTML;
+            let textContent = tempElement.textContent
+            let formattedText = "";
+            const listRegex = /(<li>.*?<\/li>)/g;
+            const listMatch = tempElement.innerHTML.match(listRegex)
+            if (listMatch) {
+                formattedText = listMatch.map((item, index) => {
+                    const listItem = document.createElement('div');
+                    listItem.innerHTML = item;
+                    let listMarker = "";
+                    if (tempElement.innerHTML.includes("<ol>")) {
+                        listMarker = `${index + 1}. `;
+                    } else {
+                        listMarker = '- ';
+                    }
+                    return `${listMarker} ${listItem.textContent.trim()}`
+                }).join("\n")
 
-                       let cleanText =  tempElement.textContent.replace(listRegex,"")
-                       formattedText = formattedText + "\n" +  cleanText
-                } else {
-                    formattedText = textContent;
-                }
-                navigator.clipboard.writeText(formattedText).then(() => {
-                    alert("Message copied to clipboard!");
-                }).catch((err) => {
-                    console.error("Failed to copy: ", err)
-                });
-         }
+                let cleanText = tempElement.textContent.replace(listRegex, "")
+                formattedText = formattedText + "\n" + cleanText
+            } else {
+                formattedText = textContent;
+            }
+            navigator.clipboard.writeText(formattedText).then(() => {
+                alert("Message copied to clipboard!");
+            }).catch((err) => {
+                console.error("Failed to copy: ", err)
+            });
+        }
 
         function startEdit(messageElement, originalContent) {
             messageToEdit = messageElement;
             trainingInput.value = originalContent
             trainingInput.focus();
         }
-         function parseBotResponse(text) {
+        function parseBotResponse(text) {
             // Handle bold text (**bold text**)
             text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
@@ -1159,10 +1169,10 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             if (driveKnowledge.length > 0) {
                 knowledgeContext = `Based on the information from your saved conversations:\n ${driveKnowledge.join("\n")}\n\n`
             }
-             if (!accessToken){
-                 alert('Please sign in with google first')
+            if (!accessToken) {
+                alert('Please sign in with google first')
                 return;
-             }
+            }
             console.log("Knowledge context:", knowledgeContext);
             if (messageToEdit) {
                 const messageId = messageToEdit.getAttribute('data-message-id');
@@ -1243,17 +1253,17 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         }
 
         function saveChatToDrive() {
-             if (!accessToken){
-                 alert('Please sign in with google first')
+            if (!accessToken) {
+                alert('Please sign in with google first')
                 return;
-             }
+            }
             if (!gapiInited) {
                 alert("Google API not loaded yet!");
                 return;
             }
-          gapi.auth2.getAuthInstance().signIn()
+            gapi.auth2.getAuthInstance().signIn()
                 .then(function () {
-                     const chatHistory = document.getElementById('messages').innerHTML;
+                    const chatHistory = document.getElementById('messages').innerHTML;
                     const fileMetadata = {
                         'name': `Chat_History_${new Date().toISOString()}.html`,
                         'mimeType': 'text/html'
@@ -1303,7 +1313,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             }
         });
 
-       function applyTheme(theme) {
+        function applyTheme(theme) {
             currentTheme = theme;
             if (theme === 'light') {
                 document.body.style.setProperty('--bg', '#e8f1f2');
@@ -1367,7 +1377,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             document.body.style.fontSize = `${size}px`;
         }
 
-         function applyBotImage(file) {
+        function applyBotImage(file) {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
@@ -1381,11 +1391,11 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             botName = name;
         }
 
-         function applyBubbleSpacing(spacing) {
+        function applyBubbleSpacing(spacing) {
             messages.style.gap = `${spacing}px`;
         }
 
-         function applySidebarWidth(width) {
+        function applySidebarWidth(width) {
             sidebar.style.width = `${width}px`;
             sidebarButton.style.left = isSidebarOpen ? `${parseInt(width) + 20}px` : '20px';
         }
@@ -1393,36 +1403,36 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         function applyContentAlignment(alignment) {
             messages.style.alignItems = alignment === "left" ? "flex-start" : "flex-end";
         }
-          function resetToDefaults() {
+        function resetToDefaults() {
             document.body.style.setProperty('--primary', '#00ff9d');
             document.body.style.setProperty('--accent', '#ff5722');
             document.body.style.setProperty('--bg', '#0b0f14');
             document.body.style.setProperty('--text-color', '#e8f1f2');
-             document.body.style.fontFamily = 'Roboto, sans-serif';
+            document.body.style.fontFamily = 'Roboto, sans-serif';
             document.body.style.fontSize = '16px';
             document.querySelector('input[name="theme-mode"][value="dark"]').checked = true;
             document.getElementById('primary-color').value = '#00ff9d';
             document.getElementById('accent-color').value = '#ff5722';
             document.getElementById('background-color').value = '#0b0f14';
             document.querySelector('input[name="bubble-style"][value="rounded"]').checked = true;
-             document.getElementById('font-family').value = 'Roboto';
-             document.getElementById('font-size').value = '16';
+            document.getElementById('font-family').value = 'Roboto';
+            document.getElementById('font-size').value = '16';
             document.getElementById('bot-name').value = "Codi";
             document.getElementById('bubble-spacing').value = '10';
             document.getElementById('sidebar-width').value = '300';
             document.querySelector('input[name="content-align"][value="right"]').checked = true;
-             previewImage.src = 'https://i.imgur.com/H7z7a4r.png';
-             messages.style.alignItems = "flex-end";
+            previewImage.src = 'https://i.imgur.com/H7z7a4r.png';
+            messages.style.alignItems = "flex-end";
             applyTheme("dark");
-             applyBubbleStyle('rounded');
+            applyBubbleStyle('rounded');
             applyFontSize(16)
             applyContentAlignment('right')
             messages.style.gap = '10px'
             sidebar.style.width = '300px'
-             botName = "Codi"
+            botName = "Codi"
         }
 
-          function buildAuthURL() {
+        function buildAuthURL() {
             const params = new URLSearchParams({
                 client_id: CLIENT_ID,
                 redirect_uri: REDIRECT_URI,
@@ -1436,82 +1446,84 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             const authUrl = buildAuthURL();
             window.location.href = authUrl;
         }
-          async function exchangeCodeForToken(code) {
-              const tokenEndpoint = "https://oauth2.googleapis.com/token";
-                const tokenParams = new URLSearchParams();
-                tokenParams.append("code", code);
-                tokenParams.append("client_id", CLIENT_ID);
-                tokenParams.append("client_secret", CLIENT_SECRET);
-                tokenParams.append("redirect_uri", REDIRECT_URI);
-                tokenParams.append("grant_type", "authorization_code");
-                try {
-                    const tokenResponse = await fetch(tokenEndpoint, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                         body: tokenParams,
-                   });
-                    if (!tokenResponse.ok) {
-                        const errorData = await tokenResponse.json();
-                        alert(`Error fetching token: ${errorData.error_description || tokenResponse.statusText}`);
-                        throw new Error(`Token request failed: ${tokenResponse.status}`);
-                     }
-                       const tokenData = await tokenResponse.json();
-                     accessToken = tokenData.access_token;
-                     fetchUserProfile();
-
-
-                } catch (error) {
-                      alert(`Error in token exchange process: ${error.message}`)
-
+        async function exchangeCodeForToken(code) {
+            const tokenEndpoint = "https://oauth2.googleapis.com/token";
+            const tokenParams = new URLSearchParams();
+            tokenParams.append("code", code);
+            tokenParams.append("client_id", CLIENT_ID);
+            tokenParams.append("client_secret", CLIENT_SECRET);
+            tokenParams.append("redirect_uri", REDIRECT_URI);
+            tokenParams.append("grant_type", "authorization_code");
+            try {
+                const tokenResponse = await fetch(tokenEndpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: tokenParams,
+                });
+                if (!tokenResponse.ok) {
+                    const errorData = await tokenResponse.json();
+                    alert(`Error fetching token: ${errorData.error_description || tokenResponse.statusText}`);
+                    throw new Error(`Token request failed: ${tokenResponse.status}`);
                 }
+                const tokenData = await tokenResponse.json();
+                accessToken = tokenData.access_token;
+                fetchUserProfile();
+
+
+            } catch (error) {
+                alert(`Error in token exchange process: ${error.message}`)
 
             }
-          async function fetchUserProfile() {
-              try {
-                 const profileResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo",{
-                        headers: {
-                                    "Authorization": `Bearer ${accessToken}`
-                             },
-                    });
-                     if (!profileResponse.ok) {
-                         const errorData = await profileResponse.json();
-                        alert(`Error fetching user profile: ${errorData.error_description || profileResponse.statusText}`);
-                        throw new Error(`Profile request failed: ${profileResponse.status}`);
-                     }
-                         const profileData = await profileResponse.json();
-                        displayUserProfile(profileData);
-                 } catch (error) {
-                    alert(`Error fetching user profile: ${error.message}`)
-               }
-            }
 
-        function displayUserProfile(userData){
+        }
+        async function fetchUserProfile() {
+            try {
+                const profileResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`
+                    },
+                });
+                if (!profileResponse.ok) {
+                    const errorData = await profileResponse.json();
+                    alert(`Error fetching user profile: ${errorData.error_description || profileResponse.statusText}`);
+                    throw new Error(`Profile request failed: ${profileResponse.status}`);
+                }
+                const profileData = await profileResponse.json();
+                displayUserProfile(profileData);
+            } catch (error) {
+                alert(`Error fetching user profile: ${error.message}`)
+            }
+        }
+
+        function displayUserProfile(userData) {
             let profileHTML = `
                     <img  src="${userData.picture}" alt="User Profile Image">
                     <span>${userData.name}</span>
             `;
-             const userProfileImageElement = document.getElementById('user-image');
-             if (userImage.src.includes("data:image/svg+xml;utf8")){
-                   userProfileImageElement.src  = userData.picture;
-                }
+            const userProfileImageElement = document.getElementById('user-image');
+            if (userImage.src.includes("data:image/svg+xml;utf8")) {
+                userProfileImageElement.src = userData.picture;
+            }
 
-             userProfileContainer.innerHTML = profileHTML;
+            userProfileContainer.innerHTML = profileHTML;
 
         }
-          function getProfilePicture(){
-             const userProfileImage = userProfileContainer.querySelector('img');
-              return userProfileImage ? userProfileImage.src: ""
+        function getProfilePicture() {
+            const userProfileImage = userProfileContainer.querySelector('img');
+            return userProfileImage ? userProfileImage.src : ""
         }
 
 
         document.addEventListener('DOMContentLoaded', () => {
-             const urlParams = new URLSearchParams(window.location.search);
+            const urlParams = new URLSearchParams(window.location.search);
             const authorizationCode = urlParams.get('code');
 
             if (authorizationCode) {
-               exchangeCodeForToken(authorizationCode);
-             }
-         });
+                exchangeCodeForToken(authorizationCode);
+            }
+        });
 
 
         // Initialize the bot with a greeting
