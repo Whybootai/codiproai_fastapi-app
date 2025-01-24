@@ -362,42 +362,7 @@
             text-decoration: underline;
         }
 
-        #api-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-
-        #api-modal .modal-content {
-            background: var(--dark);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 255, 157, 0.5);
-            text-align: center;
-            color: var(--light);
-        }
-
-        #api-modal .modal-content input {
-            width: 80%;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-top: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-        }
-
-        #api-modal .modal-content button {
-            margin-top: 20px;
-        }
-
+     
         /* Sidebar Styles */
         .sidebar {
             position: fixed;
@@ -717,13 +682,7 @@
 </head>
 
 <body>
-     <div id="api-modal">
-        <div class="modal-content">
-            <h2>Enter API Key</h2>
-            <input type="text" id="api-key-input" placeholder="Your API Key...">
-            <button onclick="submitApiKey()"><i class="fas fa-check"></i> Submit</button>
-        </div>
-    </div>
+
     <header>
         <h1>CodyPro AI</h1>
         <i class="fab fa-google-drive" id="google-drive-icon" onclick="saveChatToDrive()"></i>
@@ -930,7 +889,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         </div>
         <div class="settings-section">
             <button onclick="resetToDefaults()">Reset to Defaults</button>
-            <         <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview" /></div>
+            <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview" /></div>
         </div>
     </div>
 
@@ -943,13 +902,9 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         const CLIENT_SECRET = "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"; // IMPORTANT: Do not expose this in frontend code
          const REDIRECT_URI = window.location.origin; // Use current page URL
          const SCOPE = 'profile email';
-        let apiKey = "";
+        let apiKey = "AIzaSyBQKOdFOb4R4u3EI963qccLFneLNe5xN-g"; // Directly injected API key - **INSECURE**
         const   messages = document.getElementById('messages');
         const trainingInput = document.getElementById('training-input');
-        const apiModal = document.getElementById('api-modal');
-        const apiKeyInput = document.getElementById('api-key-input');
-        const secretCode = "123456";
-        const adminApiKey = "AIzaSyBQKOdFOb4R4u3EI963qccLFneLNe5xN-g";
         const userImage = document.getElementById('user-image');
         const profileUploadInput = document.getElementById('profile-upload-input');
         const sidebar = document.getElementById('settingsSidebar');
@@ -995,27 +950,6 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
              messages.classList.remove('open-canvas')
         }
 
-         function submitApiKey() {
-            const input = apiKeyInput.value.trim();
-            if (input === secretCode) {
-                apiKey = adminApiKey;
-                apiKeyInput.value = adminApiKey;
-                apiModal.style.display = 'none';
-                alert("Admin API key activated!");
-                addMessage('Admin API key activated', false)
-                return;
-            }
-            if (!input) {
-                alert("API key is required!");
-                return;
-            }
-
-            apiKey = input;
-            apiModal.style.display = 'none';
-            alert("API key successfully linked!");
-            addMessage('API key successfully linked!', false)
-
-        }
 
         function toggleSidebar() {
             isSidebarOpen = !isSidebarOpen;
@@ -1552,7 +1486,6 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
 
         // Initialize the bot with a greeting
         clearChat()
-       apiModal.style.display = 'flex';
 
     </script>
 </body>
