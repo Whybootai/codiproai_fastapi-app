@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -451,74 +450,76 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-       /* Settings section */
+        /* Settings section */
         .settings-section {
-                margin: 20px 0;
-                padding: 10px;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-            }
+            margin: 20px 0;
+            padding: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
         .settings-section h3 {
-              margin-bottom: 10px;
+            margin-bottom: 10px;
         }
-            .settings-section .setting-item {
-                margin-bottom: 10px;
-                display: flex;
-                flex-direction: column;
-            }
 
-            .settings-section .setting-item label {
-                display: block;
-                margin-bottom: 5px;
-            }
+        .settings-section .setting-item {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
 
-            .settings-section .setting-item input[type="color"],
-            .settings-section .setting-item select,
-            .settings-section .setting-item input[type="text"],
-             .settings-section .setting-item input[type="number"],
-            .settings-section .setting-item input[type="range"] {
-                background: rgba(255, 255, 255, 0.1);
-                border: none;
-                border-radius: 5px;
-                color: var(--light);
-                padding: 8px;
-                width: 100%;
-            }
+        .settings-section .setting-item label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .settings-section .setting-item input[type="color"],
+        .settings-section .setting-item select,
+        .settings-section .setting-item input[type="text"],
+         .settings-section .setting-item input[type="number"],
+        .settings-section .setting-item input[type="range"] {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 5px;
+            color: var(--light);
+            padding: 8px;
+            width: 100%;
+        }
+
         .settings-section .setting-item select {
-              appearance: none;
+                appearance: none;
                 -webkit-appearance: none;
                 -moz-appearance: none;
                 background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
                 background-repeat: no-repeat;
                 background-position: right 8px top 50%;
         }
-          .settings-section .setting-item .radio-group {
-               display: flex;
-                align-items: center;
-            }
+        .settings-section .setting-item .radio-group {
+             display: flex;
+            align-items: center;
+        }
 
-           .settings-section .setting-item .radio-group label{
-              display: inline-flex;
-               align-items: center;
-              margin: 0 15px 0 0;
-            }
-            .settings-section .setting-item .radio-group input[type="radio"] {
-               margin-right: 5px;
-            }
+        .settings-section .setting-item .radio-group label {
+             display: inline-flex;
+             align-items: center;
+            margin: 0 15px 0 0;
+        }
+        .settings-section .setting-item .radio-group input[type="radio"] {
+             margin-right: 5px;
+        }
 
-             .settings-section #preview {
+        .settings-section #preview {
                 margin: 10px auto;
                 padding: 10px;
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 border-radius: 8px;
                 text-align: center;
-            }
-        .settings-section #preview img{
+        }
+        .settings-section #preview img {
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
-                 object-fit: cover;
-                 border: 2px solid var(--accent);
+                object-fit: cover;
+                border: 2px solid var(--accent);
         }
         /* Responsive Adjustments */
         @media (max-width: 768px) {
@@ -681,6 +682,26 @@
             border-radius: 50%;
             object-fit: cover;
              border: 2px solid var(--accent);
+        }
+
+      #feedback-container{
+          position: fixed;
+           bottom: 20px;
+           right: 20px;
+             z-index: 10000;
+        }
+           #feedback-button {
+                background: var(--secondary);
+                color: var(--light);
+                 padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+               cursor: pointer;
+               transition: background-color 0.3s ease;
+            }
+        #feedback-button:hover{
+                background-color: #1563cb;
+
         }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -894,7 +915,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         </div>
       <div class="settings-section">
           <h3>Training settings</h3>
-            <div class="setting-item">
+          <div class="setting-item">
               <label for="training-data-quality">Training Data Quality:</label>
                <select id="training-data-quality" onchange="applyTrainingSetting(this.value,'dataQuality')">
                 <option value="low">Low</option>
@@ -902,7 +923,9 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                    <option value="high">High</option>
                 </select>
           </div>
-          <div class="setting-item">                 <label for="training-data-quantity">Training Data Quantity:</label>
+          <div class="setting-item">
+                <label for="training
+                            -data-quantity">Training Data Quantity:</label>
                   <input type="range" id="training-data-quantity" min="100" max="10000" step ="100"  value="1000" onchange="applyTrainingSetting(this.value,'dataQuantity')">
             </div>
              <div class="setting-item">
@@ -951,6 +974,9 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview" /></div>
         </div>
     </div>
+        <div id="feedback-container">
+             <button id="feedback-button" onclick="window.location.href='mailto:flynnpontino@gmail.com';">Send Feedback</button>
+         </div>
 
     <div class="sidebar-button" id="sidebarToggle">
          <i class="fas fa-cog"></i>
@@ -1185,7 +1211,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
         }
 
 
-         async function sendTrainingPrompt() {
+        async function sendTrainingPrompt() {
             const prompt = trainingInput.value.trim();
             const promptType = document.getElementById('prompt-type').value;
             console.log("Prompt type:", promptType);
@@ -1237,7 +1263,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                     body: JSON.stringify({
+                    body: JSON.stringify({
                         contents: [{
                             parts: [{
                                 text: `${knowledgeContext} ${trainingContext} ${selectedPrompt} ${prompt}`
@@ -1282,13 +1308,10 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             }
         }
 
-
         function applyTrainingSetting(value, setting) {
             trainingSettings[setting] = value;
              console.log('setting:', trainingSettings)
          }
-
-
         function saveChatToDrive() {
              if (!accessToken){
                  alert('Please sign in with google first')
@@ -1466,8 +1489,8 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
             applyContentAlignment('right')
             messages.style.gap = '10px'
             sidebar.style.width = '300px'
-             botName = "Codi"
-               trainingSettings = {
+             botName = "Codi";
+              trainingSettings = {
                 dataQuality:"medium",
                 dataQuantity:1000,
                 pretrainedModels:"none",
