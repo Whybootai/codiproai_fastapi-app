@@ -680,7 +680,7 @@
             align-items: center;
             margin-bottom: 20px;
             gap: 10px;
-           
+
         }
            #user-profile-info img {
             width: 40px;
@@ -911,12 +911,12 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
     </div>
     <script src="https://apis.google.com/js/api.js"></script>
     <script>
-         const CLIENT_ID = '112450391570-r8m4v9j8r1t86n6g42b1v587q9n20387.apps.googleusercontent.com';
-        const CLIENT_SECRET = "YOUR_CLIENT_SECRET"; // IMPORTANT: Do not expose this in frontend code in production!!!
-        const REDIRECT_URI = 'https://auth-modal-demo-1.onrender.com/callback'; // IMPORTANT!
+         const CLIENT_ID = '309664778692-6fermb0njkr7uuv03i3lodb4ab4etqt7.apps.googleusercontent.com';
+        const CLIENT_SECRET = "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"; // IMPORTANT: Do not expose this in frontend code in production!!!
+         const REDIRECT_URI = window.location.origin; // Use current page URL
          const SCOPE = 'profile email';
         let apiKey = "";
-        const   messages = document.getElementById('messages');
+        const         messages = document.getElementById('messages');
         const trainingInput = document.getElementById('training-input');
         const apiModal = document.getElementById('api-modal');
         const apiKeyInput = document.getElementById('api-key-input');
