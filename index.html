@@ -116,6 +116,10 @@
             display: flex;
             flex-direction: column;
             margin: 30px 0;
+             display: none; /* Initially hidden */
+        }
+        #chat-container.active {
+            display: flex;
         }
 
         #messages {
@@ -712,6 +716,106 @@
         .feedback-section i {
             margin-right: 5px;
         }
+
+         /* Detail Section Styles */
+        #detail-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #detail-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        #detail-section p {
+             font-size: 1.1em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .feature-grid {
+            display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+             margin-bottom: 30px;
+             padding: 0 20px;
+        }
+
+        .feature {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature:hover {
+           transform: translateY(-5px);
+        }
+        .feature i {
+            font-size: 3em; /* larger icon size */
+            margin-bottom: 10px;
+             display: block;
+        }
+
+
+        .feature h3 {
+             margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+        .call-to-action {
+            margin-top: 30px;
+        }
+
+        .call-to-action p {
+             font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .try-now-button {
+            display: inline-block;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1.1em;
+            text-decoration: none;
+        }
+
+        .try-now-button:hover {
+             transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 157, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            #detail-section {
+               width: 95%;
+               padding: 10px;
+           }
+
+            #detail-section h2 {
+                font-size: 2em;
+            }
+            .feature-grid {
+                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                padding: 0 10px;
+            }
+             .feature i {
+              font-size: 2em;
+            }
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -759,7 +863,81 @@
             </li>
         </ul>
     </div>
-    <div id="chat-container">
+
+       <section id="detail-section">
+        <h2>CodyPro AI: Your Versatile AI Assistant</h2>
+        <p>
+            CodyPro AI is designed to seamlessly integrate into your workflow, providing assistance with research, writing,
+            critical analysis, and project management. Whether you're a freelancer, a corporate professional, or part of a
+            dynamic team, CodyPro AI is ready to support you with precision and insight.
+        </p>
+
+        <div class="feature-grid">
+            <div class="feature">
+               <i class="fas fa-brain"></i>
+                <h3>Context Aware</h3>
+                <p>
+                    CodyPro AI remembers previous interactions, ensuring consistent and relevant responses throughout your
+                    conversation.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-palette"></i>
+                <h3>Custom Tonality</h3>
+                <p>
+                    Tailor Cody's responses to your needs by choosing the right tonality such as professional, casual, humorous, and more.
+                </p>
+            </div>
+             <div class="feature">
+                 <i class="fab fa-google-drive"></i>
+                <h3>Save to Google Drive</h3>
+                <p>
+                   Safeguard your conversation history by saving it directly to your Google Drive with a single click.
+                </p>
+            </div>
+              <div class="feature">
+                  <i class="fas fa-sliders-h"></i>
+                <h3>Customizable Experience</h3>
+                <p>
+                   Personalize the look and feel of CodyPro AI to your liking with customizable themes, chat bubble styles, and fonts.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-edit"></i>
+                <h3>Edit and Copy Messages</h3>
+                <p>
+                    Easily edit your prompts and copy the responses for your documents or other applications.
+                </p>
+            </div>
+             <div class="feature">
+                  <i class="fas fa-lightbulb"></i>
+                <h3>Prompt Suggestions</h3>
+                <p>
+                    Get inspired with prompt suggestions, guiding you through the myriad of ways Cody can assist you.
+                </p>
+            </div>
+              <div class="feature">
+                <i class="fas fa-user-check"></i>
+                <h3>User-Friendly Interface</h3>
+                <p>
+                     Enjoy a seamless experience with a straightforward and intuitive interface for all your tasks.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <h3>Quick Response</h3>
+                 <p>
+                     Experience near real-time responses, ensuring a fluid and efficient interaction every time.
+                </p>
+            </div>
+
+        </div>
+        <div class="call-to-action">
+            <p>Ready to experience the power of CodyPro AI?</p>
+            <button class="try-now-button" onclick="showChatTool()">Try CodyPro AI Now!</button>
+        </div>
+    </section>
+     <div id="chat-container">
          <div id="google-sign-in-container">
             <button id="google-sign-in-button" onclick="initiateGoogleAuth()"> <img
                     src="https://www.gstatic.com/images/branding/product/1x/google_g_24dp.png" alt="Google Icon"> Sign in
@@ -807,14 +985,15 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
                 sort
             </div>
         </div>
+
+    </div>
         <footer>
             © 2025 <a href="#">CodyPro AI</a>. Built with ❤️ by Flynn James P.
         </footer>
-    </div>
     <!-- Sidebar -->
     <div class="sidebar" id="settingsSidebar">
         <div class="profile-upload">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>"
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height=' 100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>"
                 alt="User Profile" id="user-image" style="object-fit: contain;" />
             <label for="profile-upload-input">Upload Profile Image</label>
             <input type="file" id="profile-upload-input" accept="image/*" style="display: none;" />
@@ -952,6 +1131,7 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
          const userGuidePopup = document.getElementById('user-guide-popup');
          const previewImage = document.querySelector('#preview img')
          const userProfileContainer = document.getElementById('user-profile-info');
+         const chatContainer = document.getElementById('chat-container')
         let isSidebarOpen = false;
         let botName = "Codi";
          let currentTheme = "dark"; // Default theme
@@ -980,6 +1160,9 @@ You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
          let gapiInited = false;
 
 
+         function showChatTool() {
+            chatContainer.classList.add('active')
+        }
         function clearChat() {
             messages.innerHTML = `
              <div class="initial-greeting">
