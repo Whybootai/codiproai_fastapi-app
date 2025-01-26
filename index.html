@@ -1,330 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Code Editor with Live Preview</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-          /* Body and Main Background */
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: #ecf0f1;
-            min-height: 100vh;
-            transition: background 0.5s ease-in-out;
-        }
-
-        /* Main Container */
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin-top: 40px;
-            text-align: center;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        h1 {
-            font-size: 3rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #ecf0f1;
-            animation: slideIn 1s ease-out;
-        }
-
-        /* Mode Selection */
-          select, button {
-            margin: 20px 0;
-            padding: 15px;
-            font-size: 16px;
-            cursor: pointer;
-            background: #34495e;
-            border: 1px solid #2980b9;
-            border-radius: 5px;
-            color: #ecf0f1;
-            transition: all 0.3s ease;
-        }
-
-        select:focus, button:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
-        }
-
-
-        /* Editor Container */
-        .editor-container {
-             display: flex;
-             justify-content: space-between;
-            gap: 20px;
-            margin-top: 30px;
-            transition: all 0.5s ease-in-out;
-        }
-
-        .editor {
-            width: 30%;
-             height: 300px;
-            padding: 15px;
-            background-color: #2d2d2d;
-            color: white;
-            font-family: monospace;
-            border-radius: 10px;
-            box-sizing: border-box;
-            border: 2px solid #2980b9;
-            transition: transform 0.3s ease;
-             resize: none; /* Disable resizing */
-              overflow: auto; /* Add scroll for overflow */
-         }
-
-        .editor:hover {
-            transform: scale(1.05);
-        }
-
-         #preview {
-            width: 100%;
-            height: 500px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            margin-top: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-             overflow: auto; /* Add scroll for overflow */
-         }
-
-         #preview:hover {
-           transform: scale(1.01)
-        }
-
-        .console {
-            background-color: #333;
-            color: #fff;
-            padding: 15px;
-            margin-top: 20px;
-            width: 100%;
-            border-radius: 5px;
-            font-family: 'Courier New', Courier, monospace;
-             min-height: 150px;
-            overflow-y: auto;
-        }
-
-        /* Action Buttons */
-        .buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-             flex-wrap: wrap;
-             gap: 10px
-        }
-
-        .buttons button {
-            padding: 10px;
-            font-size: 1.5em; /* Icon size */
-            border-radius: 50%; /* Make button circular */
-            margin: 0 5px;
-            background: #3498db;
-            border: none;
-            color: white;
-            transition: background 0.3s ease, transform 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px; /* Set fixed width */
-            height: 40px; /* Set fixed height */
-
-         }
-
-        .buttons button:hover {
-            background: #2980b9;
-            transform: translateY(-5px);
-        }
-
-        .buttons button:active {
-            transform: translateY(2px);
-        }
-
-        /* Floating Action Button */
-        .floating-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff6347;
-            color: white;
-            font-size: 18px;
-            padding: 20px;
-            border-radius: 50%;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .floating-btn:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            0% { transform: translateY(-100px); }
-            100% { transform: translateY(0); }
-        }
-    </style>
+    <link rel="stylesheet" href="node_modules/prismjs/themes/prism.css" />
 </head>
+
 <body>
-
-<div class="container">
-    <h1>Advanced Code Editor with Live Preview</h1>
-
-    <!-- Mode Selection -->
-    <select id="modeSelect">
-        <option value="html">HTML</option>
-        <option value="css">CSS</option>
-        <option value="js">JavaScript</option>
-    </select>
-
-    <!-- Editors Container -->
-    <div class="editor-container">
-        <textarea id="htmlEditor" class="editor" placeholder="Write your HTML code here..."></textarea>
-        <textarea id="cssEditor" class="editor" placeholder="Write your CSS code here..."></textarea>
-        <textarea id="jsEditor" class="editor" placeholder="Write your JavaScript code here..."></textarea>
+   <script src="node_modules/prismjs/prism.js"></script>
+    <div id="code-toggle-button" onclick="toggleEditorsVisibility()">
+        <i class="fas fa-code"></i>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="buttons">
-        <button onclick="updatePreview()"><i class="fas fa-sync-alt"></i></button>
-        <button onclick="toggleEditors()"><i class="fas fa-code"></i></button>
-         <button onclick="segregateCode()"><i class="fas fa-code-branch"></i></button>
-        <button onclick="copyCode('html')"><i class="fab fa-html5"></i></button>
-         <button onclick="copyCode('css')"><i class="fab fa-css3-alt"></i></button>
-         <button onclick="copyCode('js')"><i class="fab fa-js"></i></button>
-        <button onclick="resetEditors()"><i class="fas fa-trash"></i></button>
-    </div>
+    <div class="container">
+        <h1>Advanced Code Editor with Live Preview</h1>
+        <div id="header-buttons">
+            <i class="fas fa-question-circle" id="user-manual-icon" onclick="toggleUserManual()"></i>
+            <i class="fas fa-expand-arrows-alt" id="full-page-button" onclick="toggleFullPageView()"
+                style="cursor: pointer;"></i>
+        </div>
+        <!-- Mode Selection -->
+        <select id="modeSelect">
+            <option value="html">HTML</option>
+        </select>
 
-    <!-- Live Preview -->
+        <!-- Editors Container -->
+        <div class="editor-container">
+            <textarea id="htmlEditor" class="editor" placeholder="Write your HTML code here..."></textarea>
+            <textarea id="cssEditor" class="editor" placeholder="Write your CSS code here..."></textarea>
+            <textarea id="jsEditor" class="editor" placeholder="Write your JavaScript code here..."></textarea>
+        </div>
+        <div id="full-page-view" class="">
+            <button class="back-button" onclick="toggleFullPageView()"><i class="fas fa-arrow-left"></i></button>
+            <iframe id="preview-fullpage"></iframe>
+        </div>
+        <!-- Action Buttons -->
+        <div class="buttons">
+            <button onclick="updatePreview()"><i class="fas fa-sync-alt"></i><span class="tooltip">Update
+                    Preview</span></button>
+            <button onclick="toggleEditors()"><i class="fas fa-code"></i><span class="tooltip">Toggle
+                    Editors</span></button>
+            <button onclick="segregateCode()"><i class="fas fa-code-branch"></i><span class="tooltip">Segregate
+                    Code</span></button>
+            <button onclick="copyCode('html')"><i class="fab fa-html5"></i><span class="tooltip">Copy
+                    HTML</span></button>
+            <button onclick="copyCode('css')"><i class="fab fa-css3-alt"></i><span class="tooltip">Copy
+                    CSS</span></button>
+            <button onclick="copyCode('js')"><i class="fab fa-js"></i><span class="tooltip">Copy
+                    JavaScript</span></button>
+            <button onclick="resetEditors()"><i class="fas fa-trash"></i><span class="tooltip">Reset
+                    Editor</span></button>
+            <button id="preview-fullscreen-button" onclick="togglePreviewFullscreen()"><i
+                    class="fas fa-expand"></i></button>
+        </div>
+        <!-- Console Output -->
+        <div class="console" id="console-output">Console output will appear here...</div>
+        <div id="user-manual-popup">
+            <span class="close-button" onclick="toggleUserManual()">×</span>
+            <h2>User Manual</h2>
+            <ul>
+                <li><strong>Mode Selection:</strong> Choose between HTML, CSS, and JS to adjust the code that appears in the
+                    editor areas.
+                </li>
+                <li><strong>Editor:</strong> The editor sections on the left are used to input the HTML, CSS, and JS code
+                    for the application.</li>
+                <li><strong>Update Preview:</strong> Updates the preview iframe with any changes done on the editor
+                    sections.
+                </li>
+                <li><strong>Toggle Editor:</strong> Allows you to show or hide the editor sections.
+                </li>
+                <li><strong>Segregate Code:</strong> Seperates the code accordingly when using HTML.
+                </li>
+                <li><strong>Copy Code (HTML, CSS, JS):</strong> Copies the code from the selected section
+                </li>
+                <li><strong>Reset:</strong> Clear all the contents from the editors.
+                </li>
+                <li><strong>Full page View:</strong> Expands the preview to fill the entire page.
+                </li>
+                <li><strong>Preview Fullscreen:</strong> Expands the preview section to full screen in the main window.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Chatbot Modal -->
+    <div id="chat-modal" class="">
+        <span class="close-button" onclick="toggleChatModal()">×</span>
+        <div class="messages" id="chat-messages">
+        </div>
+        <button class="reset-button" onclick="resetChat()">Reset Chat</button>
+        <div class="input-area">
+            <textarea id="code-assistant-input"
+                placeholder="What kind of code do you need assistance with?"></textarea>
+            <button onclick="sendCodeQuery()"> <i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="thinking" style="display: none">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+    <!-- Floating Action Button -->
+    <div class="floating-btn" onclick="toggleChatModal()">
+        <i class="fas fa-plus"></i>
+    </div>
+    <div id="notification-container"></div>
+
     <iframe id="preview"></iframe>
 
-    <!-- Console Output -->
-    <div class="console" id="console-output">Console output will appear here...</div>
-</div>
-
-<!-- Floating Action Button -->
-<div class="floating-btn" onclick="alert('Floating Action Triggered!')">+</div>
-
-<script>
-    const htmlEditor = document.getElementById('htmlEditor');
-    const cssEditor = document.getElementById('cssEditor');
-    const jsEditor = document.getElementById('jsEditor');
-    const preview = document.getElementById('preview');
-    const modeSelect = document.getElementById('modeSelect');
-    const consoleOutput = document.getElementById('console-output');
-    let mode = "html";
-
-    function updatePreview() {
-        const htmlCode = htmlEditor.value;
-        const cssCode = cssEditor.value;
-        const jsCode = jsEditor.value;
-       try {
-            const iframeDoc = preview.contentDocument || preview.contentWindow.document;
-        iframeDoc.open();
-            iframeDoc.write(htmlCode);
-            iframeDoc.close();
-
-            const style = iframeDoc.createElement('style');
-            style.innerHTML = cssCode;
-            iframeDoc.head.appendChild(style);
-
-            const script = iframeDoc.createElement('script');
-            script.innerHTML = jsCode;
-            iframeDoc.body.appendChild(script);
-            consoleOutput.innerHTML = `Successfully updated preview`
-        } catch (e) {
-            consoleOutput.innerHTML = `Error in update preview: ${e}`
-        }
-    }
-
-    function segregateCode() {
-        const code = htmlEditor.value;
-        if (!code) return consoleOutput.innerHTML = `No HTML code detected.`;
-
-        let segregatedHTML = "";
-        let segregatedCSS = "";
-        let segregatedJS = "";
-
-          // Extract HTML outside script and style tags
-        segregatedHTML = code.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').trim();
-
-         // Extract JavaScript inside script tags
-          const scriptMatches = code.matchAll(/<script>([\s\S]*?)<\/script>/gi);
-            for (const match of scriptMatches) {
-                segregatedJS += match[1].trim() + '\n';
-            }
-
-            // Extract CSS inside style tags
-        const styleMatches = code.matchAll(/<style>([\s\S]*?)<\/style>/gi);
-        for (const match of styleMatches) {
-                segregatedCSS += match[1].trim() + '\n';
-          }
-
-         htmlEditor.value = segregatedHTML.trim();
-          cssEditor.value = segregatedCSS.trim();
-            jsEditor.value = segregatedJS.trim();
-          consoleOutput.innerHTML = `HTML, CSS, and JS code segregated.`
-
-     updatePreview()
-    }
-
-    function toggleEditors() {
-        const editorContainer = document.querySelector('.editor-container');
-        editorContainer.style.display = editorContainer.style.display === 'none' ? 'flex' : 'none';
-    }
-
-    function copyCode(type) {
-        let code;
-        if (type === 'html') {
-            code = htmlEditor.value;
-        } else if (type === 'css') {
-            code = cssEditor.value;
-        } else {
-            code = jsEditor.value;
-        }
-
-        const textarea = document.createElement('textarea');
-        textarea.value = code;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-
-        alert(`${type.toUpperCase()} code copied!`);
-    }
-
-    function resetEditors() {
-        htmlEditor.value = '';
-        cssEditor.value = '';
-        jsEditor.value = '';
-        consoleOutput.innerHTML = `Editor reset.`
-        updatePreview();
-    }
-
-    modeSelect.addEventListener('change', function () {
-        const selectedMode = modeSelect.value;
-        htmlEditor.style.display = selectedMode === 'html' ? 'block' : 'none';
-        cssEditor.style.display = selectedMode === 'css' ? 'block' : 'none';
-        jsEditor.style.display = selectedMode === 'js' ? 'block' : 'none';
-       mode = modeSelect.value;
-       consoleOutput.innerHTML = `Mode set to ${mode}`
-    });
-
-    updatePreview();
-</script>
 
 </body>
+
 </html>
