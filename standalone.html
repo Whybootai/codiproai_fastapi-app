@@ -4,219 +4,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codefusion Visualizer & Live Preview</title>
+    <title>Advanced Code Editor with Live Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Base Styles */
+        /* Body and Main Background */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background: #121212;
-            color: #e5e5e5;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-            user-select: none;
-            /* Disable text selection during drag */
-        }
-
-        /* Loading Screen */
-        .loading-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #121212;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            overflow: hidden;
-        }
-
-        /* Progress Bar */
-        .progress-bar-wrapper {
-            width: 80%;
-            background: #333;
-            border-radius: 25px;
-            overflow: hidden;
-            height: 20px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, #00ff90, #4e00ff);
-            transition: width 1s ease;
-            border-radius: 25px;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            font-size: 40px;
-            color: #9b59b6;
-            margin-top: 20px;
-            letter-spacing: 2px;
-            animation: neon 1.5s ease-in-out infinite alternate;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: #ecf0f1;
+            min-height: 100vh;
+            transition: background 0.5s ease-in-out;
         }
 
         /* Main Container */
         .container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
+            width: 90%;
             max-width: 1200px;
-            margin-top: 20px;
-            opacity: 0;
-            animation: fadeIn 1s forwards;
+            margin-top: 40px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
         }
 
-        /* Editor and Preview Wrapper */
-        .editor-preview-wrapper {
+        h1 {
+            font-size: 3rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ecf0f1;
+            animation: slideIn 1s ease-out;
+        }
+
+        #header-buttons {
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Mode Selection */
+        select {
+            margin: 20px 0;
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #34495e;
+            border: 1px solid #2980b9;
+            border-radius: 5px;
+            color: #ecf0f1;
+            transition: all 0.3s ease;
+            outline: none
+        }
+
+        select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+        /* Editor Container */
+        .editor-container {
             display: flex;
             justify-content: space-between;
             gap: 20px;
-            margin-top: 20px;
-            transition: all 0.3s ease;
+            margin-top: 30px;
+            transition: all 0.5s ease-in-out;
         }
 
-        /* Editor Section */
         .editor {
-            width: 48%;
-            background: #2a2a2a;
-            border-radius: 10px;
-            padding: 20px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .editor textarea {
-            width: 100%;
-            height: 80%;
-            background-color: #262626;
-            color: #fff;
-            border: 2px solid #444;
-            border-radius: 10px;
-            padding: 12px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 16px;
-            resize: none;
-        }
-
-        /* Copy Button */
-        .copy-btn {
-            background: linear-gradient(135deg, #ff9900, #ff4500);
+            width: 30%;
+            height: 300px;
+            padding: 15px;
+            background-color: #2d2d2d;
             color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, background 0.3s ease;
-            margin-bottom: 10px;
+            font-family: monospace;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: 2px solid #2980b9;
+            transition: transform 0.3s ease;
+            resize: none;
+            overflow: auto;
         }
 
-        .copy-btn:hover {
-            background: linear-gradient(135deg, #ff4500, #ff9900);
+        .editor:hover {
             transform: scale(1.05);
         }
 
-        .copy-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Preview Section */
-        .preview {
-            width: 48%;
-            background: #2a2a2a;
+        #preview {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            overflow: auto;
             position: relative;
-            transition: all 0.3s ease;
+            background-color: white;
         }
 
-        iframe {
+        #preview:hover {
+            transform: scale(1.01)
+        }
+
+        #preview.fullscreen-preview {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            z-index: 10000;
             border: none;
-            border-radius: 10px;
+            border-radius: 0;
+            box-shadow: none;
+            transform: none;
+            background: white;
         }
 
-        /* Buttons */
-        .toggle-button {
-            background: linear-gradient(135deg, #4e00ff, #00ff90);
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 18px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, background 0.3s ease;
+        .console {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 150px;
+            overflow-y: auto;
         }
 
-        .toggle-button:hover {
-            background: linear-gradient(135deg, #00ff90, #4e00ff);
-            transform: scale(1.05);
-        }
-
-        .toggle-button:active {
-            transform: scale(0.95);
-        }
-
-        /* Fullscreen & Minimize Buttons */
-        .fullscreen-button,
-        .minimize-button,
-        .refresh-button {
-            background: #ff4500;
-            border-radius: 50%;
-            color: white;
-            font-size: 18px;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
+        /* Action Buttons */
+        .buttons {
+            margin-top: 20px;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .buttons button {
+            padding: 10px;
+            font-size: 1.5em;
+            border-radius: 50%;
+            margin: 0 5px;
+            background: #3498db;
+            border: none;
+            color: white;
+            transition: background 0.3s ease, transform 0.3s ease;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: relative;
         }
 
-        .maximize-button {
-            background: #ff4500;
-            border-radius: 50%;
+        .buttons button .tooltip {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .buttons button:hover .tooltip {
+            opacity: 1;
+        }
+
+        .buttons button:hover {
+            background: #2980b9;
+            transform: translateY(-5px);
+        }
+
+        .buttons button:active {
+            transform: translateY(2px);
+        }
+
+        #full-page-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            font-size: 1.8em;
+            color: #ecf0f1;
+            transition: color 0.3s ease;
+        }
+
+        #full-page-button:hover {
+            color: #3498db;
+        }
+
+        #preview-fullscreen-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.8em;
+            color: #3498db;
+            transition: color 0.3s ease;
+            z-index: 100;
+        }
+
+        /* Floating Action Button */
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff6347;
             color: white;
             font-size: 18px;
-            border: none;
+            padding: 20px;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 40px;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.3s ease;
+            z-index: 10000;
         }
 
-        .fullscreen-button:hover,
-        .minimize-button:hover,
-        .maximize-button:hover,
-        .refresh-button:hover {
-            background: #e94e77;
+        .floating-btn:hover {
+            transform: scale(1.1);
         }
 
-        /* Animation Keyframes */
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -227,244 +249,791 @@
             }
         }
 
-        @keyframes neon {
+        @keyframes slideIn {
             0% {
-                text-shadow: 0 0 5px #2bdb72, 0 0 10px #2bdb72, 0 0 15px #2bdb72;
+                transform: translateY(-100px);
             }
 
             100% {
-                text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 15px #9b59b6;
+                transform: translateY(0);
             }
         }
 
-        /* Canvas Styling */
-        #canvas {
+        /* Chatbot Modal */
+        #chat-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 10001;
+            display: none;
+            flex-direction: column;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #chat-modal.active {
+            display: flex;
+        }
+
+        #chat-modal .close-button {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #ff6347;
+            transition: color 0.3s ease;
+        }
+
+        #chat-modal .close-button:hover {
+            color: #3498db;
+        }
+
+        #chat-modal .messages {
+            overflow-y: auto;
+            max-height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 5px;
+
+        }
+
+        #chat-modal .message {
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            align-self: flex-start;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        #chat-modal .message.user-message {
+            position: relative;
+            background: rgba(0, 255, 157, 0.1);
+            align-self: flex-end;
+            border-left: 4px solid #00ff9d;
+        }
+
+
+        #chat-modal .message.bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: flex-start;
+            border-right: 4px solid #1a73e8;
+            position: relative;
+        }
+
+        #chat-modal .message.user-message .actions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: none;
+        }
+
+        #chat-modal .message.user-message:hover .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        #chat-modal .message.bot-message .actions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: none;
+        }
+
+        #chat-modal .message.bot-message:hover .actions {
+            display: flex;
+            gap: 5px
+        }
+
+
+        #chat-modal .message.user-message .actions button {
+            background: rgba(52, 152, 219, 0.7);
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 5px;
+            color: #ecf0f1;
+            transition: background 0.3s ease;
+        }
+
+        #chat-modal .message.user-message .actions button:hover {
+            background: #2980b9;
+        }
+         #chat-modal .message.bot-message .actions button {
+            background: rgba(52, 152, 219, 0.7);
+           border: none;
+            padding: 5px;
+             cursor: pointer;
+              font-size: 1.2em;
+                border-radius: 5px;
+            color: #ecf0f1;
+               transition: background 0.3s ease;
+           }
+           #chat-modal .message.bot-message .actions button:hover {
+            background: #2980b9;
+        }
+
+        #chat-modal .message.bot-message pre {
+            white-space: pre-wrap;
+            margin: 5px 0;
+            font-family: 'Consolas', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px
+        }
+
+        #chat-modal .reset-button {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #ff6347;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        #chat-modal .reset-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #3498db;
+        }
+          #chat-modal .input-area {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #chat-modal .input-area textarea {
+            flex: 1;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ecf0f1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            resize: vertical;
+            font-size: 1.2em;
+            min-height: 50px;
+        }
+
+        #chat-modal .input-area textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        #chat-modal .input-area button {
+            background: #3498db;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            color: #ecf0f1;
+            transition: background 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        #chat-modal .input-area button:hover {
+            background: #2980b9;
+        }
+
+        #chat-modal .thinking {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        #chat-modal .dot {
+            width: 10px;
+            height: 10px;
+            background: #00ff9d;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite ease-in-out;
+        }
+
+        #chat-modal .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        #chat-modal .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            pointer-events: none;
+
+        }
+
+        .notification {
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            white-space: nowrap;
+        }
+
+        .notification.vanish {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+
+        #user-manual-popup {
+            position: fixed;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            color: #ecf0f1;
+            padding: 30px;
+            z-index: 10000;
+            display: none;
+            overflow-y: auto;
+            /* Enable scrolling for long instructions */
+            box-shadow: 0 0 40px rgba(52, 152, 219, 0.2);
+        }
+
+        #user-manual-popup.active {
+            display: block;
+        }
+
+        #user-manual-popup .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #ff6347;
+            transition: color 0.3s ease;
+        }
+
+        #user-manual-popup .close-button:hover {
+            color: #3498db;
+        }
+
+        #user-manual-popup h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #user-manual-popup ul {
+            padding-left: 30px;
+        }
+
+        #user-manual-popup li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        #user-manual-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.8em;
+            color: #ecf0f1;
+            transition: color 0.3s ease;
+        }
+
+        #user-manual-icon:hover {
+            color: #3498db;
+        }
+
+        #code-toggle-button {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background 0.3s ease;
+        }
+
+        #code-toggle-button:hover {
+            background-color: #2980b9;
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="progress-bar-wrapper">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
+    <div id="code-toggle-button" onclick="toggleEditorsVisibility()">
+        <i class="fas fa-code"></i>
     </div>
 
-    <!-- Header -->
-    <div class="header">Codefusion Visualizer & Live Preview</div>
-
-    <!-- Main Container -->
-    <div class="container" id="mainContainer">
-        <!-- Editor and Preview Wrapper -->
-        <div class="editor-preview-wrapper">
-            <!-- Editor Section -->
-            <div class="editor" id="editorSection">
-                <h3>Paste or Edit Your HTML Code</h3>
-                <button class="copy-btn" id="copyCodeBtn" onclick="copyCode()">Copy Code</button>
-                <textarea id="htmlInput" placeholder="Paste your HTML code here..."></textarea>
-                <button class="fullscreen-button" id="fullscreenEditorBtn" onclick="fullscreenEditor()">◻</button>
-                <button class="minimize-button" id="minimizeEditorBtn" onclick="minimizeEditor('editor')">―</button>
-                <button class="maximize-button" style="display: none" id="maximizeEditorBtn" onclick="maximizeEditor('editor')">⊠</button>
-                <button class="refresh-button" id="refreshEditorBtn" onclick="refreshLayout('editor')" style="right: 75px;">↻</button>
-            </div>
-
-            <!-- Live Preview Section -->
-            <div class="preview" id="previewSection">
-                <h3>Live Preview</h3>
-                <iframe id="htmlPreview"></iframe>
-                <button class="fullscreen-button" id="fullscreenPreviewBtn" onclick="fullscreenPreview()">◻</button>
-                <button class="minimize-button" id="minimizePreviewBtn" onclick="minimizeEditor('preview')">―</button>
-                <button class="maximize-button" style="display: none" id="maximizePreviewBtn" onclick="maximizeEditor('preview')">⊠</button>
-                <button class="refresh-button" id="refreshPreviewBtn" onclick="refreshLayout('preview')" style="right: 75px;">↻</button>
-            </div>
+    <div class="container">
+        <h1>Advanced Code Editor with Live Preview</h1>
+        <div id="header-buttons">
+            <i class="fas fa-question-circle" id="user-manual-icon" onclick="toggleUserManual()"></i>
+            <i class="fas fa-expand-arrows-alt" id="full-page-button" onclick="toggleFullPageView()"
+                style="cursor: pointer;"></i>
         </div>
+        <!-- Mode Selection -->
+        <select id="modeSelect">
+            <option value="html">HTML</option>
+        </select>
 
-        <!-- Toggle Button -->
-        <button id="toggleBtn" class="toggle-button" onclick="togglePlaceholder()">Toggle Placeholder</button>
+        <!-- Editors Container -->
+        <div class="editor-container">
+            <textarea id="htmlEditor" class="editor" placeholder="Write your HTML code here..."></textarea>
+            <textarea id="cssEditor" class="editor" placeholder="Write your CSS code here..."></textarea>
+            <textarea id="jsEditor" class="editor" placeholder="Write your JavaScript code here..."></textarea>
+        </div>
+        <div id="full-page-view" class="">
+            <button class="back-button" onclick="toggleFullPageView()"><i class="fas fa-arrow-left"></i></button>
+            <iframe id="preview-fullpage"></iframe>
+        </div>
+        <!-- Action Buttons -->
+        <div class="buttons">
+            <button onclick="updatePreview()"><i class="fas fa-sync-alt"></i><span class="tooltip">Update
+                    Preview</span></button>
+            <button onclick="toggleEditors()"><i class="fas fa-code"></i><span class="tooltip">Toggle
+                    Editors</span></button>
+            <button onclick="segregateCode()"><i class="fas fa-code-branch"></i><span class="tooltip">Segregate
+                    Code</span></button>
+            <button onclick="copyCode('html')"><i class="fab fa-html5"></i><span class="tooltip">Copy
+                    HTML</span></button>
+            <button onclick="copyCode('css')"><i class="fab fa-css3-alt"></i><span class="tooltip">Copy
+                    CSS</span></button>
+            <button onclick="copyCode('js')"><i class="fab fa-js"></i><span class="tooltip">Copy
+                    JavaScript</span></button>
+            <button onclick="resetEditors()"><i class="fas fa-trash"></i><span class="tooltip">Reset
+                    Editor</span></button>
+            <button id="preview-fullscreen-button" onclick="togglePreviewFullscreen()"><i
+                    class="fas fa-expand"></i></button>
+        </div>
+        <!-- Console Output -->
+        <div class="console" id="console-output">Console output will appear here...</div>
+        <div id="user-manual-popup">
+            <span class="close-button" onclick="toggleUserManual()">×</span>
+            <h2>User Manual</h2>
+            <ul>
+                <li><strong>Mode Selection:</strong> Choose between HTML, CSS, and JS to adjust the code that appears in the
+                    editor areas.
+                </li>
+                <li><strong>Editor:</strong> The editor sections on the left are used to input the HTML, CSS, and JS code
+                    for the application.</li>
+                <li><strong>Update Preview:</strong> Updates the preview iframe with any changes done on the editor
+                    sections.
+                </li>
+                <li><strong>Toggle Editor:</strong> Allows you to show or hide the editor sections.
+                </li>
+                <li><strong>Segregate Code:</strong> Seperates the code accordingly when using HTML.
+                </li>
+                <li><strong>Copy Code (HTML, CSS, JS):</strong> Copies the code from the selected section
+                </li>
+                <li><strong>Reset:</strong> Clear all the contents from the editors.
+                </li>
+                <li><strong>Full page View:</strong> Expands the preview to fill the entire page.
+                </li>
+                <li><strong>Preview Fullscreen:</strong> Expands the preview section to full screen in the main window.
+                </li>
+            </ul>
+        </div>
     </div>
+    <!-- Chatbot Modal -->
+    <div id="chat-modal" class="">
+        <span class="close-button" onclick="toggleChatModal()">×</span>
+        <div class="messages" id="chat-messages">
+        </div>
+        <button class="reset-button" onclick="resetChat()">Reset Chat</button>
+        <div class="input-area">
+            <textarea id="code-assistant-input"
+                placeholder="What kind of code do you need assistance with?"></textarea>
+            <button onclick="sendCodeQuery()"> <i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="thinking" style="display: none">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+    <!-- Floating Action Button -->
+    <div class="floating-btn" onclick="toggleChatModal()">
+        <i class="fas fa-plus"></i>
+    </div>
+    <div id="notification-container"></div>
 
-    <!-- Canvas -->
-    <canvas id="canvas"></canvas>
+    <iframe id="preview"></iframe>
 
     <script>
-        let progress = 0;
-        const progressBar = document.getElementById('progressBar');
-        const loadingScreen = document.getElementById('loadingScreen');
-        const mainContainer = document.getElementById('mainContainer');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let savedCode = ""; //Store code
+        const htmlEditor = document.getElementById('htmlEditor');
+        const cssEditor = document.getElementById('cssEditor');
+        const jsEditor = document.getElementById('jsEditor');
+        const preview = document.getElementById('preview');
+        const fullPagePreview = document.getElementById('preview-fullpage')
+        const modeSelect = document.getElementById('modeSelect');
+        const consoleOutput = document.getElementById('console-output');
+        const editorContainer = document.querySelector('.editor-container');
+        const fullPageView = document.getElementById('full-page-view')
+        const userManualPopup = document.getElementById('user-manual-popup')
+        const userManualIcon = document.getElementById('user-manual-icon');
+        const codeAssistantInput = document.getElementById('code-assistant-input');
+        const chatModal = document.getElementById('chat-modal');
+        const chatMessages = document.getElementById('chat-messages');
+        const thinkingElement = document.querySelector('#chat-modal .thinking');
+        const headerButtons = document.getElementById('header-buttons');
+        const codeToggleButton = document.getElementById('code-toggle-button');
+        const previewFullscreenButton = document.getElementById('preview-fullscreen-button');
+        const notificationContainer = document.getElementById('notification-container');
 
-        // Canvas particle animation
-        let particles = [];
 
-        function createParticle(x, y) {
-            const particle = {
-                x: x,
-                y: y,
-                size: Math.random() * 5 + 2,
-                speedX: Math.random() * 2 - 1,
-                speedY: Math.random() * 2 - 1,
-                color: '#00ff90'
-            };
-            particles.push(particle);
+        let mode = "html";
+        let currentView = "editor";
+        let isFullPageViewActive = false;
+        let isPreviewFullscreen = false;
+        let apiKey = "AIzaSyB3vFjH7IsfekpbEuhWG2uKapRW1HcAxp4"
+
+
+        function toggleUserManual() {
+            userManualPopup.classList.toggle('active')
         }
 
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function toggleFullPageView() {
+            isFullPageViewActive = !isFullPageViewActive;
+            if (isFullPageViewActive) {
+                fullPageView.classList.add('active');
+                updateFullPagePreview()
+            }
+            else {
+                fullPageView.classList.remove('active');
+            }
 
-            particles.forEach((particle, index) => {
-                particle.x += particle.speedX;
-                particle.y += particle.speedY;
-                ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                ctx.fillStyle = particle.color;
-                ctx.fill();
-
-                // Remove particles that move off-screen
-                if (particle.x < 0 || particle.x > canvas.width || particle.y < 0 || particle.y > canvas.height) {
-                    particles.splice(index, 1);
-                }
-            });
-
-            requestAnimationFrame(animateParticles);
         }
-
-        // Handle mouse move for canvas particles
-        document.addEventListener('mousemove', (e) => {
-            createParticle(e.x, e.y);
-        });
-
-        // Handle window resizing for canvas
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // Simulate loading
-        function simulateLoading() {
-            setInterval(() => {
-                if (progress < 100) {
-                    progress++;
-                    progressBar.style.width = progress + '%';
-                } else {
-                    loadingScreen.style.display = 'none';
-                    mainContainer.style.opacity = 1;
-                }
-            }, 10);
-        }
-
-        simulateLoading();
-
-        // Initialize Canvas Size
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        // Handle HTML Input and Live Preview
-        const htmlInput = document.getElementById('htmlInput');
-        const htmlPreview = document.getElementById('htmlPreview');
-
-        htmlInput.addEventListener('input', function () {
-            htmlPreview.srcdoc = htmlInput.value;
-            savedCode = htmlInput.value; // Save the code
-        });
-           // Restore saved code when page loads
-           window.onload = function() {
-                if (savedCode) {
-                    htmlInput.value = savedCode;
-                     htmlPreview.srcdoc = savedCode;
-               }
-           }
-        // Toggle Placeholder Visibility
-        function togglePlaceholder() {
-            const editorSection = document.getElementById('editorSection');
-            const previewSection = document.getElementById('previewSection');
-            const toggleBtn = document.getElementById('toggleBtn');
-
-            if (editorSection.style.display === 'none') {
-                editorSection.style.display = 'block';
-                previewSection.style.width = '48%';
-                toggleBtn.innerText = 'Hide Placeholder';
+        function toggleEditorsVisibility() {
+            editorContainer.classList.toggle('hidden');
+            if (editorContainer.classList.contains('hidden')) {
+                codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
             } else {
-                editorSection.style.display = 'none';
-                previewSection.style.width = '100%';
-                toggleBtn.innerText = 'Show Placeholder';
+                codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
             }
         }
 
-        // Copy Code to Clipboard
-        function copyCode() {
-            const textarea = document.getElementById('htmlInput');
+
+        function updateFullPagePreview() {
+            const htmlCode = htmlEditor.value;
+            const cssCode = cssEditor.value;
+            const jsCode = jsEditor.value;
+
+            const iframeDoc = fullPagePreview.contentDocument || fullPagePreview.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlCode);
+            iframeDoc.close();
+
+            const style = iframeDoc.createElement('style');
+            style.innerHTML = cssCode;
+            iframeDoc.head.appendChild(style);
+
+            const script = iframeDoc.createElement('script');
+            script.innerHTML = jsCode;
+            iframeDoc.body.appendChild(script);
+
+        }
+        function togglePreviewFullscreen() {
+            isPreviewFullscreen = !isPreviewFullscreen;
+            preview.classList.toggle('fullscreen-preview', isPreviewFullscreen);
+            previewFullscreenButton.innerHTML = isPreviewFullscreen ? `<i class="fas fa-compress"></i>` : `<i class="fas fa-expand"></i>`
+        }
+
+        function updatePreview() {
+            const htmlCode = htmlEditor.value;
+            const cssCode = cssEditor.value;
+            const jsCode = jsEditor.value;
+            const iframeDoc = preview.contentDocument || preview.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlCode);
+            iframeDoc.close();
+
+            const style = iframeDoc.createElement('style');
+            style.innerHTML = cssCode;
+            iframeDoc.head.appendChild(style);
+
+            const script = iframeDoc.createElement('script');
+            script.innerHTML = jsCode;
+            iframeDoc.body.appendChild(script);
+            consoleOutput.innerHTML = `Successfully updated preview`;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = message;
+            notificationContainer.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('vanish')
+                notification.addEventListener('transitionend', () => {
+                    notificationContainer.removeChild(notification);
+                });
+            }, 1500);
+        }
+
+        function addMessage(content, isUser, isBotCode = false) {
+            const message = document.createElement('div');
+            message.classList.add('message', isUser ? 'user-message' : 'bot-message');
+            if (isUser) {
+                message.innerHTML = `
+               ${content}
+                  <div class="actions">
+                    <button onclick="editUserMessage(this)"><i class="fas fa-edit"></i></button>
+                 </div>`;
+
+            } else {
+
+                let messageContent = content;
+                let codeSnippet = null;
+                const codeMatch = messageContent.match(/```([\w-]+)?\s*([\s\S]*?)```/);
+
+                if (codeMatch) {
+                    codeSnippet = `<pre><code class="language-${codeMatch[1] || 'plaintext'}">${codeMatch[2].trim()}</code></pre>`
+                    messageContent = messageContent.replace(codeMatch[0], "").trim()
+                }
+
+                message.innerHTML = `
+               ${messageContent}
+              ${codeSnippet || ""}
+                  <div class="actions">
+                     <button onclick="copyBotMessage(this)"><i class="fas fa-copy"></i></button>
+                 </div>`;
+            }
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        function editUserMessage(button) {
+            const messageElement = button.closest('.message');
+            const initialText = messageElement.firstChild.textContent
+            const textarea = document.createElement('textarea');
+            textarea.value = initialText;
+            textarea.style.width = '100%';
+            textarea.style.minHeight = '100px';
+            textarea.style.boxSizing = 'border-box';
+            textarea.style.color = '#ecf0f1';
+            textarea.style.background = 'rgba(0, 0, 0, 0.3)';
+            textarea.style.padding = '10px'
+            textarea.style.borderRadius = '5px'
+            textarea.style.margin = '5px 0'
+            textarea.style.resize = 'vertical';
+
+            const saveButton = document.createElement('button');
+            saveButton.innerText = "Save";
+            saveButton.style.background = '#3498db';
+            saveButton.style.color = '#ecf0f1';
+            saveButton.style.padding = '8px 12px';
+            saveButton.style.borderRadius = '5px';
+            saveButton.style.cursor = 'pointer';
+            saveButton.style.border = 'none'
+            saveButton.style.marginTop = '5px'
+            saveButton.style.transition = 'background 0.3s ease';
+            saveButton.style.display = 'inline-block'
+
+            saveButton.addEventListener('mouseover', function () {
+                saveButton.style.background = '#2980b9';
+            });
+            saveButton.addEventListener('mouseout', function () {
+                saveButton.style.background = '#3498db';
+            });
+
+
+            messageElement.innerHTML = '';
+            messageElement.appendChild(textarea);
+            messageElement.appendChild(saveButton);
+
+            saveButton.addEventListener('click', function () {
+                const updatedContent = textarea.value;
+                messageElement.innerHTML =
+                    `${updatedContent}
+                  <div class="actions">
+                    <button onclick="editUserMessage(this)"><i class="fas fa-edit"></i></button>
+                 </div>`;
+            });
+        }
+
+
+        function copyBotMessage(button) {
+            const messageElement = button.closest('.message');
+            const codeBlock = messageElement.querySelector('pre code');
+            const textContent = messageElement.firstChild.textContent;
+
+            const code = codeBlock ? codeBlock.textContent : null;
+            const combined = code ? textContent + "\n" + code : textContent
+            navigator.clipboard.writeText(combined).then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => console.error("Error copying:", err));
+        }
+
+        function segregateCode() {
+            const code = htmlEditor.value;
+            if (!code) return consoleOutput.innerHTML = `No HTML code detected.`;
+
+            let segregatedHTML = "";
+            let segregatedCSS = "";
+            let segregatedJS = "";
+
+            // Extract HTML outside script and style tags
+            segregatedHTML = code.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').trim();
+
+            // Extract JavaScript inside script tags
+            const scriptMatches = code.matchAll(/<script>([\s\S]*?)<\/script>/gi);
+            for (const match of scriptMatches) {
+                segregatedJS += match[1].trim() + '\n';
+            }
+
+            // Extract CSS inside style tags
+            const styleMatches = code.matchAll(/<style>([\s\S]*?)<\/style>/gi);
+            for (const match of styleMatches) {
+                segregatedCSS += match[1].trim() + '\n';
+            }
+            htmlEditor.value = segregatedHTML.trim();
+            cssEditor.value = segregatedCSS.trim();
+            jsEditor.value = segregatedJS.trim();
+            consoleOutput.innerHTML = `HTML, CSS, and JS code segregated.`;
+            updatePreview();
+
+        }
+
+        async function sendCodeQuery() {
+            const query = codeAssistantInput.value.trim();
+            if (!query) return alert('Please enter your query');
+            thinkingElement.style.display = "flex";
+                      codeAssistantInput.disabled = true;
+            addMessage(query, true)
+            try {
+                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `CodyPro v6 (GPT Developer Edition) is your steadfast pair programmer, armed with enhanced code generation ability, online access for the latest APIs, and custom commands to save your session state so you can recall it in a new session later. /help will tell you all about it. Say "Hello" to start! ${query} Only give code related output to the query that is related to HTML, do not provide full documents.  If the user did not ask for specific language, output the code with the html or plaintext code language.`
+                            }]
+                        }]
+                    })
+                });
+                if (!response.ok) {
+                    console.error(`API request failed with status ${response.status}`);
+                    const errorData = await response.json();
+                    console.error("API error details:", errorData);
+                    addMessage(`Error: Could not get response from Cody AI`, false)
+                    thinkingElement.style.display = "none";
+                    codeAssistantInput.disabled = false;
+                    return;
+                }
+                const data = await response.json();
+                thinkingElement.style.display = "none";
+                codeAssistantInput.disabled = false;
+                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                    let responseText = data.candidates[0].content.parts[0].text.trim();
+                    addMessage(responseText, false);
+                    htmlEditor.value += "\n" + responseText;
+                    updatePreview();
+                } else {
+                    console.error("No response text found in data:", data);
+                    addMessage(`Error: No response from Cody AI`, false)
+                }
+
+            } catch (error) {
+                console.error("Error during API request:", error);
+                addMessage(`Error: ${error}`, false)
+                thinkingElement.style.display = "none";
+                codeAssistantInput.disabled = false;
+            }
+            codeAssistantInput.value = '';
+        }
+
+
+        function toggleChatModal() {
+            chatModal.classList.toggle('active');
+        }
+        function resetChat() {
+            chatMessages.innerHTML = '';
+            showNotification('Chat history cleared.');
+        }
+
+        function toggleEditors() {
+            const editorContainer = document.querySelector('.editor-container');
+            editorContainer.style.display = editorContainer.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function copyCode(type) {
+            let code;
+            if (type === 'html') {
+                code = htmlEditor.value;
+            } else if (type === 'css') {
+                code = cssEditor.value;
+            } else {
+                code = jsEditor.value;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = code;
+            document.body.appendChild(textarea);
             textarea.select();
             document.execCommand('copy');
-            alert('Code Copied to Clipboard!');
+            document.body.removeChild(textarea);
+
+            alert(`${type.toUpperCase()} code copied!`);
         }
 
-        // Minimize and Maximize Editor/Preview
-        function minimizeEditor(section) {
-            const sectionElement = document.getElementById(section + 'Section');
-            const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-            const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-
-            sectionElement.style.height = '40px';
-            minimizeButton.style.display = 'none';
-            maximizeButton.style.display = 'flex';
+        function resetEditors() {
+            htmlEditor.value = '';
+            cssEditor.value = '';
+            jsEditor.value = '';
+            consoleOutput.innerHTML = `Editor reset.`
+            updatePreview();
         }
 
-        function maximizeEditor(section) {
-            const sectionElement = document.getElementById(section + 'Section');
-            const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-            const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
+        modeSelect.addEventListener('change', function () {
+            const selectedMode = modeSelect.value;
+            htmlEditor.style.display = selectedMode === 'html' ? 'block' : 'none';
+            cssEditor.style.display = selectedMode === 'css' ? 'block' : 'none';
+            jsEditor.style.display = selectedMode === 'js' ? 'block' : 'none';
+            mode = selectedMode;
+            consoleOutput.innerHTML = `Mode set to ${mode}`
+        });
 
-            sectionElement.style.height = 'auto';
-            minimizeButton.style.display = 'flex';
-            maximizeButton.style.display = 'none';
-        }
+        htmlEditor.addEventListener('input', updatePreview);
+        cssEditor.addEventListener('input', updatePreview);
+        jsEditor.addEventListener('input', updatePreview);
 
-        // Fullscreen for Editor
-        function fullscreenEditor() {
-            const editorSection = document.getElementById('editorSection');
-            editorSection.style.width = '100%';
-            editorSection.style.height = '100vh';
-            editorSection.style.position = 'absolute';
-            editorSection.style.top = '0';
-            editorSection.style.left = '0';
-        }
-
-        // Fullscreen for Preview
-        function fullscreenPreview() {
-            const previewSection = document.getElementById('previewSection');
-            previewSection.style.width = '100%';
-            previewSection.style.height = '100vh';
-            previewSection.style.position = 'absolute';
-            previewSection.style.top = '0';
-            previewSection.style.left = '0';
-        }
-
-        // Refresh Layout
-        function refreshLayout(section) {
-            const sectionElement = document.getElementById(section + 'Section');
-            const minimizeButton = document.getElementById('minimize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-            const maximizeButton = document.getElementById('maximize' + section.charAt(0).toUpperCase() + section.slice(1) + 'Btn');
-
-            sectionElement.style.width = '48%';
-            sectionElement.style.height = 'auto';
-            minimizeButton.style.display = 'flex';
-            maximizeButton.style.display = 'none';
-            sectionElement.style.position = 'relative';
-            sectionElement.style.top = 'auto';
-            sectionElement.style.left = 'auto';
-        }
-
-       animateParticles();
+        codeAssistantInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendCodeQuery();
+            }
+        });
+        updatePreview();
     </script>
 
 </body>
