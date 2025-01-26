@@ -206,6 +206,20 @@
             transform: none;
             background: white;
         }
+          #preview.fullscreen-preview .close-full-preview{
+               position: absolute;
+                top: 20px;
+                right: 20px;
+              font-size: 1.8em;
+             cursor: pointer;
+                color: #ff6347;
+                 transition: color 0.3s ease;
+              z-index: 101;
+
+          }
+         #preview.fullscreen-preview .close-full-preview:hover{
+               color: #3498db;
+           }
 
         .console {
             background-color: #333;
@@ -288,6 +302,26 @@
         #full-page-button:hover {
             color: #3498db;
         }
+
+       #code-toggle-button {
+            position: fixed;
+             top: 20px;
+             left: 20px;
+             background-color: #3498db;
+            color: white;
+             padding: 15px;
+            border-radius: 5px;
+           cursor: pointer;
+            z-index: 1000;
+           transition: background 0.3s ease;
+           font-size: 1.5em;
+           display: flex;
+           align-items: center;
+            justify-content: center;
+         }
+       #code-toggle-button:hover {
+           background-color: #2980b9;
+          }
 
         #preview-fullscreen-button {
             position: absolute;
@@ -646,23 +680,6 @@
             color: #3498db;
         }
 
-        #code-toggle-button {
-            position: fixed;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            background-color: #3498db;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1000;
-            transition: background 0.3s ease;
-        }
-
-        #code-toggle-button:hover {
-            background-color: #2980b9;
-        }
 
         .hidden {
             display: none !important;
@@ -914,13 +931,13 @@
 
         function toggleFullPageView() {
             isFullPageViewActive = !isFullPageViewActive;
-            if (isFullPageViewActive) {
+             if (isFullPageViewActive) {
                 fullPageView.classList.add('active');
                 updateFullPagePreview()
-            }
-            else {
-                fullPageView.classList.remove('active');
-            }
+              }
+              else {
+                 fullPageView.classList.remove('active');
+             }
 
         }
 
@@ -945,13 +962,12 @@
                 let htmlContent = htmlEditor.value;
                 let cssContent = cssEditor.value;
                 let jsContent = jsEditor.value
-                let previewFunction = `<div class="minimized-item" onclick="restoreCode('html')"><i class="fab fa-html5"></i> Restore HTML </div>`
-                let cssFunction = `<div class="minimized-item" onclick="restoreCode('css')"><i class="fab fa-css3-alt"></i> Restore CSS</div>`
-                let jsFunction = `<div class="minimized-item" onclick="restoreCode('js')"><i class="fab fa-js"></i> Restore JS</div>`
+                let previewFunction = `<div class="minimized-item" onclick="restoreCode('html')"><i class="fab fa-html5"></i> Restore HTML </div>let cssFunction =<div class="minimized-item" onclick="restoreCode('css')"><i class="fab fa-css3-alt"></i> Restore CSS</div>let jsFunction =<div class="minimized-item" onclick="restoreCode('js')"><i class="fab fa-js"></i> Restore JS</div>`
 
-                minimizedContainer.innerHTML = `<span class="close-minimize" onclick="toggleMinimize()">×</span>` + (htmlContent ? previewFunction : '') + ( cssContent ? cssFunction : '') + (jsContent ? jsFunction : '');
+minimizedContainer.innerHTML = `<span class="close-minimize" onclick="toggleMinimize()">×</span>` + (htmlContent ? previewFunction : '') + (cssContent ? cssFunction : '') + (jsContent ? jsFunction : '');
 
-}
+
+        }
         else {
             minimizedContainer.classList.remove('active');
         }
@@ -971,14 +987,14 @@
         toggleMinimize()
     }
 
-    function toggleEditorsVisibility() {
+   function toggleEditorsVisibility() {
         editorContainer.classList.toggle('hidden');
-        if (editorContainer.classList.contains('hidden')) {
-            codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
-        } else {
-            codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
+           if (editorContainer.classList.contains('hidden')) {
+              codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
+             } else {
+               codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
+           }
         }
-    }
 
 
     function updateFullPagePreview() {
@@ -1001,12 +1017,24 @@
 
     }
 
-    function togglePreviewFullscreen() {
+     function togglePreviewFullscreen() {
         isPreviewFullscreen = !isPreviewFullscreen;
         preview.classList.toggle('fullscreen-preview', isPreviewFullscreen);
-        previewFullscreenButton.innerHTML = isPreviewFullscreen ? `<i class="fas fa-compress"></i>` : `<i class="fas fa-expand"></i>`
-    }
+           previewFullscreenButton.innerHTML = isPreviewFullscreen ? `<i class="fas fa-compress"></i>` : `<i class="fas fa-expand"></i>`;
 
+      if(isPreviewFullscreen) {
+        const closeButton = document.createElement('span')
+          closeButton.classList.add('close-full-preview')
+            closeButton.innerHTML = "×"
+            closeButton.onclick = () => togglePreviewFullscreen();
+        preview.appendChild(closeButton)
+      } else {
+       const closeButton = preview.querySelector('.close-full-preview')
+        if(closeButton){
+             preview.removeChild(closeButton);
+          }
+     }
+    }
     function updatePreview() {
         const htmlCode = htmlEditor.value;
         const cssCode = cssEditor.value;
@@ -1225,9 +1253,9 @@
         showNotification('Chat history cleared.');
     }
 
-    function toggleEditors() {
+   function toggleEditors() {
         const editorContainer = document.querySelector('.editor-container');
-        editorContainer.style.display = editorContainer.style.display === 'none' ? 'flex' : 'none';
+          editorContainer.style.display = editorContainer.style.display === 'none' ? 'flex' : 'none';
     }
 
     function copyCode(type) {
@@ -1277,7 +1305,7 @@
             sendCodeQuery();
         }
     });
-     initLoadingScreen();
+    initLoadingScreen();
     updatePreview();
 </script>
 
