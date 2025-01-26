@@ -85,47 +85,77 @@
         }
 
         /*Header buttons*/
-        #header-buttons {
-            display: flex;
-            justify-content: flex-end;
+        #header-buttons-container {
             position: absolute;
-            right: 0;
-            top: 0;
+            right: 20px; /* Adjust right margin as needed */
+            top: 20px; /* Adjust top margin as needed */
             z-index: 100;
-            gap: 10px;
         }
 
-        #header-buttons .feedback-button {
+        #header-buttons {
+            display: flex;
+            flex-direction: column; /* Vertical arrangement */
+            gap: 10px; /* Spacing between buttons */
+            align-items: flex-end; /* Align buttons to the right */
+        }
+
+        #header-buttons.hidden {
+            display: none !important;
+        }
+
+
+        #header-buttons .header-button { /* Class for all header buttons */
             background-color: #3498db;
             color: white;
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.2s ease; /* Added transform for animation */
             display: inline-flex;
             align-items: center;
+            justify-content: center; /* Center icon and text */
             gap: 5px;
             font-size: 1.1em;
             border: none;
+            min-width: 40px; /* Ensure buttons have a minimum width */
+            min-height: 40px; /* Ensure buttons have a minimum height */
+            text-align: center; /* Center text within the button */
         }
 
-        #header-buttons .feedback-button:hover {
+        #header-buttons .header-button:active {
+            transform: scale(0.95); /* Scale down slightly when clicked */
+        }
+
+
+        #header-buttons .header-button:hover {
             background-color: #2980b9;
         }
 
         #header-buttons .reset-button {
             background-color: #ff6347;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            border: none;
-            font-size: 1.1em;
         }
 
         #header-buttons .reset-button:hover {
             background-color: #b21f1f;
+        }
+
+        #toggle-header-buttons {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            border: none;
+            font-size: 1.1em;
+            margin-bottom: 10px; /* Space between toggle and first button */
+        }
+
+        #toggle-header-buttons:hover {
+            background-color: #2980b9;
+        }
+        #toggle-header-buttons:active {
+            transform: scale(0.95);
         }
 
 
@@ -189,6 +219,26 @@
             background-color: white;
         }
 
+        #preview.hidden {
+            display: none !important; /* Hide preview pane */
+        }
+
+        #preview .close-preview-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #ff6347;
+            transition: color 0.3s ease;
+            z-index: 101;
+        }
+
+        #preview .close-preview-button:hover {
+            color: #3498db;
+        }
+
+
         #preview:hover {
             transform: scale(1.01)
         }
@@ -206,20 +256,22 @@
             transform: none;
             background: white;
         }
-          #preview.fullscreen-preview .close-full-preview{
-               position: absolute;
-                top: 20px;
-                right: 20px;
-              font-size: 1.8em;
-             cursor: pointer;
-                color: #ff6347;
-                 transition: color 0.3s ease;
-              z-index: 101;
 
-          }
-         #preview.fullscreen-preview .close-full-preview:hover{
-               color: #3498db;
-           }
+        #preview.fullscreen-preview .close-full-preview {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: #ff6347;
+            transition: color 0.3s ease;
+            z-index: 101;
+
+        }
+
+        #preview.fullscreen-preview .close-full-preview:hover {
+            color: #3498db;
+        }
 
         .console {
             background-color: #333;
@@ -289,12 +341,10 @@
             transform: translateY(2px);
         }
 
+
         #full-page-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             cursor: pointer;
-            font-size: 1.8em;
+            font-size: 1.5em; /* Reduced size */
             color: #ecf0f1;
             transition: color 0.3s ease;
         }
@@ -303,36 +353,34 @@
             color: #3498db;
         }
 
-       #code-toggle-button {
+        #code-toggle-button {
             position: fixed;
-             top: 20px;
-             left: 20px;
-             background-color: #3498db;
+            top: 20px;
+            left: 20px;
+            background-color: #3498db;
             color: white;
-             padding: 15px;
+            padding: 15px;
             border-radius: 5px;
-           cursor: pointer;
+            cursor: pointer;
             z-index: 1000;
-           transition: background 0.3s ease;
-           font-size: 1.5em;
-           display: flex;
-           align-items: center;
+            transition: background 0.3s ease;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
             justify-content: center;
-         }
-       #code-toggle-button:hover {
-           background-color: #2980b9;
-          }
+        }
+
+        #code-toggle-button:hover {
+            background-color: #2980b9;
+        }
 
         #preview-fullscreen-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             cursor: pointer;
-            font-size: 1.8em;
+            font-size: 1.5em; /* Reduced size */
             color: #3498db;
             transition: color 0.3s ease;
-            z-index: 100;
         }
+
 
         /* Floating Action Button */
         .floating-btn {
@@ -667,11 +715,8 @@
         }
 
         #user-manual-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             cursor: pointer;
-            font-size: 1.8em;
+            font-size: 1.5em; /* Reduced size */
             color: #ecf0f1;
             transition: color 0.3s ease;
         }
@@ -687,14 +732,10 @@
 
         /* Minimize Button Style */
         #minimize-button {
-            position: absolute;
-            top: 20px;
-            right: 60px;
             cursor: pointer;
-            font-size: 1.8em;
+            font-size: 1.5em; /* Reduced size */
             color: #ecf0f1;
             transition: color 0.3s ease;
-            z-index: 100;
         }
 
         #minimize-button:hover {
@@ -765,15 +806,19 @@
 
     <div class="container">
         <h1>Codefusion</h1>
-        <div id="header-buttons">
-            <button class="feedback-button" onclick="sendFeedback()"><i class="fas fa-envelope"></i> Feedback </button>
-            <button class="reset-button" onclick="resetAll()"><i class="fas fa-sync"></i> Reset </button>
-            <i class="fas fa-question-circle" id="user-manual-icon" onclick="toggleUserManual()"></i>
-            <i class="fas fa-expand-arrows-alt" id="full-page-button" onclick="toggleFullPageView()"
-                style="cursor: pointer;"></i>
-            <i class="fas fa-minus" id="minimize-button" onclick="minimizeCode()"></i>
-
+        <div id="header-buttons-container">
+            <button id="toggle-header-buttons" onclick="toggleHeaderButtons()"> <i class="fas fa-cog"></i> Toggle Menu</button>
+            <div id="header-buttons">
+                <button class="header-button feedback-button" onclick="sendFeedback()"><i class="fas fa-envelope"></i> Feedback </button>
+                <button class="header-button reset-button" onclick="resetAll()"><i class="fas fa-sync"></i> Reset </button>
+                <i class="fas fa-question-circle header-button" id="user-manual-icon" onclick="toggleUserManual()"></i>
+                <i class="fas fa-expand-arrows-alt header-button" id="full-page-button" onclick="toggleFullPageView()" style="cursor: pointer;"></i>
+                <i class="fas fa-minus header-button" id="minimize-button" onclick="minimizeCode()"></i>
+                <i id="preview-fullscreen-button" onclick="togglePreviewFullscreen()" class="fas fa-expand header-button" style="cursor: pointer;"></i>
+            </div>
         </div>
+
+
         <!-- Mode Selection -->
         <select id="modeSelect">
             <option value="html">HTML</option>
@@ -805,8 +850,7 @@
                     JavaScript</span></button>
             <button onclick="resetEditors()"><i class="fas fa-trash"></i><span class="tooltip">Reset
                     Editor</span></button>
-            <button id="preview-fullscreen-button" onclick="togglePreviewFullscreen()"><i
-                    class="fas fa-expand"></i></button>
+
         </div>
         <!-- Console Output -->
         <div class="console" id="console-output">Console output will appear here...</div>
@@ -844,8 +888,7 @@
         </div>
         <button class="reset-button" onclick="resetChat()">Reset Chat</button>
         <div class="input-area">
-            <textarea id="code-assistant-input"
-                placeholder="What kind of code do you need assistance with?"></textarea>
+            <textarea id="code-assistant-input" placeholder="What kind of code do you need assistance with?"></textarea>
             <button onclick="sendCodeQuery()"> <i class="fas fa-paper-plane"></i></button>
         </div>
         <div class="thinking" style="display: none">
@@ -864,7 +907,9 @@
         <span class="close-minimize" onclick="toggleMinimize()">×</span>
     </div>
 
-    <iframe id="preview"></iframe>
+    <div id="preview">
+        <span class="close-preview-button" onclick="togglePreviewVisibility()">×</span>
+    </div>
 
     <script>
         const htmlEditor = document.getElementById('htmlEditor');
@@ -883,6 +928,8 @@
         const chatMessages = document.getElementById('chat-messages');
         const thinkingElement = document.querySelector('#chat-modal .thinking');
         const headerButtons = document.getElementById('header-buttons');
+        const headerButtonsContainer = document.getElementById('header-buttons-container');
+        const toggleHeaderButtonsButton = document.getElementById('toggle-header-buttons');
         const codeToggleButton = document.getElementById('code-toggle-button');
         const previewFullscreenButton = document.getElementById('preview-fullscreen-button');
         const notificationContainer = document.getElementById('notification-container');
@@ -892,15 +939,26 @@
         const loadingBar = document.getElementById('loading-bar');
         const mainContainer = document.querySelector('.container')
 
-
-
         let mode = "html";
         let currentView = "editor";
         let isFullPageViewActive = false;
         let isPreviewFullscreen = false;
-        let apiKey = "AIzaSyB3vFjH7IsfekpbEuhWG2uKapRW1HcAxp4"
+        let apiKey = "YOUR_API_KEY" // Replace with your actual API key
         let isMinimized = false;
         let minimizedItems = [];
+        let areHeaderButtonsVisible = true;
+        let isPreviewVisible = true;
+
+        function toggleHeaderButtons() {
+            areHeaderButtonsVisible = !areHeaderButtonsVisible;
+            headerButtons.classList.toggle('hidden', !areHeaderButtonsVisible);
+            toggleHeaderButtonsButton.innerHTML = areHeaderButtonsVisible ? `<i class="fas fa-cog"></i> Toggle Menu` : `<i class="fas fa-cog"></i> Show Menu`;
+        }
+
+        function togglePreviewVisibility() {
+            isPreviewVisible = !isPreviewVisible;
+            preview.classList.toggle('hidden', !isPreviewVisible);
+        }
 
 
         function initLoadingScreen() {
@@ -931,13 +989,13 @@
 
         function toggleFullPageView() {
             isFullPageViewActive = !isFullPageViewActive;
-             if (isFullPageViewActive) {
+            if (isFullPageViewActive) {
                 fullPageView.classList.add('active');
                 updateFullPagePreview()
-              }
-              else {
-                 fullPageView.classList.remove('active');
-             }
+            }
+            else {
+                fullPageView.classList.remove('active');
+            }
 
         }
 
@@ -962,352 +1020,354 @@
                 let htmlContent = htmlEditor.value;
                 let cssContent = cssEditor.value;
                 let jsContent = jsEditor.value
-                let previewFunction = `<div class="minimized-item" onclick="restoreCode('html')"><i class="fab fa-html5"></i> Restore HTML </div>let cssFunction =<div class="minimized-item" onclick="restoreCode('css')"><i class="fab fa-css3-alt"></i> Restore CSS</div>let jsFunction =<div class="minimized-item" onclick="restoreCode('js')"><i class="fab fa-js"></i> Restore JS</div>`
+                let previewFunction = `<div class="minimized-item" onclick="restoreCode('html')"><i class="fab fa-html5"></i> Restore HTML </div>`
+                let cssFunction = `<div class="minimized-item" onclick="restoreCode('css')"><i class="fab fa-css3-alt"></i> Restore CSS</div>`
+                let jsFunction = `<div class="minimized-item" onclick="restoreCode('js')"><i class="fab fa-js"></i> Restore JS</div>`
 
-minimizedContainer.innerHTML = `<span class="close-minimize" onclick="toggleMinimize()">×</span>` + (htmlContent ? previewFunction : '') + (cssContent ? cssFunction : '') + (jsContent ? jsFunction : '');
-
-
-        }
-        else {
-            minimizedContainer.classList.remove('active');
-        }
-    }
+                minimizedContainer.innerHTML = `<span class="close-minimize" onclick="toggleMinimize()">×</span>` + (htmlContent ? previewFunction : '') + (cssContent ? cssFunction : '') + (jsContent ? jsFunction : '');
 
 
-    function restoreCode(type) {
-        if (type === 'html') {
-            htmlEditor.value = htmlEditor.value;
-        }
-        if (type === 'css') {
-            cssEditor.value = cssEditor.value
-        }
-        if (type === 'js') {
-            jsEditor.value = jsEditor.value
-        }
-        toggleMinimize()
-    }
-
-   function toggleEditorsVisibility() {
-        editorContainer.classList.toggle('hidden');
-           if (editorContainer.classList.contains('hidden')) {
-              codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
-             } else {
-               codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
-           }
+            }
+            else {
+                minimizedContainer.classList.remove('active');
+            }
         }
 
 
-    function updateFullPagePreview() {
-        const htmlCode = htmlEditor.value;
-        const cssCode = cssEditor.value;
-        const jsCode = jsEditor.value;
+        function restoreCode(type) {
+            if (type === 'html') {
+                htmlEditor.value = htmlEditor.value;
+            }
+            if (type === 'css') {
+                cssEditor.value = cssEditor.value
+            }
+            if (type === 'js') {
+                jsEditor.value = jsEditor.value
+            }
+            toggleMinimize()
+        }
 
-        const iframeDoc = fullPagePreview.contentDocument || fullPagePreview.contentWindow.document;
-        iframeDoc.open();
-        iframeDoc.write(htmlCode);
-        iframeDoc.close();
+        function toggleEditorsVisibility() {
+            editorContainer.classList.toggle('hidden');
+            if (editorContainer.classList.contains('hidden')) {
+                codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
+            } else {
+                codeToggleButton.innerHTML = `<i class="fas fa-code"></i>`
+            }
+        }
 
-        const style = iframeDoc.createElement('style');
-        style.innerHTML = cssCode;
-        iframeDoc.head.appendChild(style);
 
-        const script = iframeDoc.createElement('script');
-        script.innerHTML = jsCode;
-        iframeDoc.body.appendChild(script);
+        function updateFullPagePreview() {
+            const htmlCode = htmlEditor.value;
+            const cssCode = cssEditor.value;
+            const jsCode = jsEditor.value;
 
-    }
+            const iframeDoc = fullPagePreview.contentDocument || fullPagePreview.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlCode);
+            iframeDoc.close();
 
-     function togglePreviewFullscreen() {
-        isPreviewFullscreen = !isPreviewFullscreen;
-        preview.classList.toggle('fullscreen-preview', isPreviewFullscreen);
-           previewFullscreenButton.innerHTML = isPreviewFullscreen ? `<i class="fas fa-compress"></i>` : `<i class="fas fa-expand"></i>`;
+            const style = iframeDoc.createElement('style');
+            style.innerHTML = cssCode;
+            iframeDoc.head.appendChild(style);
 
-      if(isPreviewFullscreen) {
-        const closeButton = document.createElement('span')
-          closeButton.classList.add('close-full-preview')
-            closeButton.innerHTML = "×"
-            closeButton.onclick = () => togglePreviewFullscreen();
-        preview.appendChild(closeButton)
-      } else {
-       const closeButton = preview.querySelector('.close-full-preview')
-        if(closeButton){
-             preview.removeChild(closeButton);
-          }
-     }
-    }
-    function updatePreview() {
-        const htmlCode = htmlEditor.value;
-        const cssCode = cssEditor.value;
-        const jsCode = jsEditor.value;
-        const iframeDoc = preview.contentDocument || preview.contentWindow.document;
-        iframeDoc.open();
-        iframeDoc.write(htmlCode);
-        iframeDoc.close();
+            const script = iframeDoc.createElement('script');
+            script.innerHTML = jsCode;
+            iframeDoc.body.appendChild(script);
 
-        const style = iframeDoc.createElement('style');
-        style.innerHTML = cssCode;
-        iframeDoc.head.appendChild(style);
+        }
 
-        const script = iframeDoc.createElement('script');
-        script.innerHTML = jsCode;
-        iframeDoc.body.appendChild(script);
-        consoleOutput.innerHTML = `Successfully updated preview`;
-    }
+        function togglePreviewFullscreen() {
+            isPreviewFullscreen = !isPreviewFullscreen;
+            preview.classList.toggle('fullscreen-preview', isPreviewFullscreen);
+            previewFullscreenButton.innerHTML = isPreviewFullscreen ? `<i class="fas fa-compress"></i>` : `<i class="fas fa-expand"></i>`;
 
-    function showNotification(message) {
-        const notification = document.createElement('div');
-        notification.classList.add('notification');
-        notification.textContent = message;
-        notificationContainer.appendChild(notification);
+            if (isPreviewFullscreen) {
+                const closeButton = document.createElement('span')
+                closeButton.classList.add('close-full-preview')
+                closeButton.innerHTML = "×"
+                closeButton.onclick = () => togglePreviewFullscreen();
+                preview.appendChild(closeButton)
+            } else {
+                const closeButton = preview.querySelector('.close-full-preview')
+                if (closeButton) {
+                    preview.removeChild(closeButton);
+                }
+            }
+        }
+        function updatePreview() {
+            const htmlCode = htmlEditor.value;
+            const cssCode = cssEditor.value;
+            const jsCode = jsEditor.value;
+            const iframeDoc = preview.contentDocument || preview.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlCode);
+            iframeDoc.close();
 
-        setTimeout(() => {
-            notification.classList.add('vanish')
-            notification.addEventListener('transitionend', () => {
-                notificationContainer.removeChild(notification);
-            });
-        }, 1500);
-    }
+            const style = iframeDoc.createElement('style');
+            style.innerHTML = cssCode;
+            iframeDoc.head.appendChild(style);
 
-    function addMessage(content, isUser, isBotCode = false) {
-        const message = document.createElement('div');
-        message.classList.add('message', isUser ? 'user-message' : 'bot-message');
-        if (isUser) {
-            message.innerHTML = `
+            const script = iframeDoc.createElement('script');
+            script.innerHTML = jsCode;
+            iframeDoc.body.appendChild(script);
+            consoleOutput.innerHTML = `Successfully updated preview`;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = message;
+            notificationContainer.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('vanish')
+                notification.addEventListener('transitionend', () => {
+                    notificationContainer.removeChild(notification);
+                });
+            }, 1500);
+        }
+
+        function addMessage(content, isUser, isBotCode = false) {
+            const message = document.createElement('div');
+            message.classList.add('message', isUser ? 'user-message' : 'bot-message');
+            if (isUser) {
+                message.innerHTML = `
            ${content}
               <div class="actions">
                 <button onclick="editUserMessage(this)"><i class="fas fa-edit"></i></button>
              </div>`;
 
-        } else {
+            } else {
 
-            let messageContent = content;
-            let codeSnippet = null;
-            const codeMatch = messageContent.match(/```([\w-]+)?\s*([\s\S]*?)```/);
+                let messageContent = content;
+                let codeSnippet = null;
+                const codeMatch = messageContent.match(/```([\w-]+)?\s*([\s\S]*?)```/);
 
-            if (codeMatch) {
-                codeSnippet = `<pre><code class="language-${codeMatch[1] || 'plaintext'}">${codeMatch[2].trim()}</code></pre>`
-                messageContent = messageContent.replace(codeMatch[0], "").trim()
-            }
+                if (codeMatch) {
+                    codeSnippet = `<pre><code class="language-${codeMatch[1] || 'plaintext'}">${codeMatch[2].trim()}</code></pre>`
+                    messageContent = messageContent.replace(codeMatch[0], "").trim()
+                }
 
-            message.innerHTML = `
+                message.innerHTML = `
            ${messageContent}
           ${codeSnippet || ""}
               <div class="actions">
                  <button onclick="copyBotMessage(this)"><i class="fas fa-copy"></i></button>
              </div>`;
+            }
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        chatMessages.appendChild(message);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
 
-    function editUserMessage(button) {
-        const messageElement = button.closest('.message');
-        const initialText = messageElement.firstChild.textContent
-        const textarea = document.createElement('textarea');
-        textarea.value = initialText;
-        textarea.style.width = '100%';
-        textarea.style.minHeight = '100px';
-        textarea.style.boxSizing = 'border-box';
-        textarea.style.color = '#ecf0f1';
-        textarea.style.background = 'rgba(0, 0, 0, 0.3)';
-        textarea.style.padding = '10px'
-        textarea.style.borderRadius = '5px'
-        textarea.style.margin = '5px 0'
-        textarea.style.resize = 'vertical';
+        function editUserMessage(button) {
+            const messageElement = button.closest('.message');
+            const initialText = messageElement.firstChild.textContent
+            const textarea = document.createElement('textarea');
+            textarea.value = initialText;
+            textarea.style.width = '100%';
+            textarea.style.minHeight = '100px';
+            textarea.style.boxSizing = 'border-box';
+            textarea.style.color = '#ecf0f1';
+            textarea.style.background = 'rgba(0, 0, 0, 0.3)';
+            textarea.style.padding = '10px'
+            textarea.style.borderRadius = '5px'
+            textarea.style.margin = '5px 0'
+            textarea.style.resize = 'vertical';
 
-        const saveButton = document.createElement('button');
-        saveButton.innerText = "Save";
-        saveButton.style.background = '#3498db';
-        saveButton.style.color = '#ecf0f1';
-        saveButton.style.padding = '8px 12px';
-        saveButton.style.borderRadius = '5px';
-        saveButton.style.cursor = 'pointer';
-        saveButton.style.border = 'none'
-        saveButton.style.marginTop = '5px'
-        saveButton.style.transition = 'background 0.3s ease';
-        saveButton.style.display = 'inline-block'
-
-        saveButton.addEventListener('mouseover', function () {
-            saveButton.style.background = '#2980b9';
-        });
-        saveButton.addEventListener('mouseout', function () {
+            const saveButton = document.createElement('button');
+            saveButton.innerText = "Save";
             saveButton.style.background = '#3498db';
-        });
+            saveButton.style.color = '#ecf0f1';
+            saveButton.style.padding = '8px 12px';
+            saveButton.style.borderRadius = '5px';
+            saveButton.style.cursor = 'pointer';
+            saveButton.style.border = 'none'
+            saveButton.style.marginTop = '5px'
+            saveButton.style.transition = 'background 0.3s ease';
+            saveButton.style.display = 'inline-block'
+
+            saveButton.addEventListener('mouseover', function () {
+                saveButton.style.background = '#2980b9';
+            });
+            saveButton.addEventListener('mouseout', function () {
+                saveButton.style.background = '#3498db';
+            });
 
 
-        messageElement.innerHTML = '';
-        messageElement.appendChild(textarea);
-        messageElement.appendChild(saveButton);
+            messageElement.innerHTML = '';
+            messageElement.appendChild(textarea);
+            messageElement.appendChild(saveButton);
 
-        saveButton.addEventListener('click', function () {
-            const updatedContent = textarea.value;
-            messageElement.innerHTML =
-                `${updatedContent}
+            saveButton.addEventListener('click', function () {
+                const updatedContent = textarea.value;
+                messageElement.innerHTML =
+                    `${updatedContent}
               <div class="actions">
                 <button onclick="editUserMessage(this)"><i class="fas fa-edit"></i></button>
              </div>`;
-        });
-    }
-
-
-    function copyBotMessage(button) {
-        const messageElement = button.closest('.message');
-        const codeBlock = messageElement.querySelector('pre code');
-        const textContent = messageElement.firstChild.textContent;
-
-        const code = codeBlock ? codeBlock.textContent : null;
-        const combined = code ? textContent + "\n" + code : textContent
-        navigator.clipboard.writeText(combined).then(() => {
-            alert("Copied to clipboard!");
-        }).catch(err => console.error("Error copying:", err));
-    }
-
-    function segregateCode() {
-        const code = htmlEditor.value;
-        if (!code) return consoleOutput.innerHTML = `No HTML code detected.`;
-
-        let segregatedHTML = "";
-        let segregatedCSS = "";
-        let segregatedJS = "";
-
-        // Extract HTML outside script and style tags
-        segregatedHTML = code.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').trim();
-
-        // Extract JavaScript inside script tags
-        const scriptMatches = code.matchAll(/<script>([\s\S]*?)<\/script>/gi);
-        for (const match of scriptMatches) {
-            segregatedJS += match[1].trim() + '\n';
-        }
-
-        // Extract CSS inside style tags
-        const styleMatches = code.matchAll(/<style>([\s\S]*?)<\/style>/gi);
-        for (const match of styleMatches) {
-            segregatedCSS += match[1].trim() + '\n';
-        }
-        htmlEditor.value = segregatedHTML.trim();
-        cssEditor.value = segregatedCSS.trim();
-        jsEditor.value = segregatedJS.trim();
-        consoleOutput.innerHTML = `HTML, CSS, and JS code segregated.`;
-        updatePreview();
-
-    }
-
-    async function sendCodeQuery() {
-        const query = codeAssistantInput.value.trim();
-        if (!query) return alert('Please enter your query');
-        thinkingElement.style.display = "flex";
-        codeAssistantInput.disabled = true;
-        addMessage(query, true)
-        try {
-            const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: `CodyPro v6 (GPT Developer Edition) is your steadfast pair programmer, armed with enhanced code generation ability, online access for the latest APIs, and custom commands to save your session state so you can recall it in a new session later. /help will tell you all about it. Say "Hello" to start! ${query} Only give code related output to the query that is related to HTML, do not provide full documents.  If the user did not ask for specific language, output the code with the html or plaintext code language.`
-                        }]
-                    }]
-                })
             });
-            if (!response.ok) {
-                console.error(`API request failed with status ${response.status}`);
-                const errorData = await response.json();
-                console.error("API error details:", errorData);
-                addMessage(`Error: Could not get response from Cody AI`, false)
+        }
+
+
+        function copyBotMessage(button) {
+            const messageElement = button.closest('.message');
+            const codeBlock = messageElement.querySelector('pre code');
+            const textContent = messageElement.firstChild.textContent;
+
+            const code = codeBlock ? codeBlock.textContent : null;
+            const combined = code ? textContent + "\n" + code : textContent
+            navigator.clipboard.writeText(combined).then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => console.error("Error copying:", err));
+        }
+
+        function segregateCode() {
+            const code = htmlEditor.value;
+            if (!code) return consoleOutput.innerHTML = `No HTML code detected.`;
+
+            let segregatedHTML = "";
+            let segregatedCSS = "";
+            let segregatedJS = "";
+
+            // Extract HTML outside script and style tags
+            segregatedHTML = code.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').trim();
+
+            // Extract JavaScript inside script tags
+            const scriptMatches = code.matchAll(/<script>([\s\S]*?)<\/script>/gi);
+            for (const match of scriptMatches) {
+                segregatedJS += match[1].trim() + '\n';
+            }
+
+            // Extract CSS inside style tags
+            const styleMatches = code.matchAll(/<style>([\s\S]*?)<\/style>/gi);
+            for (const match of styleMatches) {
+                segregatedCSS += match[1].trim() + '\n';
+            }
+            htmlEditor.value = segregatedHTML.trim();
+            cssEditor.value = segregatedCSS.trim();
+            jsEditor.value = segregatedJS.trim();
+            consoleOutput.innerHTML = `HTML, CSS, and JS code segregated.`;
+            updatePreview();
+
+        }
+
+        async function sendCodeQuery() {
+            const query = codeAssistantInput.value.trim();
+            if (!query) return alert('Please enter your query');
+            thinkingElement.style.display = "flex";
+            codeAssistantInput.disabled = true;
+            addMessage(query, true)
+            try {
+                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `Codefusion v6 (GPT Developer Edition) is your ultimate pair programmer, designed to deliver futuristic, visually stunning code solutions with enhanced functionality. Codefusion is proactive, tailoring responses to the user's main query while ignoring unrelated questions, ensuring focused and relevant assistance. It features advanced code generation, real-time API access, and custom commands to save session states for seamless recall in future sessions. Type '/help' to explore its capabilities, or say 'Hello' to get started. Ready to create something extraordinary? ${query} Only give code related output to the query that is related to HTML, do not provide full documents.  If the user did not ask for specific language, output the code with the html or plaintext code language.`
+                            }]
+                        }]
+                    })
+                });
+                if (!response.ok) {
+                    console.error(`API request failed with status ${response.status}`);
+                    const errorData = await response.json();
+                    console.error("API error details:", errorData);
+                    addMessage(`Error: Could not get response from Codefusion AI`, false)
+                    thinkingElement.style.display = "none";
+                    codeAssistantInput.disabled = false;
+                    return;
+                }
+                const data = await response.json();
                 thinkingElement.style.display = "none";
                 codeAssistantInput.disabled = false;
-                return;
+                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                    let responseText = data.candidates[0].content.parts[0].text.trim();
+                    addMessage(responseText, false);
+                    htmlEditor.value += "\n" + responseText;
+                    updatePreview();
+                } else {
+                    console.error("No response text found in data:", data);
+                    addMessage(`Error: No response from Codefusion AI`, false)
+                }
+
+            } catch (error) {
+                console.error("Error during API request:", error);
+                addMessage(`Error: ${error}`, false)
+                thinkingElement.style.display = "none";
+                codeAssistantInput.disabled = false;
             }
-            const data = await response.json();
-            thinkingElement.style.display = "none";
-            codeAssistantInput.disabled = false;
-            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                let responseText = data.candidates[0].content.parts[0].text.trim();
-                addMessage(responseText, false);
-                htmlEditor.value += "\n" + responseText;
-                updatePreview();
+            codeAssistantInput.value = '';
+        }
+
+
+        function toggleChatModal() {
+            chatModal.classList.toggle('active');
+        }
+
+        function resetChat() {
+            chatMessages.innerHTML = '';
+            showNotification('Chat history cleared.');
+        }
+
+        function toggleEditors() {
+            const editorContainer = document.querySelector('.editor-container');
+            editorContainer.style.display = editorContainer.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function copyCode(type) {
+            let code;
+            if (type === 'html') {
+                code = htmlEditor.value;
+            } else if (type === 'css') {
+                code = cssEditor.value;
             } else {
-                console.error("No response text found in data:", data);
-                addMessage(`Error: No response from Cody AI`, false)
+                code = jsEditor.value;
             }
 
-        } catch (error) {
-            console.error("Error during API request:", error);
-            addMessage(`Error: ${error}`, false)
-            thinkingElement.style.display = "none";
-            codeAssistantInput.disabled = false;
-        }
-        codeAssistantInput.value = '';
-    }
+            const textarea = document.createElement('textarea');
+            textarea.value = code;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
 
-
-    function toggleChatModal() {
-        chatModal.classList.toggle('active');
-    }
-
-    function resetChat() {
-        chatMessages.innerHTML = '';
-        showNotification('Chat history cleared.');
-    }
-
-   function toggleEditors() {
-        const editorContainer = document.querySelector('.editor-container');
-          editorContainer.style.display = editorContainer.style.display === 'none' ? 'flex' : 'none';
-    }
-
-    function copyCode(type) {
-        let code;
-        if (type === 'html') {
-            code = htmlEditor.value;
-        } else if (type === 'css') {
-            code = cssEditor.value;
-        } else {
-            code = jsEditor.value;
+            alert(`${type.toUpperCase()} code copied!`);
         }
 
-        const textarea = document.createElement('textarea');
-        textarea.value = code;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
+        function resetEditors() {
+            htmlEditor.value = '';
+            cssEditor.value = '';
+            jsEditor.value = '';
+            consoleOutput.innerHTML = `Editor reset.`
+            updatePreview();
+        }
 
-        alert(`${type.toUpperCase()} code copied!`);
-    }
+        modeSelect.addEventListener('change', function () {
+            const selectedMode = modeSelect.value;
+            htmlEditor.style.display = selectedMode === 'html' ? 'block' : 'none';
+            cssEditor.style.display = selectedMode === 'css' ? 'block' : 'none';
+            jsEditor.style.display = selectedMode === 'js' ? 'block' : 'none';
+            mode = selectedMode;
+            consoleOutput.innerHTML = `Mode set to ${mode}`
+        });
 
-    function resetEditors() {
-        htmlEditor.value = '';
-        cssEditor.value = '';
-        jsEditor.value = '';
-        consoleOutput.innerHTML = `Editor reset.`
+        htmlEditor.addEventListener('input', updatePreview);
+        cssEditor.addEventListener('input', updatePreview);
+        jsEditor.addEventListener('input', updatePreview);
+
+        codeAssistantInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendCodeQuery();
+            }
+        });
+        initLoadingScreen();
         updatePreview();
-    }
-
-    modeSelect.addEventListener('change', function () {
-        const selectedMode = modeSelect.value;
-        htmlEditor.style.display = selectedMode === 'html' ? 'block' : 'none';
-        cssEditor.style.display = selectedMode === 'css' ? 'block' : 'none';
-        jsEditor.style.display = selectedMode === 'js' ? 'block' : 'none';
-        mode = selectedMode;
-        consoleOutput.innerHTML = `Mode set to ${mode}`
-    });
-
-    htmlEditor.addEventListener('input', updatePreview);
-    cssEditor.addEventListener('input', updatePreview);
-    jsEditor.addEventListener('input', updatePreview);
-
-    codeAssistantInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendCodeQuery();
-        }
-    });
-    initLoadingScreen();
-    updatePreview();
-</script>
+    </script>
 
 </body>
 </html>
