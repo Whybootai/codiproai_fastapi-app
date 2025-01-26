@@ -4,1669 +4,1432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codefusion - Futuristic Multi-Language Code Editor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>LightningLeads AZ - Automotive Lead Generation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        :root {
-            /* Dark Theme Colors */
-            --bg-color: #1e1e2f;
-            --header-bg: #27293d;
-            --editor-bg: #282c34;
-            --text-color: #ffffff;
-            --text-muted: #999;
-            --border-color: #444;
-            --accent-color: #28a745;
-            --btn-bg: #44475a;
-            font-size: 16px;
-            /* Base font size */
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
-            overflow-x: hidden;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--header-bg);
-            padding: 1em 1.5em;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-        }
-
-        header h1 {
-            font-size: 1.75rem;
-            margin: 0;
-            letter-spacing: 1px;
-            font-weight: 400;
-        }
-
-        header .controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        header .controls button {
-             background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s;
-            position: relative;
-            /* For Tooltip Position */
-        }
-
-        header .controls button:hover {
-            background-color: var(--btn-bg);
-        }
-
-         header .controls button .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        header .controls button:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-          .header .controls #toggle-buttons {
-              font-size: 1.7rem;
-            }
-
-
-        header .controls .theme-toggle {
-            font-size: 1.2rem;
-        }
-
-        main {
-            display: flex;
-            flex: 1;
-            padding: 0.6em;
-            flex-direction: column;
-            /* Default to column for mobile */
-        }
-
-        .editor-container {
+        /* Basic styles for the preview image */
+        .preview-image {
             width: 100%;
-            /* Take up full width by default */
-            display: flex;
-            flex-direction: column;
-            padding: 0.9em;
-            gap: 0.9em;
-        }
-
-        .editor-container textarea {
-            flex: 1;
-            background-color: var(--editor-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            font-family: 'Fira Code', monospace;
-            font-size: 1rem;
-            padding: 0.75em;
-            border-radius: 8px;
-            resize: none;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .editor-container textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .preview-container {
-            width: 100%;
-            position: relative;
-            background: var(--editor-bg);
-            border: 1px solid var(--border-color);
+            max-width: 600px;
+            height: auto;
+            object-fit: cover;
             border-radius: 8px;
             overflow: hidden;
-            transition: width 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s, border-color 0.3s;
-            height: auto;
-            margin-top: 1em;
-            /* Space between editor and preview on mobile */
+            margin: 20px auto;
         }
 
-        .preview-container.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            border: none;
-            transform: none;
-        }
-
-        .preview-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .preview-container .close-btn {
-            position: absolute;
-            top: 0.9em;
-            right: 0.9em;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out, color 0.3s;
-            z-index: 100;
-        }
-
-        .preview-container .close-btn.fullscreen-btn {
-            left: 0.9em;
-            right: auto;
-        }
-
-        .preview-container .close-btn:hover {
-            color: #ff5555;
-        }
-
-        .preview-container .fullScreen-btn {
-            position: absolute;
-            top: 0.9em;
-            left: 0.9em;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out, color 0.3s;
-            z-index: 100;
-        }
-
-        .preview-container .fullScreen-btn:hover {
-            color: #ff5555;
-        }
-
-        footer {
-            background-color: var(--header-bg);
-            text-align: center;
-            padding: 0.9em;
-            font-size: 0.9rem;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        footer span {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown input {
-            background: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        .dropdown input[type="password"] {
+        .hidden {
             display: none;
         }
 
-        .dropdown .toggle {
-            cursor: pointer;
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            color: #374151;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        .hero-section {
+            background-image: url('https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
 
         .notification {
-            background: var(--border-color);
-            padding: 0.75em;
-            position: absolute;
-            top: -3.125em;
-            right: 1.25em;
-            color: var(--text-color);
-            border-radius: 8px;
-            display: none;
-            transition: all 0.5s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .notification.success {
-            background: var(--accent-color);
-        }
-
-        .notification.copy {
-            background: var(--text-muted);
-        }
-
-        .chatbox-toggle {
             position: fixed;
-            bottom: 1.25em;
-            right: 1.25em;
-            background: var(--btn-bg);
-            border: none;
-            color: var(--text-color);
-            font-size: 1.3rem;
-            padding: 0.75em;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1001;
-            transition: transform 0.3s, background-color 0.3s;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .chatbox-toggle:hover {
-            transform: scale(1.1)
-        }
-
-        .chat-popup {
-            position: fixed;
-            bottom: 5em;
-            right: 1.25em;
-            background: var(--header-bg);
-            color: var(--text-color);
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            max-height: 25em;
-            /* Adjusted to rem */
-            width: 18.75em;
-            /* Adjusted to rem */
-            display: none;
-            flex-direction: column;
+            top: 20px;
+            right: 20px;
+            background-color: #48bb78;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             z-index: 1000;
-            transition: opacity 0.3s, transform 0.3s, background-color 0.3s;
-            opacity: 0;
-            transform: translateY(20px);
         }
 
-        .chat-popup.active {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
+        .fade-out {
+            animation: fadeOut 3s ease-in-out forwards;
         }
 
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75em;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 500;
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                display: none;
+            }
         }
 
-        .chat-header .close-chat {
-            cursor: pointer;
-            color: #ff5555;
-            font-size: 1.3rem;
-            transition: color 0.3s;
+        .search-form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        .chat-header .reset-chat {
-            cursor: pointer;
-            color: var(--text-color);
+        .initial-placeholder-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .initial-placeholder-container p {
+            color: white;
+        }
+
+        .initial-placeholder-container button {
+            background-color: #48bb78;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .initial-placeholder-container button:hover {
+            background-color: #38a169;
+        }
+
+        .timer-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 1001;
+            text-align: center;
+        }
+
+        .timer-popup p {
             font-size: 1.2rem;
-            transition: color 0.3s;
+            margin-bottom: 1rem;
         }
 
-        .chat-header .reset-chat:hover {
-            color: var(--accent-color);
+
+        .blur {
+            filter: blur(5px);
         }
 
-        .chat-header .close-chat:hover {
-            color: var(--text-color);
-        }
-
-        .chat-messages {
-            padding: 0.75em;
+        .lead-form-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 1002;
+            max-width: 90%;
+            max-height: 90%;
             overflow-y: auto;
-            flex: 1;
         }
 
-        .chat-message {
-            padding: 0.75em;
-            margin-bottom: 0.75em;
-            border-radius: 10px;
-            word-wrap: break-word;
-            max-width: 80%;
-            transition: all 0.3s;
-            position: relative;
+        .lead-form-popup h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
 
-        .chat-message.user-message {
-            background: var(--btn-bg);
-            align-self: flex-end;
+        .lead-form-popup .form-group {
+            margin-bottom: 1rem;
         }
 
-        .chat-message.user-message .edit-btn {
-            position: absolute;
-            top: 8px;
-            right: 35px;
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: color 0.3s
-        }
-
-        .chat-message.user-message:hover .edit-btn {
+        .lead-form-popup .form-group label {
             display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
         }
 
-        .chat-message.user-message .edit-btn:hover {
-            color: var(--accent-color);
+        .lead-form-popup .form-group input,
+        .lead-form-popup .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            color: #374151;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
-        .chat-message.user-message .copy-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: color 0.3s
-        }
-
-        .chat-message.user-message:hover .copy-btn {
-            display: block;
-        }
-
-        .chat-message.user-message .copy-btn:hover {
-            color: var(--accent-color);
-        }
-
-        .chat-message.bot-message {
-            background: var(--editor-bg);
-            align-self: flex-start;
-            position: relative;
-        }
-
-        .chat-message.bot-message .copy-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: color 0.3s
-        }
-
-        .chat-message.bot-message:hover .copy-btn {
-            display: block;
-        }
-
-        .chat-message.bot-message .copy-btn:hover {
-            color: var(--accent-color);
-        }
-
-        .chat-message.bot-message pre {
-            white-space: pre-wrap;
-            margin: 0.5em 0;
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 0.6em;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
-
-        .chat-input-area {
-            display: flex;
-            padding: 0.75em;
-            border-top: 1px solid var(--border-color);
-            align-items: center
-        }
-
-        .chat-input-area textarea {
-            flex: 1;
-            resize: none;
-            background: none;
-            color: var(--text-color);
-            padding: 0.6em;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            min-height: 2.2em;
+        .lead-form-popup .form-group input:focus,
+        .lead-form-popup .form-group select:focus {
             outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
         }
 
-        .chat-input-area textarea::placeholder {
-            color: var(--text-muted)
+        .lead-form-popup .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
         }
 
-        .chat-input-area button {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            font-size: 1.3rem
+        .lead-form-popup .btn-primary {
+            display: block;
+            margin: 1rem auto 0;
         }
 
-        .chat-input-area button:hover {
-            color: var(--accent-color);
+        .signup-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 1003;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            text-align: center;
         }
 
-        .loading-overlay {
+        .signup-popup h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .signup-popup .social-icons {
+            margin-top: 1.5rem;
+        }
+
+        .signup-popup .social-icons a {
+            display: inline-block;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            color: #374151;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .signup-popup .social-icons a:hover {
+            color: #2563eb;
+        }
+
+        .signup-popup .company-logo {
+            width: 100px;
+            height: auto;
+            margin: 0 auto 1rem;
+        }
+
+        .survey-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 1004;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .survey-container h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .survey-container .survey-step {
+            margin-bottom: 2rem;
+        }
+
+        .survey-container .survey-step img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+             object-fit: cover; /* Use object-fit to ensure images don't distort */
+        }
+
+        .survey-container .survey-step button {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            margin: 0.5rem;
+        }
+
+        .survey-container .survey-step button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .download-options {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 1005;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .download-options h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .download-options button {
+            background-color: #48bb78;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            margin: 0.5rem;
+        }
+
+        .download-options button:hover {
+            background-color: #38a169;
+        }
+
+        /* Style for search suggestions */
+        .search-suggestions {
             position: absolute;
+            z-index: 100;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            margin-top: 0.25rem;
+            width: calc(100% - 2px);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            /* Adjust as needed */
+            overflow-y: auto;
+        }
+
+        .search-suggestions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .search-suggestions li {
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .search-suggestions li:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Style for active suggestion */
+        .search-suggestions li.active {
+            background-color: #e0e0e0;
+        }
+
+        .passwordless-signup {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .passwordless-signup button {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .passwordless-signup button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .passwordless-signup-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 1006;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .passwordless-signup-popup h2 {
+            margin-bottom: 1.5rem;
+        }
+
+
+        /* Loading animation styles */
+        .timer-popup .loading-message {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+
+        /* Loading animation */
+        .timer-popup .loading-spinner {
+                border: 8px solid #f3f3f3; /* Light grey */
+                border-top: 8px solid #3498db; /* Blue */
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 2s linear infinite;
+                margin: 0 auto 1.5rem;
+            }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+             100% { transform: rotate(360deg); }
+         }
+
+            /* Modal styles from auth_modal.py */
+        .modal {
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            display: none;
-            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
-            z-index: 1002;
+            align-items: center;
+           z-index: 1007; /* Ensure it's above other modals */
         }
 
-        .loading-overlay.active {
-            display: flex;
-        }
-
-        .circular-loader {
-            width: 2.8em;
-            height: 2.8em;
-            border-radius: 50%;
-            border: 5px solid var(--text-color);
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
-        }
-
-        .segregation-toggle {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: all 0.3s, color 0.3s;
+        .modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            width: 380px;
             position: relative;
         }
 
-           .segregation-toggle:hover .tooltiptext {
-             visibility: visible;
-            opacity: 1;
-        }
-
-
-        .segregation-toggle.active {
-            color: var(--accent-color);
-        }
-
-        .segregation-toggle:hover {
-            color: var(--accent-color);
-        }
-
-           .segregation-toggle .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
+        .close-button {
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 16px;
+            right: 16px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #606770;
         }
 
-
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg)
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Light Theme Colors */
-        body.light-theme {
-            --bg-color: #f0f2f5;
-            --header-bg: #e9ecef;
-            --editor-bg: #f8f9fa;
-            --text-color: #212529;
-            --text-muted: #6c757d;
-            --border-color: #ced4da;
-            --btn-bg: #dee2e6;
-        }
-${cssEditor.value}
-            /* Futuristic Theme Colors */
-            --bg-color: #0a0a1a;
-            --header-bg: #1a1a2e;
-            --editor-bg: #1e1e2f;
-            --text-color: #e0e0e0;
-            --text-muted: #888;
-            --border-color: #444;
-            --accent-color: #00ff88;
-            --btn-bg: #2a2a40;
-            --glow-color: rgba(0, 255, 136, 0.3);
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
+        #signupForm {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
-            overflow-x: hidden;
+            gap: 12px;
         }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--header-bg);
-            padding: 1em 1.5em;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-            border-bottom: 1px solid var(--accent-color);
-        }
-
-        header h1 {
-            font-size: 1.75rem;
-            margin: 0;
-            letter-spacing: 2px;
-            font-weight: 500;
-            text-shadow: 0 0 5px var(--glow-color);
-        }
-
-        header .controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        header .controls button {
-            background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5em 0.8em;
+        .modal input {
+             padding: 12px;
+            border: 1px solid #dddfe2;
             border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+             font-size: 16px;
+            width: 100%; /* Ensure input fields take up full width */
+              box-sizing: border-box;
+        }
+
+        .separator {
+            text-align: center;
+            margin: 16px 0;
+            color: #606770;
             position: relative;
         }
 
-          header .controls button:hover {
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 10px var(--glow-color);
+        .separator::before,
+        .separator::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #dadde1;
+            margin: auto;
         }
-
-          header .controls button .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
-             position: absolute;
-            z-index: 1;
-            bottom: 125%;
-             left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
+         .modal .g_id_signin {
+            margin: 16px 0;
           }
 
-           header .controls button:hover .tooltiptext {
-             visibility: visible;
-            opacity: 1;
-        }
-
-
-        .header .controls #toggle-buttons {
-             font-size: 1.7rem;
-        }
-
-
-        header .controls .theme-toggle {
-             font-size: 1.2rem;
-        }
-
-        main {
-            display: flex;
-            flex: 1;
-            padding: 1.25em;
-            gap: 1.25em;
-            flex-direction: column;
-            /* Default to column for mobile */
-        }
-
-        .editor-container {
-            width: 100%;
-            /* Take up full width by default */
-            display: flex;
-            flex-direction: column;
-            gap: 1.25em;
-        }
-
-        .editor-container textarea {
-            flex: 1;
-            background-color: var(--editor-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-             font-family: 'Fira Code', monospace;
-            font-size: 1rem;
-            padding: 1em;
-            border-radius: 8px;
-             resize: none;
-            box-shadow: 0 0 10px var(--glow-color);
-             transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .editor-container textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .preview-container {
-            width: 100%;
-            position: relative;
-             background: var(--editor-bg);
-            border: 1px solid var(--accent-color);
-             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 10px var(--glow-color);
-            transition: width 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s, border-color 0.3s;
-            margin-top: 1.25em;
-        }
-
-        .preview-container.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+           /* Styles for Arizona Dealership Page*/
+        .dealership-page {
+              font-family: 'Arial', sans-serif;
+              background-image: url('https://via.placeholder.com/1920x1080?text=Dealership+Image');
+              background-size: cover;
+              background-position: center;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              min-height: 100vh;
+             overflow: auto;
+                position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
              height: 100%;
-            z-index: 1000;
-             border: none;
-            transform: none;
+              z-index: 1008;
+               opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+                pointer-events: none; /* Disable interactions initially */
+
+            }
+            .dealership-page.active {
+                opacity: 1; /* Transition to full opacity */
+                pointer-events: auto; /* Enable interactions */
+            }
+
+
+        .dealership-page .container {
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: 30px;
+          border-radius: 15px;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+          text-align: center;
+          max-width: 90%;
+          backdrop-filter: blur(5px); /* Apply blur to the container */
+        }
+        .dealership-page h1 {
+          color: #333;
         }
 
-        .preview-container iframe {
-            width: 100%;
-             height: 100%;
-            border: none;
+        .dealership-page table {
+          width: 100%;
+          margin-top: 20px;
+          border-collapse: collapse;
+          table-layout: fixed;
+          filter: blur(3px); /* Blur the table content */
+           user-select: none; /* Prevent text selection */
+            pointer-events: none; /* Prevent interaction with the blurred content */
+
+        }
+        .dealership-page th, .dealership-page td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          text-align: left;
         }
 
-        .preview-container .close-btn {
-            position: absolute;
-           top: 0.9em;
-            right: 0.9em;
-            background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-           font-size: 1.4rem;
-            cursor: pointer;
-            padding: 0.3em 0.6em;
-           border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-        }
-
-         .preview-container .close-btn:hover {
-            background-color: var(--accent-color);
-             color: var(--bg-color);
-             box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        .preview-container .fullScreen-btn {
-            position: absolute;
-              top: 0.9em;
-            left: 0.9em;
-            background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-           color: var(--text-color);
-            font-size: 1.4rem;
-            cursor: pointer;
-            padding: 0.3em 0.6em;
-           border-radius: 6px;
-             transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-        }
-
-        .preview-container .fullScreen-btn:hover {
-            background-color: var(--accent-color);
-             color: var(--bg-color);
-            box-shadow: 0 0 10px var(--glow-color);
-         }
-
-        footer {
-            background-color: var(--header-bg);
-             text-align: center;
-            padding: 1em;
-            font-size: 0.9rem;
-             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);
-             border-top: 1px solid var(--accent-color);
-        }
-
-        footer span {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .chatbox-toggle {
-            position: fixed;
-             bottom: 1.25em;
-            right: 1.25em;
-             background: var(--accent-color);
-            border: none;
-            color: var(--bg-color);
-             font-size: 1.3rem;
-             padding: 1em;
-            border-radius: 50%;
-            cursor: pointer;
-             z-index: 1001;
-            transition: transform 0.3s, box-shadow 0.3s;
-             box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        .chatbox-toggle:hover {
-             transform: scale(1.1);
-            box-shadow: 0 0 15px var(--glow-color);
-        }
-
-        .chat-popup {
-             position: fixed;
-             bottom: 5em;
-            right: 1.25em;
-            background: var(--header-bg);
-             color: var(--text-color);
-             border-radius: 12px;
-            box-shadow: 0 0 10px var(--glow-color);
-            max-height: 25em;
-           width: 18.75em;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            transition: opacity 0.3s, transform 0.3s;
-            opacity: 0;
-             transform: translateY(20px);
-        }
-
-        .chat-popup.active {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
-         }
-
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75em;
-             border-bottom: 1px solid var(--accent-color);
-            font-weight: 500;
-        }
-
-         .chat-header .close-chat {
-            cursor: pointer;
-            color: var(--accent-color);
-             font-size: 1.3rem;
-             transition: color 0.3s;
-        }
-
-        .chat-header .close-chat:hover {
-            color: var(--text-color);
-         }
-
-
-        .chat-header .reset-chat {
-             cursor: pointer;
-            color: var(--accent-color);
-            font-size: 1.3rem;
-           transition: color 0.3s;
-             margin-right: 10px;
-         }
-
-         .chat-header .reset-chat:hover {
-            color: var(--text-color);
-        }
-
-         .chat-messages {
-            padding: 0.75em;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .chat-message {
-            padding: 0.75em;
-             margin-bottom: 0.75em;
-           border-radius: 10px;
-            word-wrap: break-word;
-            max-width: 80%;
-            transition: all 0.3s;
-             position: relative;
-            /* Add this to position buttons */
-        }
-
-        .chat-message.user-message {
-            background: var(--btn-bg);
-             align-self: flex-end;
-            border: 1px solid var(--accent-color);
-         }
-
-        .chat-message.user-message .edit-btn {
-            position: absolute;
-             top: 8px;
-            right: 35px;
-            display: none;
-             background: none;
-            border: none;
-             color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-             transition: color 0.3s
-        }
-
-         .chat-message.user-message:hover .edit-btn {
-             display: block;
-         }
-
-         .chat-message.user-message .edit-btn:hover {
-             color: var(--accent-color);
+        .dealership-page th {
+          background-color: #eee;
+          font-weight: bold;
+           filter: blur(0); /* Keep header clear */
+            user-select: auto;
+            pointer-events: auto;
         }
 
 
-        .chat-message.user-message .copy-btn {
-            position: absolute;
-           top: 8px;
-            right: 8px;
-             display: none;
-            background: none;
-           border: none;
-            color: var(--text-color);
-           font-size: 1.1rem;
-           cursor: pointer;
-            transition: color 0.3s;
+        .dealership-page .notification {
+          margin-top: 20px;
+          font-weight: bold;
+           color: #007bff;
+            filter: blur(0); /* Keep the notification clear */
         }
 
-        .chat-message.user-message:hover .copy-btn {
-           display: block;
-         }
 
-         .chat-message.user-message .copy-btn:hover {
-            color: var(--accent-color);
-         }
-
-        .chat-message.bot-message {
-            background: var(--editor-bg);
-             align-self: flex-start;
-            border: 1px solid var(--accent-color);
-            position: relative;
-        }
-
-        .chat-message.bot-message .copy-btn {
-            position: absolute;
-            top: 8px;
-             right: 8px;
-             display: none;
-           background: none;
-            border: none;
-           color: var(--text-color);
-            font-size: 1.1rem;
-             cursor: pointer;
-            transition: color 0.3s;
-        }
-
-         .chat-message.bot-message:hover .copy-btn {
-            display: block;
-        }
-
-        .chat-message.bot-message .copy-btn:hover {
-           color: var(--accent-color);
+       /* Responsive adjustments */
+      @media (max-width: 768px) {
+          .dealership-page table {
+            font-size: 14px;
+          }
        }
 
-        .chat-message.bot-message pre {
-            white-space: pre-wrap;
-             margin: 0.5em 0;
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.2);
-             padding: 0.6em;
-             border-radius: 8px;
-            overflow-x: auto;
-        }
 
-        .chat-input-area {
-            display: flex;
-             padding: 0.75em;
-            border-top: 1px solid var(--accent-color);
-           align-items: center;
-        }
-
-        .chat-input-area textarea {
-           flex: 1;
-            resize: none;
-             background: none;
-           color: var(--text-color);
-             padding: 0.6em;
-            border: 1px solid var(--accent-color);
-             border-radius: 8px;
-            font-size: 1em;
-             min-height: 2.2em;
-           outline: none;
-         }
-
-         .chat-input-area textarea::placeholder {
-             color: var(--text-muted);
-        }
-
-         .chat-input-area button {
-             background: var(--accent-color);
-             border: none;
-            color: var(--bg-color);
-            cursor: pointer;
-             font-size: 1.3rem;
-            padding: 0.6em;
-            border-radius: 8px;
-            margin-left: 0.6em;
-             transition:
-                background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .chat-input-area button:hover {
-            background-color: #00cc77;
-            box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1002;
-        }
-
-        .loading-overlay.active {
-            display: flex;
-        }
-
-        .circular-loader {
-            width: 2.8em;
-            height: 2.8em;
-            border-radius: 50%;
-            border: 5px solid var(--accent-color);
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
-        }
-
-        .segregation-toggle {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: all 0.3s, color 0.3s;
-            position: relative;
-        }
-
-        .segregation-toggle:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-
-        .segregation-toggle.active {
-            color: var(--accent-color);
-        }
-
-        .segregation-toggle:hover {
-            color: var(--accent-color);
-        }
-
-        .segregation-toggle .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .custom-prompt-toggle {
-           background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-            font-size: 1rem;
-            cursor: pointer;
-           padding: 0.5em 0.8em;
-            border-radius: 6px;
-             transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-             position: relative;
-            overflow: hidden;
-            /* Ensures the zipper icon stays inside the button */
-        }
-
-          .custom-prompt-toggle:hover {
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-             box-shadow: 0 0 10px var(--glow-color);
-          }
-
-          .custom-prompt-toggle.active {
-            background: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 10px var(--glow-color);
-        }
-         .custom-prompt-toggle i {
-                transition: transform 0.3s ease;
-                 display: inline-block;
-            }
-
-           .custom-prompt-toggle.active i {
-            transform: rotate(180deg);
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg)
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Add dropdown styles */
-        .system-prompt-dropdown {
-            position: relative;
-        }
-
-        .system-prompt-dropdown select {
-            background: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (min-width: 768px) {
-            /* Tablets and larger */
-            :root {
-                font-size: 17px;
-                /* Increased base font size for larger screens */
-            }
-            main {
-                flex-direction: row;
-                /* Switch to row on larger screens */
-            }
-            .editor-container {
-                width: 70%;
-            }
-            .preview-container {
-                width: 30%;
-                margin-top: 0;
-                border-left: 2px solid var(--border-color);
-                /* Added border for separation on large screens */
-            }
-        }
-
-        @media (min-width: 1024px) {
-            :root {
-                font-size: 18px;
-                /* Increased base font size for larger screens */
-            }
-        }
-
-        @media (min-width: 1200px) {
-            :root {
-                font-size: 19px;
-                /* Increased base font size for larger screens */
-            }
-        }
     </style>
 </head>
 
-<body>
-    <!-- Header -->
-    <header>
-        <h1>Codefusion</h1>
-        <div class="controls">
-            <!-- System Prompt Dropdown -->
-            <div class="system-prompt-dropdown">
-                <select id="system-prompt-select">
-                    <option value="default">Default Assistant</option>
-                    <option value="code-explainer">Code Explainer</option>
-                    <option value="bug-finder">Bug Finder</option>
-                    <option value="performance-optimizer">Performance Optimizer</option>
-                    <option value="custom">Custom Prompt</option>
-                </select>
-                <div style="display: flex; align-items: center; margin-top:0.3em">
-                    <textarea id="custom-prompt" style="display: none; margin-right: 0.3em" placeholder="Enter your custom system instruction"></textarea>
-                    <button id="custom-prompt-toggle" class="custom-prompt-toggle"><i class="fas fa-lock"></i></button>
+<body class="bg-gray-50">
+    <!-- Hero Section with Search -->
+    <div class="hero-section text-white pt-24">
+        <div class="container mx-auto px-4 py-16 hero-content">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Accelerate Your Sales with Targeted Leads</h1>
+                <p class="text-xl mb-8">Connect with car buyers actively searching for their next vehicle</p>
+
+                <!-- Search Section -->
+                <div class="max-w-4xl mx-auto search-form-container p-6 mb-8">
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <label for="adminCode">Admin Security Code</label>
+                            <input type="password" id="adminCode" placeholder="Enter security code">
+                            <div id="adminCodeError" class="error-message hidden">Incorrect security code</div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+                            <div class="form-group">
+                                <label for="country">Select Country</label>
+                                <select id="country">
+                                    <option value="">Select Country</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                </select>
+                                <div id="countryError" class="error-message hidden">Please select a country</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">Select State</label>
+                                <select id="state">
+                                    <option value="">Select State</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="CA">California</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="TX">Texas</option>
+                                </select>
+                                <div id="stateError" class="error-message hidden">Please select a state</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">Enter City</label>
+                                <input type="text" id="city" placeholder="Enter City">
+                                <!-- Search suggestions will be appended here -->
+                                <div id="citySuggestions" class="search-suggestions hidden">
+                                    <ul>
+                                        <!-- City suggestions will be dynamically populated here -->
+                                    </ul>
+                                </div>
+                                <div id="cityError" class="error-message hidden">Please enter a valid city</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="distance">Select Distance</label>
+                                <select id="distance">
+                                    <option value="25">Within 25 miles</option>
+                                    <option value="50">Within 50 miles</option>
+                                    <option value="100">Within 100 miles</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <button type="submit" class="btn-primary" id="searchButton">
+                                <i class="fas fa-search mr-2"></i>Search Now
+                            </button>
+                            <button class="btn-secondary" id="locationButton">
+                                <i class="fas fa-location-arrow mr-2"></i>Use My Location
+                            </button>
+                        </div>
+                    </form>
                 </div>
+                <div id="initialPlaceholder" class="hidden mt-4 text-center initial-placeholder-container">
+                    <p class="text-xl mb-4">Potential Customers: <span id="customerCount"></span></p>
+                    <button id="generateLeadsButton">Generate Your Leads</button>
+                </div>
+                <img class="preview-image lazyload" data-src="https://via.placeholder.com/1200x600/007bff/fff?text=Preview+Image"
+                    alt="Preview Image">
             </div>
-            <div class="dropdown">
-                <button class="toggle">
-                    <i class="fas fa-key"></i>
-                    <span class="tooltiptext">API Key</span>
-                </button>
-                <input type="password" placeholder="Enter Security Code" id="security-code">
-            </div>
-
-            <button id="segregation-btn"  >
-                <i class="fas fa-code-branch"></i>
-                 <span class="tooltiptext">Segregation</span>
-            </button>
-            <button id="theme-toggle" >
-                <i class="fas fa-sun"></i>
-                 <span class="tooltiptext">Theme</span>
-            </button>
-            <button id="feedback-btn" onclick="sendFeedback()">
-                <i class="fas fa-envelope"></i>
-                  <span class="tooltiptext">Feedback</span>
-            </button>
-            <button id="reset-btn" >
-                <i class="fas fa-sync"></i>
-                 <span class="tooltiptext">Reset</span>
-            </button>
-            <button id="toggle-preview" >
-                <i class="fas fa-eye"></i>
-                <span class="tooltiptext">Preview</span>
-            </button>
-            <button id="toggle-buttons">
-              <i class="fas fa-bars"></i>
-              <span class="tooltiptext">Toggle Button</span>
-            </button>
-
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-        <div class="editor-container">
-            <textarea id="html-editor" placeholder="Write HTML here..."></textarea>
-            <textarea id="css-editor" placeholder="Write CSS here..."></textarea>
-            <textarea id="js-editor" placeholder="Write JavaScript here..."></textarea>
-        </div>
-        <div class="preview-container">
-            <button class="fullScreen-btn">
-                <i class="fas fa-expand"></i>
-            </button>
-            <button class="close-btn">×</button>
-            <iframe id="preview-frame"></iframe>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <span>Codefusion - Your Dream App, Live in 5!</span>
-    </footer>
-
-    <!-- Chat Toggle -->
-    <button class="chatbox-toggle">
-        <i class="fas fa-comment-dots"></i>
-    </button>
-
-    <!-- Chat Popup -->
-    <div class="chat-popup">
-        <div class="chat-header">
-            <span>Codefusion AI Assistant</span>
-            <span class="reset-chat">
-                <i class="fas fa-trash"></i>
-            </span>
-            <span class="close-chat">×</span>
-        </div>
-        <div class="chat-messages"></div>
-        <div class="chat-input-area">
-            <textarea placeholder="Type your message..."></textarea>
-            <button>
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-        <div class="loading-overlay">
-            <div class="circular-loader"></div>
         </div>
     </div>
 
-    <!-- Notification -->
-    <div class="notification"></div>
+    <div id="timerPopup" class="timer-popup hidden">
+        <p class="loading-message"></p>
+        <div class="loading-spinner"></div>
+        <p class="blur">
+            Included Customers: <br>
+            - High-Income Individuals <br>
+            - Families with Growing Needs <br>
+            - Tech-Savvy Car Enthusiasts
+        </p>
+    </div>
 
-    <!-- JavaScript -->
+
+    <div id="leadFormPopup" class="lead-form-popup hidden">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Customer Qualification</h2>
+        <form id="leadDetailsForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name">
+                <div id="nameError" class="error-message hidden">Please enter your full name</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email address">
+                <div id="emailError" class="error-message hidden">Please enter a valid email address</div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number">
+                <div id="phoneError" class="error-message hidden">Please enter a valid phone number</div>
+            </div>
+            <div class="form-group">
+                <label for="dealership">Dealership Name</label>
+                <input type="text" id="dealership" placeholder="Enter your dealership name">
+                <div id="dealershipError" class="error-message hidden">Please enter your dealership name</div>
+            </div>
+            <div class="form-group">
+                <label for="role">Your Role</label>
+                <select id="role">
+                    <option value="">Select your role</option>
+                    <option value="owner">Owner</option>
+                    <option value="manager">Manager</option>
+                    <option value="sales">Sales Representative</option>
+                    <option value="other">Other</option>
+                </select>
+                <div id="roleError" class="error-message hidden">Please select your role</div>
+            </div>
+            <div class="form-group">
+                <label for="listSize">Desired List Size</label>
+                <input type="number" id="listSize" placeholder="Enter the number of leads you need">
+                <div id="listSizeError" class="error-message hidden">Please enter the number of leads</div>
+            </div>
+            <div class="form-group">
+                <label for="budget">Monthly Budget</label>
+                <input type="number" id="budget" placeholder="Enter your monthly budget for leads">
+                <div id="budgetError" class="error-message hidden">Please enter your monthly budget</div>
+            </div>
+            <div class="form-group">
+                <label for="timeline">Purchase Timeline</label>
+                <select id="timeline">
+                    <option value="">Select your purchase timeline</option>
+                    <option value="1-3">1-3 Months</option>
+                    <option value="3-6">3-6 Months</option>
+                    <option value="6+">6+ Months</option>
+                </select>
+                <div id="timelineError" class="error-message hidden">Please select your purchase timeline</div>
+            </div>
+            <button type="submit" class="btn-primary" id="leadFormSubmit">Submit</button>
+        </form>
+    </div>
+
+    <div id="signupPopup" class="signup-popup hidden">
+        <img src="https://via.placeholder.com/100x50/007bff/fff?text=Logo" alt="Company Logo" class="company-logo">
+        <h2>Unlock Your Leads</h2>
+        <p>Sign up or sign in to access your targeted leads.</p>
+        <div id="googleButton" >
+          </div>
+        <div class="passwordless-signup">
+            <button id="passwordlessSignupButton">Sign up with Email</button>
+        </div>
+    </div>
+    <div id="passwordlessSignupPopup" class="passwordless-signup-popup hidden">
+        <h2>Verify Your Email</h2>
+        <div class="form-group">
+            <label for="emailSignup">Email Address</label>
+            <input type="email" id="emailSignup" placeholder="Enter your email address">
+            <div id="emailSignupError" class="error-message hidden">Please enter a valid email address</div>
+        </div>
+        <button id="verifyEmailButton" class="btn-primary">Verify Email</button>
+    </div>
+
+    <div id="surveyContainer" class="survey-container hidden">
+        <h2>Let's Personalize Your Lead Experience</h2>
+        <div id="surveyStep1" class="survey-step">
+            <img class="lazyload" data-src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+1:+Target+Audience" alt="Target Audience">
+            <p>What type of customers are you most interested in?</p>
+            <button onclick="showSurveyStep(2, 'High-Income')"  >High-Income</button>
+            <button onclick="showSurveyStep(2, 'Families')" >Families</button>
+            <button onclick="showSurveyStep(2, 'Tech-Savvy')" >Tech-Savvy</button>
+        </div>
+        <div id="surveyStep2" class="survey-step hidden">
+                    <img class="lazyload" data-src="https://via.placeholder.com/400x200/40/4a5568/fff?text=Step
+                                            /fff?text=Step+2:+Vehicle+Preference"
+                alt="Vehicle Preference">
+            <p>What type of vehicles do your ideal customers prefer?</p>
+            <button onclick="showSurveyStep(3, 'SUVs')"  >SUVs</button>
+            <button onclick="showSurveyStep(3, 'Sedans')" >Sedans</button>
+            <button onclick="showSurveyStep(3, 'Trucks')" >Trucks</button>
+        </div>
+        <div id="surveyStep3" class="survey-step hidden">
+            <img class="lazyload" data-src="https://via.placeholder.com/400x200/4a5568/fff?text=Step+3:+Purchase+Timeline"
+                alt="Purchase Timeline">
+            <p>How soon are your ideal customers looking to purchase?</p>
+            <button onclick="showDownloadOptions('1-3')" >1-3 Months</button>
+            <button onclick="showDownloadOptions('3-6')" >3-6 Months</button>
+            <button onclick="showDownloadOptions('6+')" >6+ Months</button>
+        </div>
+    </div>
+
+    <div id="downloadOptions" class="download-options hidden">
+        <h2>Choose Your Download Format</h2>
+        <p>Select the document format you prefer to download your leads.</p>
+        <button onclick="downloadLeads('csv')"  >Download as CSV</button>
+        <button onclick="downloadLeads('pdf')" >Download as PDF</button>
+    </div>
+
+  <!-- Auth modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+        <span class="close-button" id="closeModal">×</span>
+        <h2>Create Account</h2>
+       <div id="g_id_onload"
+              data-client_id="125887328320-lv7sv5otf3bk1ec1gilpb8itk511f1nq.apps.googleusercontent.com"
+                data-callback="handleGoogleSignIn">
+         </div>
+         <div class="g_id_signin" data-type="standard"></div>
+
+        <div class="separator">or</div>
+
+         <form id="signupForm">
+            <input type="email" id="email" placeholder="Email" required>
+             <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Arizona Dealership Page -->
+   <div class="dealership-page" id="dealershipPage">
+      <div class="container">
+        <h1>Arizona Dealership</h1>
+        <h2>Nearby Customers (100+ in your area)</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>City</th>
+              <th>Distance</th>
+              <th>Phone</th>
+              <th>Budget</th>
+              <th>Ideal Car</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <button id="downloadBtn">Download Now</button>
+        <div class="notification" style="display:none;" id="notification">
+          Due to the high volume of customers using our services, please allow up to 48 hours for your download to be processed. Thank you for your patience.
+        </div>
+    </div>
+ </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js"></script>
     <script>
-        const body = document.body;
-        const htmlEditor = document.getElementById('html-editor');
-        const cssEditor = document.getElementById('css-editor');
-        const jsEditor = document.getElementById('js-editor');
-        const previewFrame = document.getElementById('preview-frame');
-        const togglePreviewBtn = document.getElementById('toggle-preview');
-        const resetBtn = document.getElementById('reset-btn');
-        const closeBtn = document.querySelector('.close-btn');
-        const fullScreenBtn = document.querySelector('.fullScreen-btn');
-        const segregationBtn = document.getElementById('segregation-btn');
-        const themeToggle = document.getElementById('theme-toggle');
-        const securityCodeInput = document.getElementById('security-code');
-        const dropdownToggle = document.querySelector('.dropdown .toggle');
-        const chatboxToggle = document.querySelector('.chatbox-toggle');
-        const chatPopup = document.querySelector('.chat-popup');
-        const closeChatBtn = document.querySelector('.chat-header .close-chat');
-        const resetChatBtn = document.querySelector('.chat-header .reset-chat');
-        const chatMessages = document.querySelector('.chat-messages');
-        const chatInput = document.querySelector('.chat-input-area textarea');
-        const chatSendBtn = document.querySelector('.chat-input-area button');
-        const loadingOverlay = document.querySelector('.loading-overlay');
-        const notification = document.querySelector('.notification');
-        const systemPromptSelect = document.getElementById('system-prompt-select');
-        const customPromptTextarea = document.getElementById('custom-prompt');
-        const customPromptToggle = document.getElementById('custom-prompt-toggle');
-        const toggleButtonsBtn = document.getElementById('toggle-buttons')
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchForm = document.getElementById('searchForm');
+            const initialPlaceholder = document.getElementById('initialPlaceholder');
+            const generateLeadsButton = document.getElementById('generateLeadsButton');
+            const leadFormPopup = document.getElementById('leadFormPopup');
+            const customerCountSpan = document.getElementById('customerCount');
+            const leadDetailsForm = document.getElementById('leadDetailsForm');
+            const timerPopup = document.getElementById('timerPopup');
+            const timerDisplay = document.getElementById('timer');
+            const signupPopup = document.getElementById('signupPopup');
+            const surveyContainer = document.getElementById('surveyContainer');
+            const downloadOptions = document.getElementById('downloadOptions');
+            const cityInput = document.getElementById('city');
+            const citySuggestions = document.getElementById('citySuggestions');
+            const citySuggestionsList = document.querySelector('#citySuggestions ul');
+             const googleButton = document.getElementById('googleButton');
+             const passwordlessSignupButton = document.getElementById('passwordlessSignupButton');
+            const passwordlessSignupPopup = document.getElementById('passwordlessSignupPopup');
+             const verifyEmailButton = document.getElementById('verifyEmailButton');
+            const emailSignupInput = document.getElementById('emailSignup');
+            const loadingMessage = timerPopup.querySelector('.loading-message');
+             const searchButton = document.getElementById('searchButton');
+             const locationButton = document.getElementById('locationButton');
+               const leadFormSubmit = document.getElementById('leadFormSubmit');
 
 
-        let defaultPrompt = `You are an AI assistant named Cody, specializing in helping developers write, debug, and optimize code with precision and efficiency. You empower users to interact seamlessly with their codebase, offering advanced capabilities for auto-completion, error detection, refactoring, and generating boilerplate code. Your expertise lies in transforming ideas into well-structured, maintainable, and efficient code tailored to the user's project requirements.`;
-        let codeExplainerPrompt = `You are a code explainer bot. You break down code snippets and explain each line in detail to the user, and provide a general summary of how the entire code works.`;
-        let bugFinderPrompt = `You are an ai bug finder. Your sole function is to analyze the provided code and find any bugs or errors, and then output the fixed code.`;
-        let performanceOptimizerPrompt = `You are an AI performance optimizer. Your goal is to optimize code for speed, minimal resource consumption, and overall efficiency.`
-        let currentPrompt = defaultPrompt;
-        let apiKey = "";
-        let isSegregationActive = false;
-        let isDarkMode = true;
-        let customPromptActive = false;
-          let buttonsVisible = true;
+            // Error message elements
+            const countryError = document.getElementById('countryError');
+            const stateError = document.getElementById('stateError');
+            const cityError = document.getElementById('cityError');
+            const nameError = document.getElementById('nameError');
+            const phoneError = document.getElementById('phoneError');
+            const dealershipError = document.getElementById('dealershipError');
+            const listSizeError = document.getElementById('listSizeError');
+            const emailError = document.getElementById('emailError');
+            const roleError = document.getElementById('roleError');
+            const budgetError = document.getElementById('budgetError');
+            const timelineError = document.getElementById('timelineError');
+            const adminCodeError = document.getElementById('adminCodeError');
+            const adminCodeInput = document.getElementById('adminCode');
+            const emailSignupError = document.getElementById('emailSignupError');
 
-        function sendFeedback() {
-            window.location.href = 'mailto:Flynnpontino@gmail.com?subject=Codefusion Feedback';
-        }
+            let timerInterval;
+            let notificationInterval;
+            let currentSuggestionIndex = -1;
+            const correctAdminCode = "123456";
+            let apiKey = "";
+            let googleUser = null;
+            let formSubmitted = false;
 
-        function updatePreview() {
-            let htmlCode = htmlEditor.value;
-            if (isSegregationActive) {
-                htmlCode = segregateCode();
-            }
-            const css = `<style>${cssEditor.value}</style>`;
-            const js = `<script>${jsEditor.value}<\/script>`;
-            previewFrame.srcdoc = `${htmlCode}${css}${js}`;
-            showNotification('Preview Updated', 'success');
-        }
+             //Auth Modal Variables from auth_modal.py
+            const authModal = document.getElementById("authModal");
+             const manualSignupForm = document.getElementById("signupForm");
+            const closeModalButton = document.getElementById("closeModal");
 
-        function togglePreview() {
-            const previewContainer = previewFrame.parentElement;
-            if (previewContainer.classList.contains('fullscreen')) {
-                previewContainer.classList.remove('fullscreen')
-                fullScreenBtn.innerHTML = `<i class="fas fa-expand"></i>`
-                showNotification('Preview exit full screen', 'success');
-            } else {
-                previewContainer.classList.add('fullscreen')
-                fullScreenBtn.innerHTML = `<i class="fas fa-compress"></i>`
-                showNotification('Preview enter full screen', 'success');
-            }
-        }
 
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            body.classList.toggle('light-theme', !isDarkMode);
-            themeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            showNotification(isDarkMode ? 'Dark theme enabled' : 'Light theme enabled', 'success');
-        }
+            // Dealership Page Variables
+            const dealershipPage = document.getElementById('dealershipPage');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const notification = document.getElementById('notification');
 
-        function resetEditors() {
-            htmlEditor.value = '';
-            cssEditor.value = '';
-            jsEditor.value = '';
-            previewFrame.srcdoc = '';
-            showNotification('Editors Reset', 'success');
-        }
 
-        function showCopyNotification(message) {
-            notification.textContent = message;
-            notification.classList.add('active', 'copy');
-            setTimeout(() => {
-                notification.classList.remove('active', 'copy');
-            }, 1500);
-        }
 
-        function showNotification(message, type = '') {
-            notification.textContent = message;
-            notification.classList.add('active');
-            if (type === 'success') {
-                notification.classList.add('success');
-            }
-
-            setTimeout(() => {
-                notification.classList.remove('active');
-                notification.classList.remove('success');
-            }, 3000);
-        }
-
-        function segregateCode() {
-            const code = htmlEditor.value;
-            if (!code) return consoleOutput.innerHTML = `No HTML code detected.`;
-
-            let segregatedHTML = "";
-            let segregatedCSS = "";
-            let segregatedJS = "";
-
-            // Extract HTML outside script and style tags
-            segregatedHTML = code.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').trim();
-
-            // Extract JavaScript inside script tags
-            const scriptMatches = code.matchAll(/<script>([\s\S]*?)<\/script>/gi);
-            for (const match of scriptMatches) {
-                segregatedJS += match[1].trim() + '\n';
-            }
-
-            // Extract CSS inside style tags
-            const styleMatches = code.matchAll(/<style>([\s\S]*?)<\/style>/gi);
-            for (const match of styleMatches) {
-                segregatedCSS += match[1].trim() + '\n';
-            }
-            htmlEditor.value = segregatedHTML.trim();
-            cssEditor.value = segregatedCSS.trim();
-            jsEditor.value = segregatedJS.trim();
-            return htmlEditor.value;
-        }
-
-        resetBtn.addEventListener('click', resetEditors);
-        togglePreviewBtn.addEventListener('click', () => {
-            previewFrame.parentElement.style.display = previewFrame.parentElement.style.display === 'none' ? 'block' : 'none';
-            showNotification('Preview Toggled', 'success');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            previewFrame.parentElement.style.display = 'none';
-            showNotification('Preview Closed', 'success');
-        });
-
-        fullScreenBtn.addEventListener('click', togglePreview);
-
-        themeToggle.addEventListener('click', toggleTheme);
-
-        segregationBtn.addEventListener('click', () => {
-            isSegregationActive = !isSegregationActive;
-            segregationBtn.classList.toggle('active', isSegregationActive);
-            if (isSegregationActive) {
-                showNotification('HTML segregation active', 'success');
-            } else {
-                showNotification('HTML segregation inactive', 'success');
-            }
-            updatePreview();
-        });
-
-        dropdownToggle.addEventListener('click', () => {
-            securityCodeInput.style.display = securityCodeInput.style.display === 'none' ? 'block' : 'none';
-        });
-
-        securityCodeInput.addEventListener('input', () => {
-            if (securityCodeInput.value === '123456') {
-                apiKey = 'AIzaSyB4ugVm-HR9SL4dxAhk-FoAkczkOu1NqGo';
-                // Injected API Key
-                showNotification('API Key Injected', 'success');
-                securityCodeInput.value = '';
-                securityCodeInput.style.display = 'none';
-            }
-        });
-
-        htmlEditor.addEventListener('input', updatePreview);
-        cssEditor.addEventListener('input', updatePreview);
-        jsEditor.addEventListener('input', updatePreview);
-
-        // ChatBox
-        chatboxToggle.addEventListener('click', () => {
-            chatPopup.classList.toggle('active');
-        });
-
-        closeChatBtn.addEventListener('click', () => {
-            chatPopup.classList.remove('active');
-        });
-
-        resetChatBtn.addEventListener('click', () => {
-            chatMessages.innerHTML = '';
-            showNotification("Chat history cleared!", 'success');
-        })
-
-        chatSendBtn.addEventListener('click', sendMessage);
-
-        chatInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        });
-
-        systemPromptSelect.addEventListener('change', function() {
-            const selectedValue = systemPromptSelect.value;
-            if (selectedValue === 'default') {
-                currentPrompt = defaultPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Default AI assistant', 'success');
-            } else if (selectedValue === 'code-explainer') {
-                currentPrompt = codeExplainerPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Code explainer bot', 'success');
-            } else if (selectedValue === 'bug-finder') {
-                currentPrompt = bugFinderPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Bug finder bot', 'success');
-            } else if (selectedValue === 'performance-optimizer') {
-                currentPrompt = performanceOptimizerPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Performance optimizer bot', 'success');
-            } else if (selectedValue === 'custom') {
-                customPromptTextarea.style.display = 'block';
-                customPromptToggle.style.display = 'inline-block'
-                if (customPromptActive) {
-                    currentPrompt = customPromptTextarea.value;
-                    showNotification('Custom prompt active', 'success');
-                } else {
-                    showNotification('Custom prompt inactive, click activate to use', 'success');
+            function showNotification(message) {
+                const notificationKey = 'notificationShown_' + message.replace(/\s/g, '_');
+                if (!localStorage.getItem(notificationKey)) {
+                    const notificationDiv = document.createElement('div');
+                    notificationDiv.classList.add('notification');
+                    notificationDiv.innerHTML = `${message} <br><br> Developed by: Thomas S`;
+                    document.body.appendChild(notificationDiv);
+                    setTimeout(() => {
+                        notificationDiv.classList.add('fade-out');
+                        setTimeout(() => {
+                            document.body.removeChild(notificationDiv);
+                        }, 3000);
+                    }, 3000);
+                    localStorage.setItem(notificationKey, 'true');
                 }
             }
-        });
 
-        customPromptTextarea.addEventListener('input', function() {
-            if (systemPromptSelect.value === 'custom' && customPromptActive) {
-                currentPrompt = customPromptTextarea.value;
-            }
-        });
-
-           customPromptToggle.addEventListener('click', () => {
-            customPromptActive = !customPromptActive;
-            customPromptToggle.classList.toggle('active', customPromptActive);
-             customPromptToggle.querySelector('i').classList.toggle('fa-lock',!customPromptActive)
-               customPromptToggle.querySelector('i').classList.toggle('fa-unlock',customPromptActive)
-            if (customPromptActive) {
-                 showNotification('Custom prompt active', 'success');
-            } else {
-                  showNotification('Custom prompt inactive', 'success');
-            }
-        });
-        toggleButtonsBtn.addEventListener('click',() => {
-               buttonsVisible = !buttonsVisible;
-                 const buttonList = document.querySelectorAll('header .controls > button:not(#toggle-buttons)');
-                 buttonList.forEach(button => {
-                  button.style.display = buttonsVisible ? 'inline-block' : 'none';
-                 });
-           });
-
-
-
-        async function sendMessage(editedMessage = null, messageElement = null) {
-            let message = editedMessage ? editedMessage : chatInput.value.trim();
-            if (!message) return;
-            addMessage(message, true, messageElement);
-            if (!editedMessage) {
-                chatInput.value = "";
+            function getRandomNotification() {
+                const notifications = [
+                    "New lead generated for a luxury SUV!",
+                    "Dealership in your area just got 15 new leads!",
+                    "High-income customer looking for a new sedan!",
+                    "Family looking to upgrade to a larger vehicle!",
+                    "Tech-savvy customer interested in electric cars!"
+                ];
+                return notifications[Math.floor(Math.random() * notifications.length)];
             }
 
-            loadingOverlay.classList.add('active');
+            function startRandomNotifications() {
+                notificationInterval = setInterval(() => {
+                    showNotification(getRandomNotification());
+                }, 10000);
+            }
 
-            try {
-                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `${currentPrompt} ${message} If the user asked for a code, give it in the appropriate language like html or plaintext, do not create a preview. if code was not asked for, answer accordingly.`
-                            }]
-                        }]
-                    })
-                });
-
-                if (!response.ok) {
-                    console.error(`API request failed with status ${response.status}`);
-                    const errorData = await response.json();
-                    console.error("API error details:", errorData);
-                    addMessage(`Error: Could not get response from Codefusion AI`, false);
-                    loadingOverlay.classList.remove('active');
+            async function fetchCitySuggestions(state, query) {
+                citySuggestionsList.innerHTML = "";
+                if (!state || !query) {
+                    citySuggestions.classList.add('hidden');
                     return;
                 }
+                const baseUrl = "https://api.example.com" // Replace this with your deployed API URL
+                try {
+                    const response = await fetch(`${baseUrl}/api/cities?stateCode=${state}&cityName=${query}`, {
+                        headers: {
+                            'Authorization': apiKey,
+                        },
+                    });
+                    if (!response.ok) {
+                        console.error(`HTTP error! status: ${response.status}`);
+                        citySuggestions.classList.add('hidden');
+                        return;
+                    }
+                    const data = await response.json();
+                    if (data && data.cities && data.cities.length > 0) {
+                        data.cities.forEach((city, index) => {
+                            const li = document.createElement('li');
+                            li.textContent = city.name;
+                            li.addEventListener('click', () => {
+                                cityInput.value = city.name;
+                                citySuggestions.classList.add('hidden');
+                                currentSuggestionIndex = -1;
+                            });
+                            // Set the 'active' class for the currently selected suggestion
+                            li.addEventListener('mouseover', function () {
+                                removeActiveClassFromSuggestions(); // Remove active class from previous suggestion
+                                this.classList.add('active');
+                                currentSuggestionIndex = index; // Update the current active suggestion index
+                            });
+                            citySuggestionsList.appendChild(li);
+                        });
+                        citySuggestions.classList.remove('hidden');
+                    } else {
+                        citySuggestions.classList.add('hidden');
+                    }
 
-                const data = await response.json();
-                loadingOverlay.classList.remove('active');
-                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                    let responseText = data.candidates[0].content.parts[0].text.trim();
-                    addMessage(responseText, false);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            }
+
+            function removeActiveClassFromSuggestions() {
+                // Remove the 'active' class from all list items in the suggestions list
+                const allSuggestions = citySuggestionsList.querySelectorAll('li.active');
+                allSuggestions.forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+
+            cityInput.addEventListener('input', function () {
+                const state = document.getElementById('state').value;
+                const query = cityInput.value.trim();
+                fetchCitySuggestions(state, query);
+            });
+
+            // Keyboard navigation for city suggestions
+            cityInput.addEventListener('keydown', function (event) {
+                if (citySuggestions.classList.contains('hidden')) return;
+
+                const allSuggestions = citySuggestionsList.querySelectorAll('li');
+                if (allSuggestions.length === 0) return;
+                // Move the active suggestion up
+                if (event.key === 'ArrowUp') {
+                    event.preventDefault(); // Prevent cursor moving to start of input
+                    removeActiveClassFromSuggestions();
+                    currentSuggestionIndex--;
+                    if (currentSuggestionIndex < 0) {
+                        currentSuggestionIndex = allSuggestions.length - 1; // Wrap to last suggestion
+                    }
+                    allSuggestions[currentSuggestionIndex].classList.add('active');
+                }
+                // Move the active suggestion down
+                else if (event.key === 'ArrowDown') {
+                    event.preventDefault(); // Prevent cursor moving to end of input
+                    removeActiveClassFromSuggestions();
+                    currentSuggestionIndex++;
+                    if (currentSuggestionIndex >= allSuggestions.length) {
+                        currentSuggestionIndex = 0; // Wrap to first suggestion
+                    }
+                    allSuggestions[currentSuggestionIndex].classList.add('active');
+                }
+                // Select the active suggestion and close suggestions
+                else if (event.key === 'Enter') {
+                    event.preventDefault();
+                    if (currentSuggestionIndex !== -1 && allSuggestions[currentSuggestionIndex]) {
+                        cityInput.value = allSuggestions[currentSuggestionIndex].textContent;
+                    }
+                    citySuggestions.classList.add('hidden');
+                    currentSuggestionIndex = -1;
+                }
+                else if (event.key === 'Escape') {
+                    citySuggestions.classList.add('hidden');
+                    currentSuggestionIndex = -1;
+                }
+            });
+            // Close suggestions when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!citySuggestions.contains(event.target) && event.target !== cityInput) {
+                    citySuggestions.classList.add('hidden');
+                    currentSuggestionIndex = -1; // Reset index when closed
+                }
+            });
+
+            adminCodeInput.addEventListener('input', function () {
+                if (adminCodeInput.value === correctAdminCode) {
+                    apiKey = "AIzaSyBSbInj88uaaA3EpXdT9XWkg2cPRKQ49aA";
+                    adminCodeError.classList.add('hidden');
                 } else {
-                    console.error("No response text found in data:", data);
-                    addMessage(`Error: No response from Codefusion AI`, false);
+                    apiKey = "";
+                    adminCodeError.classList.remove('hidden');
                 }
-            } catch (error) {
-                console.error("Error during API request:", error);
-                addMessage(`Error: ${error}`, false);
-                loadingOverlay.classList.remove('active');
+            });
+
+
+            searchForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                if (formSubmitted) {
+                    return;
+                }
+                 formSubmitted = true;
+                   searchButton.disabled = true;
+                   locationButton.disabled = true;
+
+                // Reset error messages
+                countryError.classList.add('hidden');
+                stateError.classList.add('hidden');
+                cityError.classList.add('hidden');
+
+                // Validate form
+                let isValid = true;
+                const country = document.getElementById('country').value;
+                const state = document.getElementById('state').value;
+                const city = document.getElementById('city').value;
+
+
+                if (!country) {
+                    countryError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!state) {
+                    stateError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!city) {
+                    cityError.classList.remove('hidden');
+                    isValid = false;
+                }
+                 if (!apiKey) {
+                   adminCodeError.classList.remove('hidden');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                   timerPopup.classList.remove('hidden');
+                    let messageIndex = 0;
+                    const messages = [
+                        "Analyzing Your Ideal Customer",
+                        "Fetching Potential Customers",
+                        "Applying Advanced Filters",
+                        "Finalizing Data"
+                    ];
+                    loadingMessage.textContent = messages[messageIndex];
+
+
+                    timerInterval = setInterval(() => {
+                        messageIndex++;
+                        if(messageIndex < messages.length) {
+                            loadingMessage.textContent = messages[messageIndex];
+                        } else {
+                            clearInterval(timerInterval);
+                            timerPopup.classList.add('hidden');
+                            const randomCustomers = Math.floor(Math.random() * 1000) + 100;
+                            customerCountSpan.textContent = randomCustomers;
+                            initialPlaceholder.classList.remove('hidden');
+                         }
+                     }, 2000);
+
+
+                }
+                    setTimeout(() => {
+                       searchButton.disabled = false;
+                      locationButton.disabled = false;
+                    formSubmitted = false;
+                  }, 5000);
+            });
+            generateLeadsButton.addEventListener('click', function () {
+                leadFormPopup.classList.remove('hidden');
+                initialPlaceholder.classList.add('hidden');
+                document.body.classList.add('overflow-hidden');
+            });
+            leadDetailsForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                  if (formSubmitted) {
+                      return;
+                  }
+                   formSubmitted = true;
+                 leadFormSubmit.disabled = true;
+
+
+                // Reset error messages
+                nameError.classList.add('hidden');
+                phoneError.classList.add('hidden');
+                dealershipError.classList.add('hidden');
+                listSizeError.classList.add('hidden');
+                emailError.classList.add('hidden');
+                roleError.classList.add('hidden');
+                budgetError.classList.add('hidden');
+                timelineError.classList.add('hidden');
+
+                // Validate lead form
+                let isValid = true;
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const dealership = document.getElementById('dealership').value;
+                const listSize = document.getElementById('listSize').value;
+                const email = document.getElementById('email').value;
+                const role = document.getElementById('role').value;
+                const budget = document.getElementById('budget').value;
+                const timeline = document.getElementById('timeline').value;
+
+
+                if (!name) {
+                    nameError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!/^\d{10}$/.test(phone)) {
+                    phoneError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!dealership) {
+                    dealershipError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!listSize || isNaN(listSize) || listSize <= 0) {
+                    listSizeError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    emailError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!role) {
+                    roleError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!budget || isNaN(budget) || budget <= 0) {
+                    budgetError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!timeline) {
+                    timelineError.classList.remove('hidden');
+                    isValid = false;
+                }
+                if (isValid) {
+                    leadFormPopup.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                     signupPopup.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                 }
+                      setTimeout(() => {
+                      leadFormSubmit.disabled = false;
+                      formSubmitted = false;
+                  }, 5000);
+            });
+
+            showNotification("Welcome to LightningLeads AZ! We're excited to help you generate more leads.");
+            startRandomNotifications();
+
+
+            function scrollToForm() {
+                const searchForm = document.getElementById('searchForm');
+                searchForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+
+           // Initialize Google Sign-in
+            google.accounts.id.initialize({
+               client_id: '125887328320-lv7sv5otf3bk1ec1gilpb8itk511f1nq.apps.googleusercontent.com',
+                 callback: handleGoogleSignIn,
+            });
+
+           google.accounts.id.renderButton(
+                googleButton, // The element ID
+                 { theme: "outline", size: "large", text: 'sign_in_with', logo_alignment: 'left' }  // customization attributes
+            );
+
+
+            function handleGoogleSignIn(response) {
+                console.log("Google Sign-in Response:", response);
+                 if (response.credential) {
+                    // Decode the JWT
+                   const decoded = JSON.parse(atob(response.credential.split('.')[1]));
+                    googleUser = decoded;
+                    signupPopup.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                    surveyContainer.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                     authModal.style.display = "none";
+                 }
+           }
+
+
+           // Passwordless Sign-up
+            passwordlessSignupButton.addEventListener('click', function() {
+                signupPopup.classList.add('hidden');
+               passwordlessSignupPopup.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            });
+
+           verifyEmailButton.addEventListener('click', function() {
+               const email = emailSignupInput.value;
+               emailSignupError.classList.add('hidden');
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    emailSignupError.classList.remove('hidden');
+                    return;
+               }
+               // Simulate email verification and storage here.
+               passwordlessSignupPopup.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+                surveyContainer.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+                console.log("Email verified:", email);
+
+            });
+             // Close signup popup
+            signupPopup.addEventListener('click', function (event) {
+                if (event.target === signupPopup) {
+                    signupPopup.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                    surveyContainer.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+
+                }
+           });
+
+            // Close passwordless popup
+            passwordlessSignupPopup.addEventListener('click', function (event) {
+                if (event.target === passwordlessSignupPopup) {
+                    passwordlessSignupPopup.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            });
+            // Close survey container
+            surveyContainer.addEventListener('click', function (event) {
+                if (event.target === surveyContainer) {
+                   surveyContainer.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+               }
+            });
+
+
+            // Close downloadOptions container
+            downloadOptions.addEventListener('click', function (event) {
+                if (event.target === downloadOptions) {
+                    downloadOptions.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            });
+
+          //Auth Modal Functionality
+
+          // Event listener to open the auth modal
+        googleButton.addEventListener("click", () => {
+            authModal.style.display = "flex";
+          });
+
+          // Event listener to close the auth modal
+          closeModalButton.addEventListener("click", () => {
+             authModal.style.display = "none";
+          });
+          // Event listener to close the auth modal if clicked outside
+           window.addEventListener("click", (event) => {
+             if (event.target === authModal) {
+                authModal.style.display = "none";
+             }
+        });
+
+        // Manual Sign-up form submission
+        manualSignupForm.addEventListener("submit", (e) => {
+             e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Add your signup logic here
+           console.log("Manual Sign-Up:", { email, password });
+           alert("Account created successfully!");
+          authModal.style.display = "none";
+        });
+
+
+
+        // Arizona Dealership page logic:
+          const tbody = document.querySelector('.dealership-page tbody');
+          for (let i = 0; i < 100; i++) {
+            const row = tbody.insertRow();
+             row.insertCell().textContent = `Customer ${i + 1}`;
+              row.insertCell().textContent = 'Random City';
+              row.insertCell().textContent = `${Math.floor(Math.random() * 50) + 1} miles`;
+              row.insertCell().textContent = '(XXX) XXX-XXXX';
+              row.insertCell().textContent = `$${Math.floor(Math.random() * 50000) + 20000}`;
+              row.insertCell().textContent = 'Random Car';
+            }
+
+
+            downloadBtn.addEventListener('click', () => {
+                notification.style.display = 'block';
+                downloadBtn.style.display = 'none';
+             });
+
+
+
+            // Show the dealership page after closing all other modals
+            const allPopups = [signupPopup, passwordlessSignupPopup,  surveyContainer,downloadOptions, authModal];
+
+           function checkAllPopupsClosed() {
+                 return allPopups.every(popup => popup.classList.contains('hidden'));
+             }
+            function showDealershipPage() {
+                if (checkAllPopupsClosed()) {
+                 setTimeout(() => {
+                    dealershipPage.classList.add('active');
+                   }, 500)
+               }
+               else{
+                   requestAnimationFrame(showDealershipPage);
+              }
+           }
+          requestAnimationFrame(showDealershipPage);
+        });
+
+        let currentSurveyStep = 1;
+
+        function showSurveyStep(step, selectedOption) {
+            document.getElementById('surveyStep' + currentSurveyStep).classList.add('hidden');
+            document.getElementById('surveyStep' + step).classList.remove('hidden');
+            currentSurveyStep = step;
+            if (step === 3) {
+                console.log('User selected audience: ', selectedOption)
             }
         }
-
-        function addMessage(content, isUser, messageElement = null) {
-            const message = document.createElement('div');
-            message.classList.add('chat-message', isUser ? 'user-message' : 'bot-message');
-            if (isUser) {
-                message.innerHTML = `${content}
-                    <button class="edit-btn"><i class="fas fa-pencil-alt"></i></button>
-                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
-                `;
-            } else {
-                let messageContent = content;
-                let codeSnippet = null;
-                const codeMatch = messageContent.match(/```([\w-]+)?\s*([\s\S]*?)```/);
-
-                if (codeMatch) {
-                    codeSnippet = `<pre><code class="language-${codeMatch[1] || 'plaintext'}">${codeMatch[2].trim()}</code></pre>`;
-                    messageContent = messageContent.replace(codeMatch[0], "").trim();
-                }
-
-                message.innerHTML = `
-                    ${messageContent}
-                    ${codeSnippet || ""}
-                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
-                `;
-            }
-
-            if (messageElement) {
-                chatMessages.replaceChild(message, messageElement);
-            } else {
-                chatMessages.appendChild(message);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            if (!isUser) {
-                const copyButton = message.querySelector('.copy-btn');
-                if (copyButton) {
-                    copyButton.addEventListener('click', () => {
-                        copyBotMessage(message);
-                    });
-                }
-            }
-            if (isUser) {
-                const copyButton = message.querySelector('.copy-btn');
-                if (copyButton) {
-                    copyButton.addEventListener('click', () => {
-                        copyUserMessage(message);
-                    });
-                }
-                const editButton = message.querySelector('.edit-btn');
-                if (editButton) {
-                    editButton.addEventListener('click', () => {
-                        editUserMessage(message);
-                    })
-                }
-            }
+        function showDownloadOptions(selectedTimeline) {
+            document.getElementById('surveyStep' + currentSurveyStep).classList.add('hidden');
+            document.getElementById('downloadOptions').classList.remove('hidden');
+            document.body.classList.remove('overflow-hidden');
+            console.log('User selected timeline: ', selectedTimeline)
+        }
+        function downloadLeads(format) {
+            downloadOptions.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            alert(`Simulating download in ${format} format.`);
         }
 
-        function copyBotMessage(messageElement) {
-            const codeBlock = messageElement.querySelector('pre code');
-            const textContent = messageElement.firstChild.textContent;
-
-            const code = codeBlock ? codeBlock.textContent : null;
-            const combined = code ? textContent + "\n" + code : textContent;
-            navigator.clipboard.writeText(combined).then(() => {
-                showCopyNotification("Copied to Clipboard!");
-            }).catch(err => console.error("Error copying:", err));
-        }
-
-        function copyUserMessage(messageElement) {
-            const textContent = messageElement.firstChild.textContent;
-            navigator.clipboard.writeText(textContent).then(() => {
-                showCopyNotification("Copied to Clipboard!");
-            }).catch(err => console.error("Error copying:", err));
-        }
-
-        function editUserMessage(messageElement) {
-            const textContent = messageElement.firstChild.textContent;
-            chatInput.value = textContent
-            chatMessages.removeChild(messageElement);
-        }
     </script>
 </body>
 
