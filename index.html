@@ -8,6 +8,442 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
+            /* Dark Theme Colors */
+            --bg-color: #1e1e2f;
+            --header-bg: #27293d;
+            --editor-bg: #282c34;
+            --text-color: #ffffff;
+            --text-muted: #999;
+            --border-color: #444;
+            --accent-color: #28a745;
+            --btn-bg: #44475a;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--header-bg);
+            padding: 15px 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin: 0;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        header .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        header .controls button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header .controls button:hover {
+            background-color: var(--btn-bg);
+        }
+
+        header .controls .theme-toggle {
+            font-size: 1.2rem;
+        }
+
+        main {
+            display: flex;
+            flex: 1;
+            padding: 10px;
+        }
+
+        .editor-container {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            gap: 15px;
+        }
+
+        .editor-container textarea {
+            flex: 1;
+            background-color: var(--editor-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            padding: 12px;
+            border-radius: 8px;
+            resize: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .editor-container textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .preview-container {
+            width: 30%;
+            position: relative;
+            background: var(--editor-bg);
+            border-left: 2px solid var(--border-color);
+            overflow: hidden;
+            transition: width 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s, border-color 0.3s;
+            height: auto;
+        }
+
+        .preview-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            border: none;
+            transform: none;
+        }
+
+        .preview-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .preview-container .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out, color 0.3s;
+            z-index: 100;
+        }
+
+        .preview-container .close-btn.fullscreen-btn {
+            left: 15px;
+            right: auto;
+        }
+
+        .preview-container .close-btn:hover {
+            color: #ff5555;
+        }
+
+        .preview-container .fullScreen-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out, color 0.3s;
+            z-index: 100;
+        }
+
+        .preview-container .fullScreen-btn:hover {
+            color: #ff5555;
+        }
+
+        footer {
+            background-color: var(--header-bg);
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        footer span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown input {
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .dropdown input[type="password"] {
+            display: none;
+        }
+
+        .dropdown .toggle {
+            cursor: pointer;
+        }
+
+        .notification {
+            background: var(--border-color);
+            padding: 12px;
+            position: absolute;
+            top: -50px;
+            right: 20px;
+            color: var(--text-color);
+            border-radius: 8px;
+            display: none;
+            transition: all 0.5s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification.success {
+            background: var(--accent-color);
+        }
+
+        .chatbox-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--btn-bg);
+            border: none;
+            color: var(--text-color);
+            font-size: 1.3rem;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+            transition: transform 0.3s, background-color 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .chatbox-toggle:hover {
+            transform: scale(1.1)
+        }
+
+        .chat-popup {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--header-bg);
+            color: var(--text-color);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            max-height: 400px;
+            width: 300px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            transition: opacity 0.3s, transform 0.3s, background-color 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .chat-popup.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+
+        .chat-header .close-chat {
+            cursor: pointer;
+            color: #ff5555;
+            font-size: 1.3rem;
+            transition: color 0.3s;
+        }
+
+        .chat-header .close-chat:hover {
+            color: var(--text-color);
+        }
+
+        .chat-messages {
+            padding: 12px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .chat-message {
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            word-wrap: break-word;
+            max-width: 80%;
+            transition: all 0.3s;
+        }
+
+        .chat-message.user-message {
+            background: var(--btn-bg);
+            align-self: flex-end;
+        }
+
+        .chat-message.bot-message {
+            background: var(--editor-bg);
+            align-self: flex-start;
+            position: relative;
+        }
+
+        .chat-message.bot-message .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s
+        }
+
+        .chat-message.bot-message:hover .copy-btn {
+            display: block;
+        }
+
+        .chat-message.bot-message .copy-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .chat-message.bot-message pre {
+            white-space: pre-wrap;
+            margin: 8px 0;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid var(--border-color);
+            align-items: center
+        }
+
+        .chat-input-area textarea {
+            flex: 1;
+            resize: none;
+            background: none;
+            color: var(--text-color);
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            min-height: 35px;
+            outline: none;
+        }
+
+        .chat-input-area textarea::placeholder {
+            color: var(--text-muted)
+        }
+
+        .chat-input-area button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1.3rem
+        }
+
+        .chat-input-area button:hover {
+            color: var(--accent-color);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .circular-loader {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 5px solid var(--text-color);
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        .segregation-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.3s, color 0.3s;
+        }
+
+        .segregation-toggle.active {
+            color: var(--accent-color);
+        }
+
+        .segregation-toggle:hover {
+            color: var(--accent-color);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg)
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Light Theme Colors */
+        body.light-theme {
+            --bg-color: #f0f2f5;
+            --header-bg: #e9ecef;
+            --editor-bg: #f8f9fa;
+            --text-color: #212529;
+            --text-muted: #6c757d;
+            --border-color: #ced4da;
+            --btn-bg: #dee2e6;
+        }
+${cssEditor.value}
             /* Futuristic Theme Colors */
             --bg-color: #0a0a1a;
             --header-bg: #1a1a2e;
@@ -462,7 +898,7 @@
 
     <!-- JavaScript -->
     <script>
-        const body = document.body;
+const body = document.body;
         const htmlEditor = document.getElementById('html-editor');
         const cssEditor = document.getElementById('css-editor');
         const jsEditor = document.getElementById('js-editor');
@@ -726,7 +1162,8 @@
             navigator.clipboard.writeText(combined).then(() => {
                 showNotification("Copied to Clipboard!", 'success');
             }).catch(err => console.error("Error copying:", err));
-        }
+        }        // JavaScript code remains the same as in the previous version.
+        // You can copy the JavaScript section from the previous code.
     </script>
 </body>
 
