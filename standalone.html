@@ -29,7 +29,8 @@
             text-align: center;
             animation: fadeIn 1.5s ease-in-out;
             position: relative;
-            display: none; /* Hidden initially */
+            display: none;
+            /* Hidden initially */
         }
 
         h1 {
@@ -40,6 +41,7 @@
             animation: slideIn 1s ease-out;
             margin-bottom: 30px;
         }
+
         /* Loading Screen Styles */
         #loading-screen {
             position: fixed;
@@ -52,18 +54,21 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-             z-index: 10000;
-             transition: opacity 0.5s ease;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
         }
-         #loading-screen.hidden{
-             opacity: 0;
-             pointer-events: none;
-         }
-         #loading-screen h2{
-             color: #ecf0f1;
-               font-size: 2em;
-             margin-bottom: 20px
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
+
+        #loading-screen h2 {
+            color: #ecf0f1;
+            font-size: 2em;
+            margin-bottom: 20px
+        }
+
         #loading-bar-container {
             width: 50%;
             height: 10px;
@@ -79,8 +84,8 @@
             transition: width 0.1s linear;
         }
 
-         /*Header buttons*/
-         #header-buttons {
+        /*Header buttons*/
+        #header-buttons {
             display: flex;
             justify-content: flex-end;
             position: absolute;
@@ -90,33 +95,36 @@
             gap: 10px;
         }
 
-          #header-buttons .feedback-button{
-             background-color: #3498db;
+        #header-buttons .feedback-button {
+            background-color: #3498db;
             color: white;
             padding: 10px;
-           border-radius: 5px;
+            border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s ease;
-           display: inline-flex;
-           align-items: center;
-           gap: 5px;
-           font-size: 1.1em;
-           border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.1em;
+            border: none;
         }
-          #header-buttons .feedback-button:hover{
+
+        #header-buttons .feedback-button:hover {
             background-color: #2980b9;
         }
-          #header-buttons .reset-button{
-             background-color: #ff6347;
-             color: white;
+
+        #header-buttons .reset-button {
+            background-color: #ff6347;
+            color: white;
             padding: 10px;
-           border-radius: 5px;
+            border-radius: 5px;
             cursor: pointer;
-           transition: background 0.3s ease;
+            transition: background 0.3s ease;
             border: none;
             font-size: 1.1em;
         }
-        #header-buttons .reset-button:hover{
+
+        #header-buttons .reset-button:hover {
             background-color: #b21f1f;
         }
 
@@ -660,7 +668,7 @@
             display: none !important;
         }
 
-         /* Minimize Button Style */
+        /* Minimize Button Style */
         #minimize-button {
             position: absolute;
             top: 20px;
@@ -726,12 +734,12 @@
 <body>
 
     <!-- Loading Screen -->
-      <div id="loading-screen">
-           <h2>Codefusion is Loading</h2>
-           <div id="loading-bar-container">
-                <div id="loading-bar"></div>
-           </div>
-      </div>
+    <div id="loading-screen">
+        <h2>Codefusion is Loading</h2>
+        <div id="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+    </div>
 
 
     <div id="code-toggle-button" onclick="toggleEditorsVisibility()">
@@ -741,12 +749,12 @@
     <div class="container">
         <h1>Codefusion</h1>
         <div id="header-buttons">
-             <button class="feedback-button" onclick="sendFeedback()"><i class="fas fa-envelope"></i> Feedback </button>
-             <button class="reset-button" onclick="resetAll()"><i class="fas fa-sync"></i> Reset </button>
+            <button class="feedback-button" onclick="sendFeedback()"><i class="fas fa-envelope"></i> Feedback </button>
+            <button class="reset-button" onclick="resetAll()"><i class="fas fa-sync"></i> Reset </button>
             <i class="fas fa-question-circle" id="user-manual-icon" onclick="toggleUserManual()"></i>
             <i class="fas fa-expand-arrows-alt" id="full-page-button" onclick="toggleFullPageView()"
                 style="cursor: pointer;"></i>
-             <i class="fas fa-minus" id="minimize-button" onclick="minimizeCode()"></i>
+            <i class="fas fa-minus" id="minimize-button" onclick="minimizeCode()"></i>
 
         </div>
         <!-- Mode Selection -->
@@ -778,7 +786,7 @@
                     CSS</span></button>
             <button onclick="copyCode('js')"><i class="fab fa-js"></i><span class="tooltip">Copy
                     JavaScript</span></button>
-             <button onclick="resetEditors()"><i class="fas fa-trash"></i><span class="tooltip">Reset
+            <button onclick="resetEditors()"><i class="fas fa-trash"></i><span class="tooltip">Reset
                     Editor</span></button>
             <button id="preview-fullscreen-button" onclick="togglePreviewFullscreen()"><i
                     class="fas fa-expand"></i></button>
@@ -803,7 +811,7 @@
                 </li>
                 <li><strong>Copy Code (HTML, CSS, JS):</strong> Copies the code from the selected section
                 </li>
-                 <li><strong>Reset Editor:</strong> Clear all the contents from the editors.
+                <li><strong>Reset Editor:</strong> Clear all the contents from the editors.
                 </li>
                 <li><strong>Full page View:</strong> Expands the preview to fill the entire page.
                 </li>
@@ -878,26 +886,26 @@
         let minimizedItems = [];
 
 
-            function initLoadingScreen() {
+        function initLoadingScreen() {
             const duration = Math.random() * 5000 + 1000; // 1 to 6 seconds
-                let progress = 0
+            let progress = 0
             const interval = setInterval(() => {
-                progress+= 100/ (duration / 100)
-                 loadingBar.style.width = progress + '%'
-                 if(progress >= 100){
-                      clearInterval(interval);
-                      hideLoadingScreen();
-                  }
-               }, 100)
+                progress += 100 / (duration / 100)
+                loadingBar.style.width = progress + '%'
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    hideLoadingScreen();
+                }
+            }, 100)
 
         }
 
         function hideLoadingScreen() {
-               loadingScreen.classList.add('hidden')
-             setTimeout(() => {
-                  mainContainer.style.display = 'block'
+            loadingScreen.classList.add('hidden')
+            setTimeout(() => {
+                mainContainer.style.display = 'block'
 
-               }, 500);
+            }, 500);
         }
 
         function toggleUserManual() {
@@ -915,46 +923,53 @@
             }
 
         }
-           function toggleMinimize(){
+
+        function toggleMinimize() {
             minimizedContainer.classList.toggle('active');
-           }
-
-         function resetAll(){
-          resetEditors();
-            resetChat();
-           showNotification('Reset Complete!');
-          }
-         function sendFeedback(){
-               window.location.href = 'mailto:flynnpontino@gmail.com?subject=Codefusion Feedback';
         }
-         function minimizeCode() {
-              isMinimized = !isMinimized
-               if (isMinimized) {
-               minimizedContainer.classList.add('active');
-               let htmlContent = htmlEditor.value;
-               let cssContent = cssEditor.value;
-               let jsContent = jsEditor.value
-                 let previewFunction =  `<div class="minimized-item" onclick="restoreCode('html')"><i class="fab fa-html5"></i> Restore HTML </div>`
+
+        function resetAll() {
+            resetEditors();
+            resetChat();
+            showNotification('Reset Complete!');
+        }
+
+        function sendFeedback() {
+            window.location.href = 'mailto:flynnpontino@gmail.com?subject=Codefusion Feedback';
+        }
+
+        function minimizeCode() {
+            isMinimized = !isMinimized
+            if (isMinimized) {
+                minimizedContainer.classList.add('active');
+                let htmlContent = htmlEditor.value;
+                let cssContent = cssEditor.value;
+                let jsContent = jsEditor.value
+                let previewFunction = `<div class="minimized-item" onclick="restoreCode('html')"><i class="fab fa-html5"></i> Restore HTML </div>`
                 let cssFunction = `<div class="minimized-item" onclick="restoreCode('css')"><i class="fab fa-css3-alt"></i> Restore CSS</div>`
-                  let jsFunction = `<div class="minimized-item" onclick="restoreCode('js')"><i class="fab fa-js"></i> Restore JS</div>`
+                let jsFunction = `<div class="minimized-item" onclick="restoreCode('js')"><i class="fab fa-js"></i> Restore JS</div>`
 
-                   minimizedContainer.innerHTML =  `<span class="close-minimize" onclick="toggleMinimize()">×</span>` + (htmlContent ? previewFunction : '') +  (cssContent ? cssFunction : '') +  (jsContent ? jsFunction : '');
+                minimizedContainer.innerHTML = `<span class="close-minimize" onclick="toggleMinimize()">×</span>` + (htmlContent ? previewFunction : '') + ( cssContent ? cssFunction : '') + (jsContent ? jsFunction : '');
+
+}
+        else {
+            minimizedContainer.classList.remove('active');
+        }
+    }
 
 
-                 }
-                else {
-                     min     function restoreCode(type){
-        if(type === 'html'){
-           htmlEditor.value = htmlEditor.value;
-         }
-        if(type === 'css'){
-          cssEditor.value = cssEditor.value
-         }
-        if(type === 'js'){
-           jsEditor.value = jsEditor.value
-         }
+    function restoreCode(type) {
+        if (type === 'html') {
+            htmlEditor.value = htmlEditor.value;
+        }
+        if (type === 'css') {
+            cssEditor.value = cssEditor.value
+        }
+        if (type === 'js') {
+            jsEditor.value = jsEditor.value
+        }
         toggleMinimize()
-      }
+    }
 
     function toggleEditorsVisibility() {
         editorContainer.classList.toggle('hidden');
@@ -1262,7 +1277,7 @@
             sendCodeQuery();
         }
     });
-    initLoadingScreen();
+     initLoadingScreen();
     updatePreview();
 </script>
 
