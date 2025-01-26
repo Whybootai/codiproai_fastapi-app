@@ -3,80 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Editor with Live Preview</title>
+    <title>Advanced Code Editor with Live Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+          /* Body and Main Background */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f4f4f9;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: #ecf0f1;
+            min-height: 100vh;
+            transition: background 0.5s ease-in-out;
         }
 
+        /* Main Container */
         .container {
             width: 90%;
             max-width: 1200px;
-            margin-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
         }
 
-        select, button {
-            margin: 10px 0;
-            padding: 10px;
+        h1 {
+            font-size: 3rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ecf0f1;
+            animation: slideIn 1s ease-out;
+        }
+
+        /* Mode Selection */
+          select, button {
+            margin: 20px 0;
+            padding: 15px;
             font-size: 16px;
             cursor: pointer;
+            background: #34495e;
+            border: 1px solid #2980b9;
+            border-radius: 5px;
+            color: #ecf0f1;
+            transition: all 0.3s ease;
         }
 
+        select:focus, button:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+
+        /* Editor Container */
         .editor-container {
-            display: flex;
-            justify-content: space-between;
+             display: flex;
+             justify-content: space-between;
             gap: 20px;
+            margin-top: 30px;
+            transition: all 0.5s ease-in-out;
         }
 
         .editor {
             width: 30%;
-            height: 300px;
-            padding: 10px;
+             height: 300px;
+            padding: 15px;
             background-color: #2d2d2d;
             color: white;
             font-family: monospace;
-            border-radius: 5px;
-            overflow: auto;
+            border-radius: 10px;
             box-sizing: border-box;
+            border: 2px solid #2980b9;
+            transition: transform 0.3s ease;
+             resize: none; /* Disable resizing */
+              overflow: auto; /* Add scroll for overflow */
+         }
+
+        .editor:hover {
+            transform: scale(1.05);
         }
 
-        iframe {
+         #preview {
             width: 100%;
             height: 500px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
             margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+             overflow: auto; /* Add scroll for overflow */
+         }
+
+         #preview:hover {
+           transform: scale(1.01)
         }
 
         .console {
             background-color: #333;
             color: #fff;
-            padding: 10px;
+            padding: 15px;
             margin-top: 20px;
             width: 100%;
             border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+             min-height: 150px;
+            overflow-y: auto;
         }
 
+        /* Action Buttons */
         .buttons {
-            margin-top: 10px;
-            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+             flex-wrap: wrap;
+             gap: 10px
         }
 
         .buttons button {
-            margin: 0 10px;
+            padding: 10px;
+            font-size: 1.5em; /* Icon size */
+            border-radius: 50%; /* Make button circular */
+            margin: 0 5px;
+            background: #3498db;
+            border: none;
+            color: white;
+            transition: background 0.3s ease, transform 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; /* Set fixed width */
+            height: 40px; /* Set fixed height */
+
+         }
+
+        .buttons button:hover {
+            background: #2980b9;
+            transform: translateY(-5px);
+        }
+
+        .buttons button:active {
+            transform: translateY(2px);
+        }
+
+        /* Floating Action Button */
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff6347;
+            color: white;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Code Editor with Live Preview</h1>
+    <h1>Advanced Code Editor with Live Preview</h1>
 
     <!-- Mode Selection -->
     <select id="modeSelect">
@@ -87,24 +192,20 @@
 
     <!-- Editors Container -->
     <div class="editor-container">
-        <!-- HTML Editor -->
         <textarea id="htmlEditor" class="editor" placeholder="Write your HTML code here..."></textarea>
-        
-        <!-- CSS Editor -->
         <textarea id="cssEditor" class="editor" placeholder="Write your CSS code here..."></textarea>
-        
-        <!-- JavaScript Editor -->
         <textarea id="jsEditor" class="editor" placeholder="Write your JavaScript code here..."></textarea>
     </div>
 
     <!-- Action Buttons -->
     <div class="buttons">
-        <button onclick="updatePreview()">Update Preview</button>
-        <button onclick="toggleEditors()">Hide Editors</button>
-        <button onclick="copyCode('html')">Copy HTML</button>
-        <button onclick="copyCode('css')">Copy CSS</button>
-        <button onclick="copyCode('js')">Copy JavaScript</button>
-        <button onclick="resetEditors()">Reset</button>
+        <button onclick="updatePreview()"><i class="fas fa-sync-alt"></i></button>
+        <button onclick="toggleEditors()"><i class="fas fa-code"></i></button>
+         <button onclick="segregateCode()"><i class="fas fa-code-branch"></i></button>
+        <button onclick="copyCode('html')"><i class="fab fa-html5"></i></button>
+         <button onclick="copyCode('css')"><i class="fab fa-css3-alt"></i></button>
+         <button onclick="copyCode('js')"><i class="fab fa-js"></i></button>
+        <button onclick="resetEditors()"><i class="fas fa-trash"></i></button>
     </div>
 
     <!-- Live Preview -->
@@ -114,44 +215,77 @@
     <div class="console" id="console-output">Console output will appear here...</div>
 </div>
 
+<!-- Floating Action Button -->
+<div class="floating-btn" onclick="alert('Floating Action Triggered!')">+</div>
+
 <script>
-    // Get elements
     const htmlEditor = document.getElementById('htmlEditor');
     const cssEditor = document.getElementById('cssEditor');
     const jsEditor = document.getElementById('jsEditor');
     const preview = document.getElementById('preview');
     const modeSelect = document.getElementById('modeSelect');
+    const consoleOutput = document.getElementById('console-output');
+    let mode = "html";
 
-    // Function to update live preview
     function updatePreview() {
         const htmlCode = htmlEditor.value;
         const cssCode = cssEditor.value;
         const jsCode = jsEditor.value;
-
-        // Get the iframe's document and update HTML content
-        const iframeDoc = preview.contentDocument || preview.contentWindow.document;
+       try {
+            const iframeDoc = preview.contentDocument || preview.contentWindow.document;
         iframeDoc.open();
-        iframeDoc.write(htmlCode);
-        iframeDoc.close();
+            iframeDoc.write(htmlCode);
+            iframeDoc.close();
 
-        // Apply the CSS to iframe
-        const style = iframeDoc.createElement('style');
-        style.innerHTML = cssCode;
-        iframeDoc.head.appendChild(style);
+            const style = iframeDoc.createElement('style');
+            style.innerHTML = cssCode;
+            iframeDoc.head.appendChild(style);
 
-        // Execute JavaScript in the iframe
-        const script = iframeDoc.createElement('script');
-        script.innerHTML = jsCode;
-        iframeDoc.body.appendChild(script);
+            const script = iframeDoc.createElement('script');
+            script.innerHTML = jsCode;
+            iframeDoc.body.appendChild(script);
+            consoleOutput.innerHTML = `Successfully updated preview`
+        } catch (e) {
+            consoleOutput.innerHTML = `Error in update preview: ${e}`
+        }
     }
 
-    // Function to toggle visibility of the editors
+    function segregateCode() {
+        const code = htmlEditor.value;
+        if (!code) return consoleOutput.innerHTML = `No HTML code detected.`;
+
+        let segregatedHTML = "";
+        let segregatedCSS = "";
+        let segregatedJS = "";
+
+          // Extract HTML outside script and style tags
+        segregatedHTML = code.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').trim();
+
+         // Extract JavaScript inside script tags
+          const scriptMatches = code.matchAll(/<script>([\s\S]*?)<\/script>/gi);
+            for (const match of scriptMatches) {
+                segregatedJS += match[1].trim() + '\n';
+            }
+
+            // Extract CSS inside style tags
+        const styleMatches = code.matchAll(/<style>([\s\S]*?)<\/style>/gi);
+        for (const match of styleMatches) {
+                segregatedCSS += match[1].trim() + '\n';
+          }
+
+         htmlEditor.value = segregatedHTML.trim();
+          cssEditor.value = segregatedCSS.trim();
+            jsEditor.value = segregatedJS.trim();
+          consoleOutput.innerHTML = `HTML, CSS, and JS code segregated.`
+
+     updatePreview()
+    }
+
     function toggleEditors() {
         const editorContainer = document.querySelector('.editor-container');
         editorContainer.style.display = editorContainer.style.display === 'none' ? 'flex' : 'none';
     }
 
-    // Function to copy code to clipboard
     function copyCode(type) {
         let code;
         if (type === 'html') {
@@ -169,26 +303,26 @@
         document.execCommand('copy');
         document.body.removeChild(textarea);
 
-        alert(`${type.toUpperCase()} code copied to clipboard!`);
+        alert(`${type.toUpperCase()} code copied!`);
     }
 
-    // Function to reset the editors
     function resetEditors() {
         htmlEditor.value = '';
         cssEditor.value = '';
         jsEditor.value = '';
+        consoleOutput.innerHTML = `Editor reset.`
         updatePreview();
     }
 
-    // Automatically update preview when the mode changes
     modeSelect.addEventListener('change', function () {
         const selectedMode = modeSelect.value;
         htmlEditor.style.display = selectedMode === 'html' ? 'block' : 'none';
         cssEditor.style.display = selectedMode === 'css' ? 'block' : 'none';
         jsEditor.style.display = selectedMode === 'js' ? 'block' : 'none';
+       mode = modeSelect.value;
+       consoleOutput.innerHTML = `Mode set to ${mode}`
     });
 
-    // Initialize preview with empty content
     updatePreview();
 </script>
 
