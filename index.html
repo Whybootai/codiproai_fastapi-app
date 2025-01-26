@@ -221,6 +221,9 @@
         .notification.success {
             background: var(--accent-color);
         }
+          .notification.copy {
+            background: var(--text-muted);
+          }
 
         .chatbox-toggle {
             position: fixed;
@@ -281,6 +284,17 @@
             transition: color 0.3s;
         }
 
+         .chat-header .reset-chat {
+            cursor: pointer;
+             color: var(--text-color);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .chat-header .reset-chat:hover {
+             color: var(--accent-color);
+        }
+
         .chat-header .close-chat:hover {
             color: var(--text-color);
         }
@@ -298,12 +312,55 @@
             word-wrap: break-word;
             max-width: 80%;
             transition: all 0.3s;
+            position: relative; /* Add this to position buttons */
         }
 
         .chat-message.user-message {
             background: var(--btn-bg);
             align-self: flex-end;
         }
+
+         .chat-message.user-message .edit-btn {
+             position: absolute;
+             top: 8px;
+             right: 35px;
+            display: none;
+             background: none;
+             border: none;
+             color: var(--text-color);
+             font-size: 1.1rem;
+             cursor: pointer;
+             transition: color 0.3s
+        }
+         .chat-message.user-message:hover .edit-btn {
+             display: block;
+         }
+         .chat-message.user-message .edit-btn:hover {
+             color: var(--accent-color);
+        }
+
+
+        .chat-message.user-message .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s
+        }
+
+        .chat-message.user-message:hover .copy-btn {
+            display: block;
+        }
+
+        .chat-message.user-message .copy-btn:hover {
+            color: var(--accent-color);
+        }
+
 
         .chat-message.bot-message {
             background: var(--editor-bg);
@@ -692,6 +749,19 @@ ${cssEditor.value}
             color: var(--text-color);
         }
 
+          .chat-header .reset-chat {
+            cursor: pointer;
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            transition: color 0.3s;
+              margin-right: 10px;
+        }
+
+        .chat-header .reset-chat:hover {
+            color: var(--text-color);
+        }
+
+
         .chat-messages {
             padding: 12px;
             overflow-y: auto;
@@ -705,12 +775,54 @@ ${cssEditor.value}
             word-wrap: break-word;
             max-width: 80%;
             transition: all 0.3s;
+             position: relative; /* Add this to position buttons */
         }
 
         .chat-message.user-message {
             background: var(--btn-bg);
             align-self: flex-end;
             border: 1px solid var(--accent-color);
+
+        }
+         .chat-message.user-message .edit-btn {
+             position: absolute;
+            top: 8px;
+            right: 35px;
+            display: none;
+             background: none;
+             border: none;
+             color: var(--text-color);
+             font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s
+         }
+         .chat-message.user-message:hover .edit-btn {
+             display: block;
+         }
+         .chat-message.user-message .edit-btn:hover {
+             color: var(--accent-color);
+         }
+
+
+        .chat-message.user-message .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .chat-message.user-message:hover .copy-btn {
+            display: block;
+        }
+
+        .chat-message.user-message .copy-btn:hover {
+            color: var(--accent-color);
         }
 
         .chat-message.bot-message {
@@ -817,6 +929,28 @@ ${cssEditor.value}
             border-top-color: transparent;
             animation: spin 1s linear infinite;
         }
+        .custom-prompt-toggle {
+                background: var(--btn-bg);
+                border: 1px solid var(--accent-color);
+                color: var(--text-color);
+                font-size: 1rem;
+                cursor: pointer;
+                padding: 8px 12px;
+                border-radius: 6px;
+                transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            }
+
+            .custom-prompt-toggle:hover {
+                background-color: var(--accent-color);
+                color: var(--bg-color);
+                box-shadow: 0 0 10px var(--glow-color);
+            }
+              .custom-prompt-toggle.active {
+                background: var(--accent-color);
+                color: var(--bg-color);
+                 box-shadow: 0 0 10px var(--glow-color);
+              }
+
 
         @keyframes spin {
             0% {
@@ -827,6 +961,20 @@ ${cssEditor.value}
                 transform: rotate(360deg);
             }
         }
+
+        /* Add dropdown styles */
+        .system-prompt-dropdown {
+            position: relative;
+        }
+
+        .system-prompt-dropdown select {
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
     </style>
 </head>
 
@@ -835,6 +983,20 @@ ${cssEditor.value}
     <header>
         <h1>Codefusion</h1>
         <div class="controls">
+            <!-- System Prompt Dropdown -->
+             <div class="system-prompt-dropdown">
+                <select id="system-prompt-select">
+                    <option value="default">Default Assistant</option>
+                    <option value="code-explainer">Code Explainer</option>
+                    <option value="bug-finder">Bug Finder</option>
+                    <option value="performance-optimizer">Performance Optimizer</option>
+                    <option value="custom">Custom Prompt</option>
+                </select>
+                                <div style="display: flex; align-items: center; margin-top:5px">
+                    <textarea id="custom-prompt" style="display: none; margin-right: 5px" placeholder="Enter your custom system instruction"></textarea>
+                     <button id="custom-prompt-toggle" class="custom-prompt-toggle">Activate</button>
+                </div>
+            </div>
             <div class="dropdown">
                 <button class="toggle">Inject API</button>
                 <input type="password" placeholder="Enter Security Code" id="security-code">
@@ -881,6 +1043,7 @@ ${cssEditor.value}
     <div class="chat-popup">
         <div class="chat-header">
             <span>Codefusion AI Assistant</span>
+              <span class="reset-chat"><i class="fas fa-trash"></i></span>
             <span class="close-chat">×</span>
         </div>
         <div class="chat-messages"></div>
@@ -914,16 +1077,26 @@ const body = document.body;
         const chatboxToggle = document.querySelector('.chatbox-toggle');
         const chatPopup = document.querySelector('.chat-popup');
         const closeChatBtn = document.querySelector('.chat-header .close-chat');
+        const resetChatBtn = document.querySelector('.chat-header .reset-chat');
         const chatMessages = document.querySelector('.chat-messages');
         const chatInput = document.querySelector('.chat-input-area textarea');
         const chatSendBtn = document.querySelector('.chat-input-area button');
         const loadingOverlay = document.querySelector('.loading-overlay');
         const notification = document.querySelector('.notification');
+        const systemPromptSelect = document.getElementById('system-prompt-select');
+        const customPromptTextarea = document.getElementById('custom-prompt');
+         const customPromptToggle = document.getElementById('custom-prompt-toggle');
+
 
         let defaultPrompt = `You are an AI assistant named Cody, specializing in helping developers write, debug, and optimize code with precision and efficiency. You empower users to interact seamlessly with their codebase, offering advanced capabilities for auto-completion, error detection, refactoring, and generating boilerplate code. Your expertise lies in transforming ideas into well-structured, maintainable, and efficient code tailored to the user's project requirements.`;
+         let codeExplainerPrompt = `You are a code explainer bot. You break down code snippets and explain each line in detail to the user, and provide a general summary of how the entire code works.`;
+          let bugFinderPrompt = `You are an ai bug finder. Your sole function is to analyze the provided code and find any bugs or errors, and then output the fixed code.`;
+          let performanceOptimizerPrompt = `You are an AI performance optimizer. Your goal is to optimize code for speed, minimal resource consumption, and overall efficiency.`
+        let currentPrompt = defaultPrompt;
         let apiKey = "";
         let isSegregationActive = false;
         let isDarkMode = true;
+          let customPromptActive = false;
 
         function sendFeedback() {
             window.location.href = 'mailto:Flynnpontino@gmail.com?subject=Codefusion Feedback';
@@ -967,6 +1140,15 @@ const body = document.body;
             previewFrame.srcdoc = '';
             showNotification('Editors Reset', 'success');
         }
+
+         function showCopyNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('active','copy');
+            setTimeout(() => {
+                notification.classList.remove('active','copy');
+            }, 1500);
+        }
+
 
         function showNotification(message, type = '') {
             notification.textContent = message;
@@ -1061,6 +1243,12 @@ const body = document.body;
             chatPopup.classList.remove('active');
         });
 
+        resetChatBtn.addEventListener('click', ()=>{
+          chatMessages.innerHTML = '';
+          showNotification("Chat history cleared!",'success');
+        })
+
+
         chatSendBtn.addEventListener('click', sendMessage);
 
         chatInput.addEventListener('keydown', function (event) {
@@ -1070,12 +1258,70 @@ const body = document.body;
             }
         });
 
-        async function sendMessage() {
-            const message = chatInput.value.trim();
+        systemPromptSelect.addEventListener('change', function () {
+            const selectedValue = systemPromptSelect.value;
+             if (selectedValue === 'default') {
+                 currentPrompt = defaultPrompt;
+                 customPromptTextarea.style.display = 'none';
+                  customPromptToggle.style.display = 'none'
+                showNotification('Default AI assistant', 'success');
+                } else if (selectedValue === 'code-explainer') {
+                     currentPrompt = codeExplainerPrompt;
+                    customPromptTextarea.style.display = 'none';
+                    customPromptToggle.style.display = 'none'
+                     showNotification('Code explainer bot', 'success');
+                 } else if (selectedValue === 'bug-finder') {
+                    currentPrompt = bugFinderPrompt;
+                   customPromptTextarea.style.display = 'none';
+                     customPromptToggle.style.display = 'none'
+                    showNotification('Bug finder bot', 'success');
+                 } else if (selectedValue === 'performance-optimizer') {
+                    currentPrompt = performanceOptimizerPrompt;
+                     customPromptTextarea.style.display = 'none';
+                     customPromptToggle.style.display = 'none'
+                      showNotification('Performance optimizer bot', 'success');
+                }
+                else if (selectedValue === 'custom'){
+                     customPromptTextarea.style.display = 'block';
+                     customPromptToggle.style.display = 'inline-block'
+                    if(customPromptActive){
+                          currentPrompt = customPromptTextarea.value;
+                            showNotification('Custom prompt active', 'success');
+                    } else {
+                         showNotification('Custom prompt inactive, click activate to use', 'success');
+                    }
+                }
 
+        });
+
+         customPromptTextarea.addEventListener('input', function () {
+             if (systemPromptSelect.value === 'custom' && customPromptActive) {
+                  currentPrompt = customPromptTextarea.value;
+                 }
+        });
+
+         customPromptToggle.addEventListener('click', () => {
+            customPromptActive = !customPromptActive;
+            customPromptToggle.classList.toggle('active', customPromptActive);
+            if(customPromptActive){
+                customPromptToggle.textContent = "Zip";
+                currentPrompt = customPromptTextarea.value;
+                 showNotification('Custom prompt active', 'success');
+             }
+              else{
+               customPromptToggle.textContent = "Inactive"
+                  showNotification('Custom prompt inactive', 'success');
+            }
+        });
+
+        async function sendMessage(editedMessage = null, messageElement = null) {
+          let message = editedMessage ? editedMessage : chatInput.value.trim();
             if (!message) return;
-            addMessage(message, true);
-            chatInput.value = "";
+            addMessage(message, true, messageElement);
+              if (!editedMessage) {
+                  chatInput.value = "";
+              }
+
 
             loadingOverlay.classList.add('active');
 
@@ -1088,7 +1334,7 @@ const body = document.body;
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `${defaultPrompt} ${message} Be highly detailed and include code when necessary. Output the code with the html or plaintext code language.`
+                                text: `${currentPrompt} ${message} Be highly detailed and include code when necessary. Output the code with the html or plaintext code language.`
                             }]
                         }]
                     })
@@ -1119,11 +1365,15 @@ const body = document.body;
             }
         }
 
-        function addMessage(content, isUser) {
+        function addMessage(content, isUser, messageElement = null) {
             const message = document.createElement('div');
             message.classList.add('chat-message', isUser ? 'user-message' : 'bot-message');
             if (isUser) {
-                message.innerHTML = content;
+                message.innerHTML = `${content}
+                    <button class="edit-btn"><i class="fas fa-pencil-alt"></i></button>
+                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                `;
+
             } else {
                 let messageContent = content;
                 let codeSnippet = null;
@@ -1140,8 +1390,15 @@ const body = document.body;
                     <button class="copy-btn"><i class="fas fa-copy"></i></button>
                 `;
             }
-            chatMessages.appendChild(message);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            if(messageElement){
+                chatMessages.replaceChild(message, messageElement);
+            }
+           else {
+                chatMessages.appendChild(message);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+             }
+
 
             if (!isUser) {
                 const copyButton = message.querySelector('.copy-btn');
@@ -1149,6 +1406,20 @@ const body = document.body;
                     copyButton.addEventListener('click', () => {
                         copyBotMessage(message);
                     });
+                }
+            }
+            if(isUser){
+                 const copyButton = message.querySelector('.copy-btn');
+                if (copyButton) {
+                    copyButton.addEventListener('click', () => {
+                         copyUserMessage(message);
+                    });
+                }
+               const editButton = message.querySelector('.edit-btn');
+              if(editButton){
+                  editButton.addEventListener('click',() => {
+                        editUserMessage(message);
+                  })
                 }
             }
         }
@@ -1160,9 +1431,23 @@ const body = document.body;
             const code = codeBlock ? codeBlock.textContent : null;
             const combined = code ? textContent + "\n" + code : textContent;
             navigator.clipboard.writeText(combined).then(() => {
-                showNotification("Copied to Clipboard!", 'success');
+                showCopyNotification("Copied to Clipboard!");
             }).catch(err => console.error("Error copying:", err));
-        }        // JavaScript code remains the same as in the previous version.
+        }
+
+           function copyUserMessage(messageElement) {
+             const textContent = messageElement.firstChild.textContent;
+
+            navigator.clipboard.writeText(textContent).then(() => {
+                showCopyNotification("Copied to Clipboard!");
+            }).catch(err => console.error("Error copying:", err));
+        }
+
+        function editUserMessage(messageElement) {
+            const textContent = messageElement.firstChild.textContent;
+             chatInput.value = textContent
+             chatMessages.removeChild(messageElement);
+         }        // JavaScript code remains the same as in the previous version.
         // You can copy the JavaScript section from the previous code.
     </script>
 </body>
