@@ -4,23 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Code Editor with Live Preview</title>
+    <title>Codefusion - Advanced Code Editor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
 </head>
 
 <body>
 
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <h2>Codefusion is Loading</h2>
+        <div id="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+    </div>
+
+
     <div id="code-toggle-button" onclick="toggleEditorsVisibility()">
         <i class="fas fa-code"></i>
     </div>
 
     <div class="container">
-        <h1>Advanced Code Editor with Live Preview</h1>
+        <h1>Codefusion</h1>
         <div id="header-buttons">
+            <button class="feedback-button" onclick="sendFeedback()"><i class="fas fa-envelope"></i> Feedback </button>
+            <button class="reset-button" onclick="resetAll()"><i class="fas fa-sync"></i> Reset </button>
             <i class="fas fa-question-circle" id="user-manual-icon" onclick="toggleUserManual()"></i>
             <i class="fas fa-expand-arrows-alt" id="full-page-button" onclick="toggleFullPageView()"
                 style="cursor: pointer;"></i>
+            <i class="fas fa-minus" id="minimize-button" onclick="minimizeCode()"></i>
+
         </div>
         <!-- Mode Selection -->
         <select id="modeSelect">
@@ -76,7 +89,7 @@
                 </li>
                 <li><strong>Copy Code (HTML, CSS, JS):</strong> Copies the code from the selected section
                 </li>
-                <li><strong>Reset:</strong> Clear all the contents from the editors.
+                <li><strong>Reset Editor:</strong> Clear all the contents from the editors.
                 </li>
                 <li><strong>Full page View:</strong> Expands the preview to fill the entire page.
                 </li>
@@ -107,11 +120,14 @@
         <i class="fas fa-plus"></i>
     </div>
     <div id="notification-container"></div>
+    <!--Minimzed code Area-->
+    <div class="minimized-container" id="minimized-code-container">
+        <span class="close-minimize" onclick="toggleMinimize()">×</span>
+    </div>
 
     <iframe id="preview"></iframe>
 
     
 
 </body>
-
 </html>
