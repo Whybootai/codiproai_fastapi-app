@@ -805,7 +805,7 @@
                 alt="Vehicle Preference">
             <p>What type of vehicles do your ideal customers prefer?</p>
             <button onclick="showSurveyStep(3, 'SUVs')">SUVs</button>
-            <button             <button onclick="showSurveyStep(3, 'Sedans')">Sedans</button>
+            <button onclick="showSurveyStep(3, 'Sedans')">Sedans</button>
             <button onclick="showSurveyStep(3, 'Trucks')">Trucks</button>
         </div>
         <div id="surveyStep3" class="survey-step hidden">
@@ -1213,10 +1213,8 @@
                     isValid = false;
                 }
                 if (isValid) {
-                    leadFormPopup.classList.add('hidden');
-                    document.body.classList.remove('overflow-hidden');
-                     authModal.style.display = "flex";
-                    document.body.classList.add('overflow-hidden');
+                   // Redirect to the specified URL after submitting the form
+                   window.location.href = 'https://apps-lightningleadsaz-local-buyers-list.onrender.com/';
                  }
             });
 
@@ -1251,7 +1249,7 @@
                      authModal.style.display = "none";
                     document.body.classList.remove('overflow-hidden');
                      // Redirect to the specified URL after successful login
-                     window.location.href = 'https://apps-lightningleadsaz-local-buyers-list.onrender.com/';
+                    window.location.href = 'https://apps-lightningleadsaz-local-buyers-list.onrender.com/';
                  }
            }
 
