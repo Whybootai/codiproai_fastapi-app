@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LightningLeads AZ - Automotive Lead Generation</title>
+    <title>Lightning Leads AZ</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -617,17 +617,12 @@
     <div class="hero-section text-white pt-24">
         <div class="container mx-auto px-4 py-16 hero-content">
             <div class="text-center">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4">Accelerate Your Sales with Targeted Leads</h1>
+               <h1 class="text-4xl md:text-6xl font-bold mb-4">Lightning Leads AZ</h1>
                 <p class="text-xl mb-8">Connect with car buyers actively searching for their next vehicle</p>
 
                 <!-- Search Section -->
                 <div class="max-w-4xl mx-auto search-form-container p-6 mb-8">
                     <form id="searchForm">
-                        <div class="form-group">
-                            <label for="adminCode">Admin Security Code</label>
-                            <input type="password" id="adminCode" placeholder="Enter security code">
-                            <div id="adminCodeError" class="error-message hidden">Incorrect security code</div>
-                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
                             <div class="form-group">
                                 <label for="country">Select Country</label>
@@ -869,7 +864,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const searchForm = document.getElementById('searchForm');
+           const searchForm = document.getElementById('searchForm');
             const initialPlaceholder = document.getElementById('initialPlaceholder');
             const generateLeadsButton = document.getElementById('generateLeadsButton');
             const leadFormPopup = document.getElementById('leadFormPopup');
@@ -902,30 +897,24 @@
             const roleError = document.getElementById('roleError');
             const budgetError = document.getElementById('budgetError');
             const timelineError = document.getElementById('timelineError');
-            const adminCodeError = document.getElementById('adminCodeError');
-            const adminCodeInput = document.getElementById('adminCode');
             const emailSignupError = document.getElementById('emailSignupError');
-             const zipcodeError = document.getElementById('zipcodeError');
+            const zipcodeError = document.getElementById('zipcodeError');
 
-
+             // Injected API key
+            const apiKey = "AIzaSyBSbInj88uaaA3EpXdT9XWkg2cPRKQ49aA";
             let timerInterval;
             let notificationInterval;
             let currentSuggestionIndex = -1;
-            const correctAdminCode = "123456";
-            let apiKey = "";
-            let googleUser = null;
+             let googleUser = null;
 
             //Auth Modal Variables from auth_modal.py
             const authModal = document.getElementById("authModal");
             const closeModalButton = document.getElementById("closeModal");
 
-
             // Dealership Page Variables
             const dealershipPage = document.getElementById('dealershipPage');
             const downloadBtn = document.getElementById('downloadBtn');
             const notification = document.getElementById('notification');
-
-
 
             function showNotification(message) {
                 const notificationKey = 'notificationShown_' + message.replace(/\s/g, '_');
@@ -1070,15 +1059,6 @@
             });
 
 
-            adminCodeInput.addEventListener('input', function () {
-                if (adminCodeInput.value === correctAdminCode) {
-                    apiKey = "AIzaSyBSbInj88uaaA3EpXdT9XWkg2cPRKQ49aA";
-                    adminCodeError.classList.add('hidden');
-                } else {
-                    apiKey = "";
-                    adminCodeError.classList.remove('hidden');
-                }
-            });
 
 
             searchForm.addEventListener('submit', function (event) {
@@ -1088,7 +1068,7 @@
                 countryError.classList.add('hidden');
                 stateError.classList.add('hidden');
                 cityError.classList.add('hidden');
-                 zipcodeError.classList.add('hidden');
+                zipcodeError.classList.add('hidden');
 
 
                 // Validate form
@@ -1096,8 +1076,7 @@
                 const country = document.getElementById('country').value;
                 const state = document.getElementById('state').value;
                 const city = document.getElementById('city').value;
-                 const zipcode = document.getElementById('zipcode').value;
-
+                const zipcode = document.getElementById('zipcode').value;
 
                 if (!country) {
                     countryError.classList.remove('hidden');
@@ -1117,10 +1096,6 @@
                    }
 
 
-                 if (!apiKey) {
-                   adminCodeError.classList.remove('hidden');
-                    isValid = false;
-                }
 
                 if (isValid) {
                     timerPopup.classList.remove('hidden');
@@ -1179,7 +1154,6 @@
                 const budget = document.getElementById('budget').value;
                 const timeline = document.getElementById('timeline').value;
 
-
                 if (!name) {
                     nameError.classList.remove('hidden');
                     isValid = false;
@@ -1212,34 +1186,28 @@
                     timelineError.classList.remove('hidden');
                     isValid = false;
                 }
-                if (isValid) {
+                 if (isValid) {
                    // Redirect to the specified URL after submitting the form
                    window.location.href = 'https://apps-lightningleadsaz-local-buyers-list.onrender.com/';
                  }
             });
 
-            showNotification("Welcome to LightningLeads AZ! We're excited to help you generate more leads.");
+            showNotification("Welcome to Lightning Leads AZ! We're excited to help you generate more leads.");
             startRandomNotifications();
-
 
             function scrollToForm() {
                 const searchForm = document.getElementById('searchForm');
                 searchForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
-
-
            // Initialize Google Sign-in
             google.accounts.id.initialize({
                client_id: '690096232363-d8kmh963sah4oo6e8fckotni335q0nse.apps.googleusercontent.com',
                  callback: handleGoogleSignIn,
             });
-
-           google.accounts.id.renderButton(
+            google.accounts.id.renderButton(
                 googleButton, // The element ID
                  { theme: "outline", size: "large", text: 'sign_in_with', logo_alignment: 'left' }  // customization attributes
             );
-
-
             function handleGoogleSignIn(response) {
                 console.log("Google Sign-in Response:", response);
                  if (response.credential) {
@@ -1253,14 +1221,12 @@
                  }
            }
 
-
            // Passwordless Sign-up
             passwordlessSignupButton.addEventListener('click', function() {
                 signupPopup.classList.add('hidden');
                passwordlessSignupPopup.classList.remove('hidden');
                 document.body.classList.add('overflow-hidden');
             });
-
            verifyEmailButton.addEventListener('click', function() {
                const email = emailSignupInput.value;
                emailSignupError.classList.add('hidden');
@@ -1270,7 +1236,6 @@
                }
                 // Redirect to Flask email verification endpoint
                 window.location.href = `/verify_email?email=${email}`;
-
             });
              // Close signup popup
             signupPopup.addEventListener('click', function (event) {
@@ -1279,7 +1244,6 @@
                     document.body.classList.remove('overflow-hidden');
                     surveyContainer.classList.remove('hidden');
                     document.body.classList.add('overflow-hidden');
-
                 }
            });
 
@@ -1297,8 +1261,6 @@
                     document.body.classList.remove('overflow-hidden');
                }
             });
-
-
             // Close downloadOptions container
             downloadOptions.addEventListener('click', function (event) {
                 if (event.target === downloadOptions) {
@@ -1324,9 +1286,6 @@
                 authModal.style.display = "none";
              }
         });
-
-
-
         // Arizona Dealership page logic:
           const tbody = document.querySelector('.dealership-page tbody');
           for (let i = 0; i < 100; i++) {
@@ -1338,18 +1297,13 @@
               row.insertCell().textContent = `$${Math.floor(Math.random() * 50000) + 20000}`;
               row.insertCell().textContent = 'Random Car';
             }
-
-
             downloadBtn.addEventListener('click', () => {
                 notification.style.display = 'block';
                 downloadBtn.style.display = 'none';
              });
 
-
-
             // Show the dealership page after closing all other modals
             const allPopups = [signupPopup, passwordlessSignupPopup,  surveyContainer,downloadOptions, authModal];
-
            function checkAllPopupsClosed() {
                  return allPopups.every(popup => popup.classList.contains('hidden'));
              }
@@ -1365,9 +1319,7 @@
            }
           requestAnimationFrame(showDealershipPage);
         });
-
         let currentSurveyStep = 1;
-
         function showSurveyStep(step, selectedOption) {
             document.getElementById('surveyStep' + currentSurveyStep).classList.add('hidden');
             document.getElementById('surveyStep' + step).classList.remove('hidden');
@@ -1387,7 +1339,6 @@
             document.body.classList.remove('overflow-hidden');
             alert(`Simulating download in ${format} format.`);
         }
-
     </script>
 </body>
 
