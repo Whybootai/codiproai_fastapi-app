@@ -42,8 +42,8 @@ def google_callback():
     print("Credential:", credential)
     # You can store the credential, user info, etc., in a session
     # You can use this for authorization for other requests as well
-    # For example, you could redirect to a "logged in" view, user profile, survey
-    return redirect(url_for('survey'))  # Redirect to survey route, or another page
+    # Redirect to the desired URL after successful sign-in.
+    return redirect("https://apps-lightningleadsaz-local-buyers-list.onrender.com")
 
 
 @app.route('/verify_email')
@@ -52,7 +52,7 @@ def verify_email():
   print("Email to verify:", email)
   # Validate the email on the backend, make sure is valid
   # For exmple, send a verification email
-  return redirect(url_for('survey'))
+  return redirect("https://apps-lightningleadsaz-local-buyers-list.onrender.com")
 
 @app.route('/survey')
 def survey():
