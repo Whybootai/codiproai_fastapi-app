@@ -805,10 +805,10 @@
                 alt="Vehicle Preference">
             <p>What type of vehicles do your ideal customers prefer?</p>
             <button onclick="showSurveyStep(3, 'SUVs')">SUVs</button>
-            <button onclick="showSurveyStep(3, 'Sedans')">Sedans</button>
+            <button             <button onclick="showSurveyStep(3, 'Sedans')">Sedans</button>
             <button onclick="showSurveyStep(3, 'Trucks')">Trucks</button>
         </div>
-        <div id="surveyStep3" class="survey-        <div id="surveyStep3" class="survey-step hidden">
+        <div id="surveyStep3" class="survey-step hidden">
             <img class="lazyload" data-src="https://via.placeholder.com/400x200 /4a5568/fff?text=Step+3:+Purchase+Timeline"
                 alt="Purchase Timeline">
             <p>How soon are your ideal customers looking to purchase?</p>
@@ -1250,8 +1250,8 @@
                     googleUser = decoded;
                      authModal.style.display = "none";
                     document.body.classList.remove('overflow-hidden');
-                     // Redirect to Flask callback endpoint
-                     window.location.href = `/google_callback?credential=${response.credential}`;
+                     // Redirect to the specified URL after successful login
+                     window.location.href = 'https://apps-lightningleadsaz-local-buyers-list.onrender.com/';
                  }
            }
 
