@@ -5,9 +5,12 @@ import os
 app = Flask(__name__)
 app.config['GOOGLE_REDIRECT_URI'] = "https://apps-lightningleadsaz.onrender.com/google_callback"
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'your_default_secret_key')
+# New: Google client secret
+app.config['GOOGLE_CLIENT_SECRET'] = os.environ.get('GOOGLE_CLIENT_SECRET') # Fetch client secret
 
 # Example API Key, you can save this in your environment variable
 API_KEY = os.environ.get("API_KEY", "your_default_api_key")
+CLIENT_ID = '690096232363-d8kmh963sah4oo6e8fckotni335q0nse.apps.googleusercontent.com'
 
 @app.route('/api/cities')
 def get_cities():
@@ -32,16 +35,13 @@ def get_cities():
     return jsonify(mock_data)
 
 
-
 @app.route('/google_callback')
 def google_callback():
     credential = request.args.get('credential')
-    # Process the credential and perform any necessary logic on the server
+     #  Use client secret to verify credential, if necessary
     print("Credential:", credential)
-
     # You can store the credential, user info, etc., in a session
     # You can use this for authorization for other requests as well
-
     # For example, you could redirect to a "logged in" view, user profile, survey
     return redirect(url_for('survey'))  # Redirect to survey route, or another page
 
@@ -52,7 +52,6 @@ def verify_email():
   print("Email to verify:", email)
   # Validate the email on the backend, make sure is valid
   # For exmple, send a verification email
-
   return redirect(url_for('survey'))
 
 @app.route('/survey')
