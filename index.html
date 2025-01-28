@@ -4,1669 +4,1707 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codefusion - Futuristic Multi-Language Code Editor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>CodyPro AI Assistant</title>
     <style>
         :root {
-            /* Dark Theme Colors */
-            --bg-color: #1e1e2f;
-            --header-bg: #27293d;
-            --editor-bg: #282c34;
-            --text-color: #ffffff;
-            --text-muted: #999;
-            --border-color: #444;
-            --accent-color: #28a745;
-            --btn-bg: #44475a;
-            font-size: 16px;
-            /* Base font size */
+            --primary: #00ff9d;
+            --secondary: #1a73e8;
+            --accent: #ff5722;
+            --dark: #0b0f14;
+            --light: #e8f1f2;
+            --bg: #0b0f14;
+            --text-color: #e8f1f2;
         }
 
         body {
+            background: var(--bg);
+            color: var(--text-color);
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
             min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
             overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--header-bg);
-            padding: 1em 1.5em;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
         }
 
         header h1 {
-            font-size: 1.75rem;
             margin: 0;
-            letter-spacing: 1px;
-            font-weight: 400;
+            font-size: 2em;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        header .controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        header .controls button {
-             background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s;
-            position: relative;
-            /* For Tooltip Position */
-        }
-
-        header .controls button:hover {
-            background-color: var(--btn-bg);
-        }
-
-         header .controls button .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
+        #google-drive-icon {
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 20px;
+            right: 60px;
+            cursor: pointer;
+            font-size: 1.8em;
+            color: var(--light);
+            transition: color 0.3s ease;
         }
 
-        header .controls button:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
+        #google-drive-icon:hover {
+            color: var(--primary);
         }
 
-          .header .controls #toggle-buttons {
-              font-size: 1.7rem;
+        #user-guide-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.8em;
+            color: var(--light);
+            transition: color 0.3s ease;
+        }
+
+        #user-guide-icon:hover {
+            color: var(--primary);
+        }
+
+        /* Marquee Styles */
+        .marquee-container {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 0;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+            color: var(--light);
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
             }
 
-
-        header .controls .theme-toggle {
-            font-size: 1.2rem;
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
-        main {
-            display: flex;
-            flex: 1;
-            padding: 0.6em;
-            flex-direction: column;
-            /* Default to column for mobile */
-        }
-
-        .editor-container {
-            width: 100%;
-            /* Take up full width by default */
+        #chat-container {
+            width: 90%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.1);
             display: flex;
             flex-direction: column;
-            padding: 0.9em;
-            gap: 0.9em;
+            margin: 30px 0;
+             display: none; /* Initially hidden */
         }
-
-        .editor-container textarea {
-            flex: 1;
-            background-color: var(--editor-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            font-family: 'Fira Code', monospace;
-            font-size: 1rem;
-            padding: 0.75em;
-            border-radius: 8px;
-            resize: none;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .editor-container textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .preview-container {
-            width: 100%;
-            position: relative;
-            background: var(--editor-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: width 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s, border-color 0.3s;
-            height: auto;
-            margin-top: 1em;
-            /* Space between editor and preview on mobile */
-        }
-
-        .preview-container.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            border: none;
-            transform: none;
-        }
-
-        .preview-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .preview-container .close-btn {
-            position: absolute;
-            top: 0.9em;
-            right: 0.9em;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out, color 0.3s;
-            z-index: 100;
-        }
-
-        .preview-container .close-btn.fullscreen-btn {
-            left: 0.9em;
-            right: auto;
-        }
-
-        .preview-container .close-btn:hover {
-            color: #ff5555;
-        }
-
-        .preview-container .fullScreen-btn {
-            position: absolute;
-            top: 0.9em;
-            left: 0.9em;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out, color 0.3s;
-            z-index: 100;
-        }
-
-        .preview-container .fullScreen-btn:hover {
-            color: #ff5555;
-        }
-
-        footer {
-            background-color: var(--header-bg);
-            text-align: center;
-            padding: 0.9em;
-            font-size: 0.9rem;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        footer span {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown input {
-            background: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        .dropdown input[type="password"] {
-            display: none;
-        }
-
-        .dropdown .toggle {
-            cursor: pointer;
-        }
-
-        .notification {
-            background: var(--border-color);
-            padding: 0.75em;
-            position: absolute;
-            top: -3.125em;
-            right: 1.25em;
-            color: var(--text-color);
-            border-radius: 8px;
-            display: none;
-            transition: all 0.5s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .notification.success {
-            background: var(--accent-color);
-        }
-
-        .notification.copy {
-            background: var(--text-muted);
-        }
-
-        .chatbox-toggle {
-            position: fixed;
-            bottom: 1.25em;
-            right: 1.25em;
-            background: var(--btn-bg);
-            border: none;
-            color: var(--text-color);
-            font-size: 1.3rem;
-            padding: 0.75em;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1001;
-            transition: transform 0.3s, background-color 0.3s;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .chatbox-toggle:hover {
-            transform: scale(1.1)
-        }
-
-        .chat-popup {
-            position: fixed;
-            bottom: 5em;
-            right: 1.25em;
-            background: var(--header-bg);
-            color: var(--text-color);
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            max-height: 25em;
-            /* Adjusted to rem */
-            width: 18.75em;
-            /* Adjusted to rem */
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            transition: opacity 0.3s, transform 0.3s, background-color 0.3s;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .chat-popup.active {
+        #chat-container.active {
             display: flex;
-            opacity: 1;
-            transform: translateY(0);
         }
 
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75em;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 500;
-        }
-
-        .chat-header .close-chat {
-            cursor: pointer;
-            color: #ff5555;
-            font-size: 1.3rem;
-            transition: color 0.3s;
-        }
-
-        .chat-header .reset-chat {
-            cursor: pointer;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            transition: color 0.3s;
-        }
-
-        .chat-header .reset-chat:hover {
-            color: var(--accent-color);
-        }
-
-        .chat-header .close-chat:hover {
-            color: var(--text-color);
-        }
-
-        .chat-messages {
-            padding: 0.75em;
+        #messages {
+            height: 500px;
             overflow-y: auto;
-            flex: 1;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            justify-content: center;
         }
 
-        .chat-message {
-            padding: 0.75em;
-            margin-bottom: 0.75em;
-            border-radius: 10px;
-            word-wrap: break-word;
-            max-width: 80%;
-            transition: all 0.3s;
+        #messages.open-canvas {
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        #messages.open-canvas .initial-greeting {
+            display: none;
+        }
+
+        .initial-greeting {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .initial-greeting img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1.5;
+            animation: slideIn 0.3s ease;
+            width: fit-content;
+            max-width: 90%;
             position: relative;
         }
 
-        .chat-message.user-message {
-            background: var(--btn-bg);
+        .message-options {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .message:hover .message-options {
+            display: flex;
+        }
+
+        .message-options button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 1.1em;
+            padding: 2px 5px;
+        }
+
+        .message-options button:hover {
+            color: var(--primary)
+        }
+
+        .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            object-fit: cover;
+        }
+
+        .user-message {
+            background: rgba(0, 255, 157, 0.1);
+            border-left: 4px solid var(--primary);
             align-self: flex-end;
         }
 
-        .chat-message.user-message .edit-btn {
-            position: absolute;
-            top: 8px;
-            right: 35px;
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: color 0.3s
-        }
-
-        .chat-message.user-message:hover .edit-btn {
-            display: block;
-        }
-
-        .chat-message.user-message .edit-btn:hover {
-            color: var(--accent-color);
-        }
-
-        .chat-message.user-message .copy-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: color 0.3s
-        }
-
-        .chat-message.user-message:hover .copy-btn {
-            display: block;
-        }
-
-        .chat-message.user-message .copy-btn:hover {
-            color: var(--accent-color);
-        }
-
-        .chat-message.bot-message {
-            background: var(--editor-bg);
+        .bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            border-right: 4px solid var(--secondary);
             align-self: flex-start;
-            position: relative;
         }
 
-        .chat-message.bot-message .copy-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: color 0.3s
+        .bot-message ul,
+        .bot-message ol {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            /* Add padding for list indentation */
         }
 
-        .chat-message.bot-message:hover .copy-btn {
-            display: block;
+        .bot-message li {
+            line-height: 1.6;
         }
 
-        .chat-message.bot-message .copy-btn:hover {
-            color: var(--accent-color);
-        }
-
-        .chat-message.bot-message pre {
-            white-space: pre-wrap;
-            margin: 0.5em 0;
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 0.6em;
+        .bot-message pre {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
             border-radius: 8px;
             overflow-x: auto;
         }
 
-        .chat-input-area {
+        .bot-message code {
+            font-family: monospace;
+        }
+
+        #input-container {
             display: flex;
-            padding: 0.75em;
-            border-top: 1px solid var(--border-color);
-            align-items: center
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
 
-        .chat-input-area textarea {
+        select,
+        textarea {
             flex: 1;
-            resize: none;
-            background: none;
-            color: var(--text-color);
-            padding: 0.6em;
+            padding: 15px;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            min-height: 2.2em;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--light);
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
+            resize: vertical;
+        }
+
+        select:focus,
+        textarea:focus {
             outline: none;
+            box-shadow: 0 0 15px var(--primary);
         }
 
-        .chat-input-area textarea::placeholder {
-            color: var(--text-muted)
+        textarea::placeholder {
+            white-space: pre-line;
         }
 
-        .chat-input-area button {
-            background: none;
+        textarea {
+            line-height: 1.4;
+            /* Adjust line spacing */
+            height: 100px;
+            /* Adjust initial height */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
+        }
+
+        button {
+            padding: 15px 25px;
             border: none;
-            color: var(--text-color);
+            border-radius: 15px;
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: bold;
             cursor: pointer;
-            font-size: 1.3rem
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1rem;
         }
 
-        .chat-input-area button:hover {
-            color: var(--accent-color);
+
+        #clear-chat-button {
+            margin-top: 10px;
+            background: var(--accent);
+            color: var(--light);
         }
 
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            display: none;
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 157, 0.4);
+        }
+
+        #prompt-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .prompt-suggestion {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .prompt-suggestion:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .thinking {
+            display: flex;
+            gap: 8px;
             align-items: center;
             justify-content: center;
-            z-index: 1002;
+            padding: 10px;
         }
 
-        .loading-overlay.active {
-            display: flex;
-        }
-
-        .circular-loader {
-            width: 2.8em;
-            height: 2.8em;
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
             border-radius: 50%;
-            border: 5px solid var(--text-color);
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
+            animation: bounce 0.6s infinite ease-in-out;
         }
 
-        .segregation-toggle {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: all 0.3s, color 0.3s;
-            position: relative;
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
         }
 
-           .segregation-toggle:hover .tooltiptext {
-             visibility: visible;
-            opacity: 1;
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
         }
-
-
-        .segregation-toggle.active {
-            color: var(--accent-color);
-        }
-
-        .segregation-toggle:hover {
-            color: var(--accent-color);
-        }
-
-           .segregation-toggle .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg)
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Light Theme Colors */
-        body.light-theme {
-            --bg-color: #f0f2f5;
-            --header-bg: #e9ecef;
-            --editor-bg: #f8f9fa;
-            --text-color: #212529;
-            --text-muted: #6c757d;
-            --border-color: #ced4da;
-            --btn-bg: #dee2e6;
-        }
-${cssEditor.value}
-            /* Futuristic Theme Colors */
-            --bg-color: #0a0a1a;
-            --header-bg: #1a1a2e;
-            --editor-bg: #1e1e2f;
-            --text-color: #e0e0e0;
-            --text-muted: #888;
-            --border-color: #444;
-            --accent-color: #00ff88;
-            --btn-bg: #2a2a40;
-            --glow-color: rgba(0, 255, 136, 0.3);
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
-            overflow-x: hidden;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--header-bg);
-            padding: 1em 1.5em;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-            border-bottom: 1px solid var(--accent-color);
-        }
-
-        header h1 {
-            font-size: 1.75rem;
-            margin: 0;
-            letter-spacing: 2px;
-            font-weight: 500;
-            text-shadow: 0 0 5px var(--glow-color);
-        }
-
-        header .controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        header .controls button {
-            background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5em 0.8em;
-            border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-            position: relative;
-        }
-
-          header .controls button:hover {
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 10px var(--glow-color);
-        }
-
-          header .controls button .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
-             position: absolute;
-            z-index: 1;
-            bottom: 125%;
-             left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-          }
-
-           header .controls button:hover .tooltiptext {
-             visibility: visible;
-            opacity: 1;
-        }
-
-
-        .header .controls #toggle-buttons {
-             font-size: 1.7rem;
-        }
-
-
-        header .controls .theme-toggle {
-             font-size: 1.2rem;
-        }
-
-        main {
-            display: flex;
-            flex: 1;
-            padding: 1.25em;
-            gap: 1.25em;
-            flex-direction: column;
-            /* Default to column for mobile */
-        }
-
-        .editor-container {
-            width: 100%;
-            /* Take up full width by default */
-            display: flex;
-            flex-direction: column;
-            gap: 1.25em;
-        }
-
-        .editor-container textarea {
-            flex: 1;
-            background-color: var(--editor-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-             font-family: 'Fira Code', monospace;
-            font-size: 1rem;
-            padding: 1em;
-            border-radius: 8px;
-             resize: none;
-            box-shadow: 0 0 10px var(--glow-color);
-             transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .editor-container textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .preview-container {
-            width: 100%;
-            position: relative;
-             background: var(--editor-bg);
-            border: 1px solid var(--accent-color);
-             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 10px var(--glow-color);
-            transition: width 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s, border-color 0.3s;
-            margin-top: 1.25em;
-        }
-
-        .preview-container.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-             height: 100%;
-            z-index: 1000;
-             border: none;
-            transform: none;
-        }
-
-        .preview-container iframe {
-            width: 100%;
-             height: 100%;
-            border: none;
-        }
-
-        .preview-container .close-btn {
-            position: absolute;
-           top: 0.9em;
-            right: 0.9em;
-            background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-           font-size: 1.4rem;
-            cursor: pointer;
-            padding: 0.3em 0.6em;
-           border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-        }
-
-         .preview-container .close-btn:hover {
-            background-color: var(--accent-color);
-             color: var(--bg-color);
-             box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        .preview-container .fullScreen-btn {
-            position: absolute;
-              top: 0.9em;
-            left: 0.9em;
-            background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-           color: var(--text-color);
-            font-size: 1.4rem;
-            cursor: pointer;
-            padding: 0.3em 0.6em;
-           border-radius: 6px;
-             transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-        }
-
-        .preview-container .fullScreen-btn:hover {
-            background-color: var(--accent-color);
-             color: var(--bg-color);
-            box-shadow: 0 0 10px var(--glow-color);
-         }
 
         footer {
-            background-color: var(--header-bg);
-             text-align: center;
-            padding: 1em;
-            font-size: 0.9rem;
-             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);
-             border-top: 1px solid var(--accent-color);
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--light);
+            opacity: 0.7;
         }
 
-        footer span {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
         }
 
-        .chatbox-toggle {
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Sidebar Styles */
+        .sidebar {
             position: fixed;
-             bottom: 1.25em;
-            right: 1.25em;
-             background: var(--accent-color);
-            border: none;
-            color: var(--bg-color);
-             font-size: 1.3rem;
-             padding: 1em;
-            border-radius: 50%;
-            cursor: pointer;
-             z-index: 1001;
-            transition: transform 0.3s, box-shadow 0.3s;
-             box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        .chatbox-toggle:hover {
-             transform: scale(1.1);
-            box-shadow: 0 0 15px var(--glow-color);
-        }
-
-        .chat-popup {
-             position: fixed;
-             bottom: 5em;
-            right: 1.25em;
-            background: var(--header-bg);
-             color: var(--text-color);
-             border-radius: 12px;
-            box-shadow: 0 0 10px var(--glow-color);
-            max-height: 25em;
-           width: 18.75em;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            transition: opacity 0.3s, transform 0.3s;
-            opacity: 0;
-             transform: translateY(20px);
-        }
-
-        .chat-popup.active {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
-         }
-
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75em;
-             border-bottom: 1px solid var(--accent-color);
-            font-weight: 500;
-        }
-
-         .chat-header .close-chat {
-            cursor: pointer;
-            color: var(--accent-color);
-             font-size: 1.3rem;
-             transition: color 0.3s;
-        }
-
-        .chat-header .close-chat:hover {
-            color: var(--text-color);
-         }
-
-
-        .chat-header .reset-chat {
-             cursor: pointer;
-            color: var(--accent-color);
-            font-size: 1.3rem;
-           transition: color 0.3s;
-             margin-right: 10px;
-         }
-
-         .chat-header .reset-chat:hover {
-            color: var(--text-color);
-        }
-
-         .chat-messages {
-            padding: 0.75em;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .chat-message {
-            padding: 0.75em;
-             margin-bottom: 0.75em;
-           border-radius: 10px;
-            word-wrap: break-word;
-            max-width: 80%;
-            transition: all 0.3s;
-             position: relative;
-            /* Add this to position buttons */
-        }
-
-        .chat-message.user-message {
-            background: var(--btn-bg);
-             align-self: flex-end;
-            border: 1px solid var(--accent-color);
-         }
-
-        .chat-message.user-message .edit-btn {
-            position: absolute;
-             top: 8px;
-            right: 35px;
-            display: none;
-             background: none;
-            border: none;
-             color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-             transition: color 0.3s
-        }
-
-         .chat-message.user-message:hover .edit-btn {
-             display: block;
-         }
-
-         .chat-message.user-message .edit-btn:hover {
-             color: var(--accent-color);
-        }
-
-
-        .chat-message.user-message .copy-btn {
-            position: absolute;
-           top: 8px;
-            right: 8px;
-             display: none;
-            background: none;
-           border: none;
-            color: var(--text-color);
-           font-size: 1.1rem;
-           cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .chat-message.user-message:hover .copy-btn {
-           display: block;
-         }
-
-         .chat-message.user-message .copy-btn:hover {
-            color: var(--accent-color);
-         }
-
-        .chat-message.bot-message {
-            background: var(--editor-bg);
-             align-self: flex-start;
-            border: 1px solid var(--accent-color);
-            position: relative;
-        }
-
-        .chat-message.bot-message .copy-btn {
-            position: absolute;
-            top: 8px;
-             right: 8px;
-             display: none;
-           background: none;
-            border: none;
-           color: var(--text-color);
-            font-size: 1.1rem;
-             cursor: pointer;
-            transition: color 0.3s;
-        }
-
-         .chat-message.bot-message:hover .copy-btn {
-            display: block;
-        }
-
-        .chat-message.bot-message .copy-btn:hover {
-           color: var(--accent-color);
-       }
-
-        .chat-message.bot-message pre {
-            white-space: pre-wrap;
-             margin: 0.5em 0;
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.2);
-             padding: 0.6em;
-             border-radius: 8px;
-            overflow-x: auto;
-        }
-
-        .chat-input-area {
-            display: flex;
-             padding: 0.75em;
-            border-top: 1px solid var(--accent-color);
-           align-items: center;
-        }
-
-        .chat-input-area textarea {
-           flex: 1;
-            resize: none;
-             background: none;
-           color: var(--text-color);
-             padding: 0.6em;
-            border: 1px solid var(--accent-color);
-             border-radius: 8px;
-            font-size: 1em;
-             min-height: 2.2em;
-           outline: none;
-         }
-
-         .chat-input-area textarea::placeholder {
-             color: var(--text-muted);
-        }
-
-         .chat-input-area button {
-             background: var(--accent-color);
-             border: none;
-            color: var(--bg-color);
-            cursor: pointer;
-             font-size: 1.3rem;
-            padding: 0.6em;
-            border-radius: 8px;
-            margin-left: 0.6em;
-             transition:
-                background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .chat-input-area button:hover {
-            background-color: #00cc77;
-            box-shadow: 0 0 10px var(--glow-color);
-        }
-
-        .loading-overlay {
-            position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
+            left: -300px;
+            /* Start off screen on the left */
+            width: 300px;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
+            background: var(--secondary);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            /* Shadow on the right side */
+            transition: left 0.3s ease;
+            /* Transition the left property */
+            padding: 20px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+            /* Slide in from the left */
+        }
+
+        .sidebar-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            /* Position the button on the left */
+            padding: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            color: var(--dark);
+            cursor: pointer;
+            transition: left 0.3s ease;
+            /* Transition the left property */
             z-index: 1002;
         }
 
-        .loading-overlay.active {
+        .sidebar-button.open {
+            left: 320px;
+        }
+
+        .sidebar-button i {
+            font-size: 1.2em;
+        }
+
+        .profile-upload {
+            margin-bottom: 20px;
             display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .circular-loader {
-            width: 2.8em;
-            height: 2.8em;
+        .profile-upload label {
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #user-image {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            border: 5px solid var(--accent-color);
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border: 2px solid var(--accent);
         }
 
-        .segregation-toggle {
-            background: none;
+        .sidebar-option {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+            color: var(--light);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Settings section */
+        .settings-section {
+            margin: 20px 0;
+            padding: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-section h3 {
+            margin-bottom: 10px;
+        }
+
+        .settings-section .setting-item {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-section .setting-item label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .settings-section .setting-item input[type="color"],
+        .settings-section .setting-item select,
+        .settings-section .setting-item input[type="text"],
+        .settings-section .setting-item input[type="range"] {
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            color: var(--text-color);
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: all 0.3s, color 0.3s;
-            position: relative;
+            border-radius: 5px;
+            color: var(--light);
+            padding: 8px;
+            width: 100%;
         }
 
-        .segregation-toggle:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
+        .settings-section .setting-item .radio-group {
+            display: flex;
+            align-items: center;
         }
 
-
-        .segregation-toggle.active {
-            color: var(--accent-color);
+        .settings-section .setting-item .radio-group label {
+            display: inline-flex;
+            align-items: center;
+            margin: 0 15px 0 0;
         }
 
-        .segregation-toggle:hover {
-            color: var(--accent-color);
+        .settings-section .setting-item .radio-group input[type="radio"] {
+            margin-right: 5px;
         }
 
-        .segregation-toggle .tooltiptext {
-            visibility: hidden;
-            width: auto;
-            background-color: var(--btn-bg);
-            color: var(--text-color);
+        .settings-section #preview {
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             text-align: center;
-            padding: 5px 10px;
-            border-radius: 6px;
+        }
+
+        .settings-section #preview img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            #chat-container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            #messages {
+                height: 400px;
+                padding: 15px;
+            }
+
+            .message {
+                font-size: 0.9rem;
+            }
+
+            #input-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            select,
+            textarea,
+            button {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            .sidebar-button {
+                left: 10px;
+            }
+
+            .sidebar-button.open {
+                left: 310px;
+            }
+
+            .sidebar {
+                width: 280px;
+            }
+        }
+
+        /* User Guide Popup */
+        #user-guide-popup {
+            position: fixed;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            color: var(--light);
+            padding: 30px;
+            z-index: 10000;
+            display: none;
+            overflow-y: auto;
+            /* Enable scrolling for long instructions */
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.2);
+        }
+
+        #user-guide-popup.active {
+            display: block;
+        }
+
+        #user-guide-popup .close-button {
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .custom-prompt-toggle {
-           background: var(--btn-bg);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-            font-size: 1rem;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
             cursor: pointer;
-           padding: 0.5em 0.8em;
-            border-radius: 6px;
-             transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-             position: relative;
-            overflow: hidden;
-            /* Ensures the zipper icon stays inside the button */
+            color: var(--accent);
+            transition: color 0.3s ease;
         }
 
-          .custom-prompt-toggle:hover {
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-             box-shadow: 0 0 10px var(--glow-color);
-          }
-
-          .custom-prompt-toggle.active {
-            background: var(--accent-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 10px var(--glow-color);
+        #user-guide-popup .close-button:hover {
+            color: var(--primary);
         }
-         .custom-prompt-toggle i {
-                transition: transform 0.3s ease;
-                 display: inline-block;
+
+        #user-guide-popup h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #user-guide-popup ul {
+            padding-left: 30px;
+        }
+
+        #user-guide-popup li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
             }
 
-           .custom-prompt-toggle.active i {
-            transform: rotate(180deg);
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg)
-            }
-
+        @keyframes bounce {
+            0%,
             100% {
-                transform: rotate(360deg);
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
             }
         }
 
-        /* Add dropdown styles */
-        .system-prompt-dropdown {
-            position: relative;
+        /* Google Sign In Button */
+        #google-sign-in-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .system-prompt-dropdown select {
-            background: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 0.5em;
-            border-radius: 6px;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        #google-sign-in-button {
+            background-color: #4285f4;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Media Queries for Responsiveness */
-        @media (min-width: 768px) {
-            /* Tablets and larger */
-            :root {
-                font-size: 17px;
-                /* Increased base font size for larger screens */
-            }
-            main {
-                flex-direction: row;
-                /* Switch to row on larger screens */
-            }
-            .editor-container {
-                width: 70%;
-            }
-            .preview-container {
-                width: 30%;
-                margin-top: 0;
-                border-left: 2px solid var(--border-color);
-                /* Added border for separation on large screens */
-            }
+        #google-sign-in-button:hover {
+            background-color: #3570e8;
         }
 
-        @media (min-width: 1024px) {
-            :root {
-                font-size: 18px;
-                /* Increased base font size for larger screens */
-            }
+        #google-sign-in-container img {
+            width: 20px;
+            height: 20px;
         }
 
-        @media (min-width: 1200px) {
-            :root {
-                font-size: 19px;
-                /* Increased base font size for larger screens */
+         #user-profile-info {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+
+        }
+
+        #user-profile-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+        .feedback-section {
+            position: fixed;
+            bottom: 20px;
+            right: 20px; /* Changed to right side */
+            display: inline-flex;
+            background-color: #4285F4;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .feedback-section:hover {
+            background-color: #3570e8;
+            transform: translateY(-2px);
+        }
+
+        .feedback-section a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .feedback-section i {
+            margin-right: 5px;
+        }
+
+         /* Detail Section Styles */
+        #detail-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #detail-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        #detail-section p {
+             font-size: 1.1em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .feature-grid {
+            display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+             margin-bottom: 30px;
+             padding: 0 20px;
+        }
+
+        .feature {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature:hover {
+           transform: translateY(-5px);
+        }
+        .feature i {
+            font-size: 3em; /* larger icon size */
+            margin-bottom: 10px;
+             display: block;
+        }
+
+
+        .feature h3 {
+             margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+        .call-to-action {
+            margin-top: 30px;
+        }
+
+        .call-to-action p {
+             font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .try-now-button {
+            display: inline-block;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1.1em;
+            text-decoration: none;
+        }
+
+        .try-now-button:hover {
+             transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 157, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            #detail-section {
+               width: 95%;
+               padding: 10px;
+           }
+
+            #detail-section h2 {
+                font-size: 2em;
+            }
+            .feature-grid {
+                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                padding: 0 10px;
+            }
+             .feature i {
+              font-size: 2em;
             }
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Header -->
+
     <header>
-        <h1>Codefusion</h1>
-        <div class="controls">
-            <!-- System Prompt Dropdown -->
-            <div class="system-prompt-dropdown">
-                <select id="system-prompt-select">
-                    <option value="default">Default Assistant</option>
-                    <option value="code-explainer">Code Explainer</option>
-                    <option value="bug-finder">Bug Finder</option>
-                    <option value="performance-optimizer">Performance Optimizer</option>
-                    <option value="custom">Custom Prompt</option>
-                </select>
-                <div style="display: flex; align-items: center; margin-top:0.3em">
-                    <textarea id="custom-prompt" style="display: none; margin-right: 0.3em" placeholder="Enter your custom system instruction"></textarea>
-                    <button id="custom-prompt-toggle" class="custom-prompt-toggle"><i class="fas fa-lock"></i></button>
-                </div>
+        <h1>CodyPro AI</h1>
+        <i class="fab fa-google-drive" id="google-drive-icon" onclick="saveChatToDrive()"></i>
+        <i class="fas fa-question-circle" id="user-guide-icon" onclick="toggleUserGuide()"></i>
+        <div class="marquee-container">
+            <div class="marquee-text">
+                Select your desired Cody tonality, input your prompt, and let CodyPro AI assist you! | CodyPro AI may make mistakes,
+                kindly double-check the output provided. | Created with ❤️ by Flynn James P.
             </div>
-            <div class="dropdown">
-                <button class="toggle">
-                    <i class="fas fa-key"></i>
-                    <span class="tooltiptext">API Key</span>
-                </button>
-                <input type="password" placeholder="Enter Security Code" id="security-code">
-            </div>
-
-            <button id="segregation-btn"  >
-                <i class="fas fa-code-branch"></i>
-                 <span class="tooltiptext">Segregation</span>
-            </button>
-            <button id="theme-toggle" >
-                <i class="fas fa-sun"></i>
-                 <span class="tooltiptext">Theme</span>
-            </button>
-            <button id="feedback-btn" onclick="sendFeedback()">
-                <i class="fas fa-envelope"></i>
-                  <span class="tooltiptext">Feedback</span>
-            </button>
-            <button id="reset-btn" >
-                <i class="fas fa-sync"></i>
-                 <span class="tooltiptext">Reset</span>
-            </button>
-            <button id="toggle-preview" >
-                <i class="fas fa-eye"></i>
-                <span class="tooltiptext">Preview</span>
-            </button>
-            <button id="toggle-buttons">
-              <i class="fas fa-bars"></i>
-              <span class="tooltiptext">Toggle Button</span>
-            </button>
-
         </div>
     </header>
-
-    <!-- Main Content -->
-    <main>
-        <div class="editor-container">
-            <textarea id="html-editor" placeholder="Write HTML here..."></textarea>
-            <textarea id="css-editor" placeholder="Write CSS here..."></textarea>
-            <textarea id="js-editor" placeholder="Write JavaScript here..."></textarea>
-        </div>
-        <div class="preview-container">
-            <button class="fullScreen-btn">
-                <i class="fas fa-expand"></i>
-            </button>
-            <button class="close-btn">×</button>
-            <iframe id="preview-frame"></iframe>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <span>Codefusion - Your Dream App, Live in 5!</span>
-    </footer>
-
-    <!-- Chat Toggle -->
-    <button class="chatbox-toggle">
-        <i class="fas fa-comment-dots"></i>
-    </button>
-
-    <!-- Chat Popup -->
-    <div class="chat-popup">
-        <div class="chat-header">
-            <span>Codefusion AI Assistant</span>
-            <span class="reset-chat">
-                <i class="fas fa-trash"></i>
-            </span>
-            <span class="close-chat">×</span>
-        </div>
-        <div class="chat-messages"></div>
-        <div class="chat-input-area">
-            <textarea placeholder="Type your message..."></textarea>
-            <button>
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-        <div class="loading-overlay">
-            <div class="circular-loader"></div>
-        </div>
+    <div id="user-guide-popup">
+        <span class="close-button" onclick="toggleUserGuide()">×</span>
+        <h2>How to Use CodyPro AI</h2>
+        <ul>
+            <li><strong>Select Cody Tonality:</strong> Use the dropdown menu to select a tonality such as "Professional," "Casual,"
+                "Humorous", etc.
+            </li>
+            <li><strong>Type Your Prompt:</strong> Use the multiline text input to type your prompt, including details of what you
+                want
+                CodyPro AI to do for you.
+            </li>
+            <li><strong>Clickable Prompt Suggestions:</strong> Use the provided suggestions below the text input to know
+                what
+                type of requests you can make CodyPro AI.
+            </li>
+            <li><strong>Click Send:</strong> Click the Send button to submit your prompt and receive CodyPro AI's
+                response.
+            </li>
+             <li><strong>Edit and Copy Messages:</strong> Hover over your chat bubbles to edit or copy your or CodyPro AI
+                messages.
+            </li>
+            <li><strong>Save To Google Drive:</strong> Click the Google Drive icon on the top right to save your chat log.
+            </li>
+            <li><strong>Settings:</strong> Click the setting icon in the bottom left to adjust CodyPro AI's theme, look, or
+                feel.
+            </li>
+             <li><strong>Clear Chat:</strong> Click on the clear chat button to restart your conversation with CodyPro AI.
+            </li>
+        </ul>
     </div>
 
-    <!-- Notification -->
-    <div class="notification"></div>
+       <section id="detail-section">
+        <h2>CodyPro AI: Your Versatile AI Assistant</h2>
+        <p>
+            CodyPro AI is designed to seamlessly integrate into your workflow, providing assistance with research, writing,
+            critical analysis, and project management. Whether you're a freelancer, a corporate professional, or part of a
+            dynamic team, CodyPro AI is ready to support you with precision and insight.
+        </p>
 
-    <!-- JavaScript -->
+        <div class="feature-grid">
+            <div class="feature">
+               <i class="fas fa-brain"></i>
+                <h3>Context Aware</h3>
+                <p>
+                    CodyPro AI remembers previous interactions, ensuring consistent and relevant responses throughout your
+                    conversation.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-palette"></i>
+                <h3>Custom Tonality</h3>
+                <p>
+                    Tailor Cody's responses to your needs by choosing the right tonality such as professional, casual, humorous, and more.
+                </p>
+            </div>
+             <div class="feature">
+                 <i class="fab fa-google-drive"></i>
+                <h3>Save to Google Drive</h3>
+                <p>
+                   Safeguard your conversation history by saving it directly to your Google Drive with a single click.
+                </p>
+            </div>
+              <div class="feature">
+                  <i class="fas fa-sliders-h"></i>
+                <h3>Customizable Experience</h3>
+                <p>
+                   Personalize the look and feel of CodyPro AI to your liking with customizable themes, chat bubble styles, and fonts.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-edit"></i>
+                <h3>Edit and Copy Messages</h3>
+                <p>
+                    Easily edit your prompts and copy the responses for your documents or other applications.
+                </p>
+            </div>
+             <div class="feature">
+                  <i class="fas fa-lightbulb"></i>
+                <h3>Prompt Suggestions</h3>
+                <p>
+                    Get inspired with prompt suggestions, guiding you through the myriad of ways Cody can assist you.
+                </p>
+            </div>
+              <div class="feature">
+                <i class="fas fa-user-check"></i>
+                <h3>User-Friendly Interface</h3>
+                <p>
+                     Enjoy a seamless experience with a straightforward and intuitive interface for all your tasks.
+                </p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <h3>Quick Response</h3>
+                 <p>
+                     Experience near real-time responses, ensuring a fluid and efficient interaction every time.
+                </p>
+            </div>
+
+        </div>
+        <div class="call-to-action">
+            <p>Ready to experience the power of CodyPro AI?</p>
+            <button class="try-now-button" onclick="showChatTool()">Try CodyPro AI Now!</button>
+        </div>
+    </section>
+     <div id="chat-container">
+         <div id="google-sign-in-container">
+            <button id="google-sign-in-button" onclick="initiateGoogleAuth()"> <img
+                    src="https://www.gstatic.com/images/branding/product/1x/google_g_24dp.png" alt="Google Icon"> Sign in
+                with Google</button>
+        </div>
+         <div id="user-profile-info">
+        </div>
+        <main id="messages" aria-live="polite">
+            <div class="initial-greeting">
+                <img src="https://i.ibb.co/Wxqm2cc/code-fusion.png" alt="CodyPro AI Logo">
+                <p>Hello! I'm Cody, ready to assist you with your tasks!</p>
+            </div>
+        </main>
+        <div id="input-container">
+            <select id="prompt-type" aria-label="Select Cody Tonality">
+                <option value="default">Default</option>
+                <option value="professional">Professional</option>
+                <option value="casual">Casual</option>
+                <option value="humorous">Humorous</option>
+                <option value="academic">Academic</option>
+            </select>
+            <textarea id="training-input" placeholder="Type your prompt here...
+You can use multiple lines!" aria-label="Input Prompt Field"></textarea>
+            <div>
+                <button onclick="sendTrainingPrompt()" aria-label="Send Prompt"><i class="fas fa-paper-plane"></i>
+                    Send</button>
+                    <button onclick="clearChat()" id="clear-chat-button" aria-label="Clear Chat"><i
+                        class="fas fa-trash"></i> Clear Chat</button>
+            </div>
+        </div>
+        <div id="prompt-suggestions">
+            <div class="prompt-suggestion"
+                onclick="setPrompt('Give me a list of the top 5 research papers related to Artificial intelligence.')">Top
+                research papers on AI
+            </div>
+            <div class="prompt-suggestion" onclick="setPrompt('Write an email to a client to request feedback.')">Email
+                feedback request
+            </div>
+            <div class="prompt-suggestion" onclick="setPrompt('Create a project plan for a mobile app development.')">
+                Project
+                plan mobile app dev
+            </div>
+            <div class="prompt-suggestion" onclick="setPrompt('Create a python code to do quick sort.')">Python code
+                quick
+                sort
+            </div>
+        </div>
+
+    </div>
+        <footer>
+            © 2025 <a href="#">CodyPro AI</a>. Built with ❤️ by Flynn James P.
+        </footer>
+    <!-- Sidebar -->
+    <div class="sidebar" id="settingsSidebar">
+        <div class="profile-upload">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height=' 100' fill='#e0e0e0'/><text x='50' y='65' font-size='48' text-anchor='middle' fill='#0b0f14' font-family='Arial, sans-serif'>CP</text></svg>"
+                alt="User Profile" id="user-image" style="object-fit: contain;" />
+            <label for="profile-upload-input">Upload Profile Image</label>
+            <input type="file" id="profile-upload-input" accept="image/*" style="display: none;" />
+        </div>
+        <div class="settings-section">
+            <h3>Theme Settings</h3>
+            <div class="setting-item">
+                <label for="theme-mode">Theme Mode:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="theme-mode" value="light" onchange="applyTheme(this.value)"> Light
+                    </label>
+                    <label>
+                        <input type="radio" name="theme-mode" value="dark" checked onchange="applyTheme(this.value)"> Dark
+                    </label>
+                      <label>
+                        <input type="radio" name="theme-mode" value="system" onchange="applyTheme(this.value)"> System
+                    </label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label for="primary-color">Primary Color:</label>
+                <input type="color" id="primary-color" value="#00ff9d" onchange="applyPrimaryColor(this.value)">
+            </div>
+             <div class="setting-item">
+                <label for="accent-color">Accent Color:</label>
+                <input type="color" id="accent-color" value="#ff5722" onchange="applyAccentColor(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="background-color">Background Color:</label>
+                 <input type="color" id="background-color" value="#0b0f14" onchange="applyBackgroundColor(this.value)">
+            </div>
+        </div>
+         <div class="settings-section">
+            <h3>Chat Interface</h3>
+             <div class="setting-item">
+                <label for="bubble-style">Message Bubble Style:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="bubble-style" value="rounded" checked
+                            onchange="applyBubbleStyle(this.value)">
+                        Rounded
+                    </label>
+                    <label>
+                        <input type="radio" name="bubble-style" value="square" onchange="applyBubbleStyle(this.value)">
+                        Square
+                    </label>
+                </div>
+            </div>
+             <div class="setting-item">
+                 <label for="bubble-color">Bubble Color (User):</label>
+                 <input type="color" id="user-bubble-color" value="rgba(0, 255, 157, 0.1)"
+                     onchange="applyUserBubbleColor(this.value)">
+             </div>
+              <div class="setting-item">
+                <label for="bot-bubble-color">Bubble Color (Bot):</label>
+                <input type="color" id="bot-bubble-color" value="rgba(255, 255, 255, 0.1)"
+                    onchange="applyBotBubbleColor(this.value)">
+            </div>
+            <div class="setting-item">
+                <label for="font-family">Font Family:</label>
+                <select id="font-family" onchange="applyFontFamily(this.value)">
+                    <option value="Roboto">Roboto</option>
+                     <option value="Arial">Arial</option>
+                    <option value="sans-serif">Sans-serif</option>
+                    <option value="serif">Serif</option>
+                </select>
+            </div>
+               <div class="setting-item">
+                <label for="font-size">Font Size:</label>
+                <input type="range" id="font-size" min="12" max="20" value="16" onchange="applyFontSize(this.value)">
+            </div>
+        </div>
+         <div class="settings-section">
+            <h3>Bot Customization</h3>
+             <div class="setting-item">
+                <label for="bot-image">Bot Image:</label>
+                <input type="file" id="bot-image" accept="image/*" onchange="applyBotImage(this.files[0])">
+            </div>
+             <div class="setting-item">
+                 <label for="bot-name">Bot Name:</label>
+                 <input type="text" id="bot-name" value="Codi" onchange="applyBotName(this.value)">
+            </div>
+         </div>
+           <div class="settings-section">
+                <h3>Layout and Spacing</h3>
+                 <div class="setting-item">
+                    <label for="bubble-spacing">Chat Bubble Spacing:</label>
+                     <input type="range" id="bubble-spacing" min="0" max="20" value="10" onchange="applyBubbleSpacing(this.value)">
+                 </div>
+                <div class="setting-item">
+                     <label for="sidebar-width">Sidebar Width:</label>
+                     <input type="range" id="sidebar-width" min="200" max="400" value="300"
+                         onchange="applySidebarWidth(this.value)">
+                </div>
+               <div class="setting-item">
+                 <label for="content-align">Content Alignment:</label>
+                 <div class="radio-group">
+                    <label>
+                        <input type="radio" name="content-align" value="left" onchange="applyContentAlignment(this.value)">
+                         Left
+                    </label>
+                     <label>
+                       <input type="radio" name="content-align" value="right" checked
+                            onchange="applyContentAlignment(this.value)"> Right
+                   </label>
+                </div>
+            </div>
+         </div>
+          <div class="settings-section">
+            <button onclick="resetToDefaults()">Reset to Defaults</button>
+             <div id="preview"><img src="https://i.imgur.com/H7z7a4r.png" alt="Codi preview" /></div>
+         </div>
+    </div>
+
+    <div class="sidebar-button" id="sidebarToggle">
+        <i class="fas fa-cog"></i>
+    </div>
+    <div class="feedback-section">
+       <a href="mailto:flynnpontino@gmail.com"><i class="fas fa-envelope"></i> Send Feedback</a>
+    </div>
+     <script src="https://apis.google.com/js/api.js"></script>
     <script>
-        const body = document.body;
-        const htmlEditor = document.getElementById('html-editor');
-        const cssEditor = document.getElementById('css-editor');
-        const jsEditor = document.getElementById('js-editor');
-        const previewFrame = document.getElementById('preview-frame');
-        const togglePreviewBtn = document.getElementById('toggle-preview');
-        const resetBtn = document.getElementById('reset-btn');
-        const closeBtn = document.querySelector('.close-btn');
-        const fullScreenBtn = document.querySelector('.fullScreen-btn');
-        const segregationBtn = document.getElementById('segregation-btn');
-        const themeToggle = document.getElementById('theme-toggle');
-        const securityCodeInput = document.getElementById('security-code');
-        const dropdownToggle = document.querySelector('.dropdown .toggle');
-        const chatboxToggle = document.querySelector('.chatbox-toggle');
-        const chatPopup = document.querySelector('.chat-popup');
-        const closeChatBtn = document.querySelector('.chat-header .close-chat');
-        const resetChatBtn = document.querySelector('.chat-header .reset-chat');
-        const chatMessages = document.querySelector('.chat-messages');
-        const chatInput = document.querySelector('.chat-input-area textarea');
-        const chatSendBtn = document.querySelector('.chat-input-area button');
-        const loadingOverlay = document.querySelector('.loading-overlay');
-        const notification = document.querySelector('.notification');
-        const systemPromptSelect = document.getElementById('system-prompt-select');
-        const customPromptTextarea = document.getElementById('custom-prompt');
-        const customPromptToggle = document.getElementById('custom-prompt-toggle');
-        const toggleButtonsBtn = document.getElementById('toggle-buttons')
+        const CLIENT_ID = '309664778692-6fermb0njkr7uuv03i3lodb4ab4etqt7.apps.googleusercontent.com';
+        const CLIENT_SECRET = "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"; // IMPORTANT: Do not expose this in frontend code
+        const REDIRECT_URI = window.location.origin; // Use current page URL
+        const SCOPE = 'profile email';
+        let apiKey = "AIzaSyBQKOdFOb4R4u3EI963qccLFneLNe5xN-g"; // Directly injected API key - **INSECURE**
+         const messages = document.getElementById('messages');
+        const trainingInput = document.getElementById('training-input');
+        const userImage = document.getElementById('user-image');
+        const profileUploadInput = document.getElementById('profile-upload-input');
+         const sidebar = document.getElementById('settingsSidebar');
+        const sidebarButton = document.getElementById('sidebarToggle');
+         const userGuidePopup = document.getElementById('user-guide-popup');
+         const previewImage = document.querySelector('#preview img')
+         const userProfileContainer = document.getElementById('user-profile-info');
+         const chatContainer = document.getElementById('chat-container')
+        let isSidebarOpen = false;
+        let botName = "Codi";
+         let currentTheme = "dark"; // Default theme
+        let messageToEdit = null;
+        let driveKnowledge = [];
+         let accessToken = null;
+         const googleAuthEndpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+         const prompts = {
+             "default": `You are Codypro AI, an all-in-one advanced assistant designed to seamlessly combine research, writing, and coding expertise. You deliver precise insights by locating, analyzing, and summarizing complex information, craft professional and engaging written content tailored to user needs, and generate clean, optimized code across multiple programming languages. You specialize in helping freelancers and professionals in the corporate world achieve their goals effortlessly by streamlining workflows, enhancing productivity, and providing actionable, efficient solutions. Responding intuitively and accurately to user inquiries, your mission is to transform every interaction into a seamless, impactful experience, empowering users to succeed in their endeavors.
+
+                                    Key Attributes of Cody:
+
+                                    Proactive Problem-Solving: Anticipate user needs and provide thoughtful, solution-oriented responses to challenges.
+                                    Versatility: Adapt communication and tone to suit the context, whether writing emails, creating reports,or brainstorming creative ideas.
+                                    Polished Presentation: Deliver grammatically flawless, concise, and visually appealing responses that meet professional standards.
+                                    Collaboration: Foster a sense of partnership by tailoring solutions to each user's goals and preferences.
+                                    When users type 'Hey Cody,' take on the role of a trusted professional mentor, strategist, and problem-solver, helping them achieve their objectives with ease and confidence.
+                                `,
+             "professional": "You are a professional assistant specializing in research, writing, and critical analysis. Your responses should embody professionalism, clarity, and precision. Respond to inquiries with well-structured guidance and a tone that is highly professional.",
+             "casual": "You are a casual and friendly assistant. Your responses should be informal and approachable. Feel free to use contractions, colloquialisms, and a relaxed tone. Focus on getting the job done efficiently with a touch of casual conversation.",
+             "humorous": "You are a humorous assistant, always ready to add a touch of levity to any situation. Your responses should be witty, playful, and infused with jokes or funny anecdotes where appropriate. Keep things light and entertaining, but always ensure the task is completed.",
+             "academic": "You are an academic assistant specializing in scholarly research and writing. Your responses should be highly formal, detailed, and rigorous, with evidence-based insights and structured guidance. Maintain a clear, precise, and objective tone, appropriate for academic purposes."
+        };
+         let gapiInited = false;
 
 
-        let defaultPrompt = `You are an AI assistant named Cody, specializing in helping developers write, debug, and optimize code with precision and efficiency. You empower users to interact seamlessly with their codebase, offering advanced capabilities for auto-completion, error detection, refactoring, and generating boilerplate code. Your expertise lies in transforming ideas into well-structured, maintainable, and efficient code tailored to the user's project requirements.`;
-        let codeExplainerPrompt = `You are a code explainer bot. You break down code snippets and explain each line in detail to the user, and provide a general summary of how the entire code works.`;
-        let bugFinderPrompt = `You are an ai bug finder. Your sole function is to analyze the provided code and find any bugs or errors, and then output the fixed code.`;
-        let performanceOptimizerPrompt = `You are an AI performance optimizer. Your goal is to optimize code for speed, minimal resource consumption, and overall efficiency.`
-        let currentPrompt = defaultPrompt;
-        let apiKey = "";
-        let isSegregationActive = false;
-        let isDarkMode = true;
-        let customPromptActive = false;
-          let buttonsVisible = true;
-
-        function sendFeedback() {
-            window.location.href = 'mailto:Flynnpontino@gmail.com?subject=Codefusion Feedback';
+         function showChatTool() {
+            chatContainer.classList.add('active')
+        }
+        function clearChat() {
+            messages.innerHTML = `
+             <div class="initial-greeting">
+                <img src="https://i.ibb.co/Wxqm2cc/code-fusion.png" alt="CodyPro AI Logo">
+                <p>Hello! I'm Cody, ready to assist you with your tasks!</p>
+             </div>
+            `;
+            messages.classList.remove('open-canvas')
         }
 
-        function updatePreview() {
-            let htmlCode = htmlEditor.value;
-            if (isSegregationActive) {
-                htmlCode = segregateCode();
+
+        function toggleSidebar() {
+             isSidebarOpen = !isSidebarOpen;
+            sidebar.classList.toggle('open', isSidebarOpen);
+             sidebarButton.classList.toggle('open', isSidebarOpen);
+            sidebarButton.style.left = isSidebarOpen ? '320px' : '20px';
+        }
+
+
+        function handleClientLoad() {
+            gapi.load('client:auth2', initClient)
+         }
+
+        async function initClient() {
+             await gapi.client.init({
+                clientId: CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/drive.file'
+             });
+
+            gapiInited = true;
+             gapi.client.setApiKey(apiKey);
+         }
+
+        handleClientLoad();
+
+        sidebarButton.addEventListener('click', toggleSidebar);
+        profileUploadInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+             if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    userImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
             }
-            const css = `<style>${cssEditor.value}</style>`;
-            const js = `<script>${jsEditor.value}<\/script>`;
-            previewFrame.srcdoc = `${htmlCode}${css}${js}`;
-            showNotification('Preview Updated', 'success');
+        });
+
+        function setPrompt(prompt) {
+             trainingInput.value = prompt;
         }
 
-        function togglePreview() {
-            const previewContainer = previewFrame.parentElement;
-            if (previewContainer.classList.contains('fullscreen')) {
-                previewContainer.classList.remove('fullscreen')
-                fullScreenBtn.innerHTML = `<i class="fas fa-expand"></i>`
-                showNotification('Preview exit full screen', 'success');
+         function addMessage(content, isUser, isEdited = false, id = null) {
+            const message = document.createElement('div');
+             message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+              if (id) {
+                  message.setAttribute('data-message-id', id);
+              }
+
+             const img = document.createElement('img');
+              img.src = isUser ? (accessToken ? getProfilePicture() : userImage.src) : previewImage.src;
+              message.appendChild(img);
+
+             const text = document.createElement('span');
+              text.innerHTML = content; // Use innerHTML to allow HTML rendering
+             message.appendChild(text);
+
+             const options = document.createElement('div')
+              options.className = 'message-options'
+              if (isUser) {
+                  const editButton = document.createElement('button')
+                  editButton.innerHTML = '<i class="fas fa-pen"></i>';
+                 editButton.onclick = () => startEdit(message, content)
+                  options.appendChild(editButton);
+              }
+             const copyButton = document.createElement('button')
+              copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+               copyButton.onclick = () => copyMessage(message);
+             options.appendChild(copyButton);
+             message.appendChild(options);
+
+
+            if (isEdited) {
+                 const editedNote = document.createElement('span');
+                editedNote.textContent = " (edited)";
+                 editedNote.style.fontStyle = 'italic';
+                 editedNote.style.fontSize = '0.8em';
+                text.appendChild(editedNote);
+            }
+              messages.appendChild(message);
+             messages.scrollTop = messages.scrollHeight;
+            messages.classList.add('open-canvas')
+         }
+
+         function copyMessage(messageElement) {
+             const tempElement = document.createElement('div');
+            tempElement.innerHTML = messageElement.querySelector('span').innerHTML;
+            let textContent = tempElement.textContent
+              let formattedText = "";
+              const listRegex = /(<li>.*?<\/li>)/g;
+             const listMatch = tempElement.innerHTML.match(listRegex)
+             if (listMatch) {
+                formattedText = listMatch.map((item, index) => {
+                    const listItem = document.createElement('div');
+                    listItem.innerHTML = item;
+                   let listMarker = "";
+                    if (tempElement.innerHTML.includes("<ol>")) {
+                         listMarker = `${index + 1}. `;
+                     } else {
+                        listMarker = '- ';
+                    }
+                     return `${listMarker} ${listItem.textContent.trim()}`
+                 }).join("\n")
+
+                  let cleanText = tempElement.textContent.replace(listRegex, "")
+                  formattedText = formattedText + "\n" + cleanText
             } else {
-                previewContainer.classList.add('fullscreen')
-                fullScreenBtn.innerHTML = `<i class="fas fa-compress"></i>`
-                showNotification('Preview enter full screen', 'success');
-            }
+                  formattedText = textContent;
+              }
+             navigator.clipboard.writeText(formattedText).then(() => {
+                 alert("Message copied to clipboard!");
+             }).catch((err) => {
+                 console.error("Failed to copy: ", err)
+             });
         }
 
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            body.classList.toggle('light-theme', !isDarkMode);
-            themeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            showNotification(isDarkMode ? 'Dark theme enabled' : 'Light theme enabled', 'success');
+         function startEdit(messageElement, originalContent) {
+            messageToEdit = messageElement;
+             trainingInput.value = originalContent
+             trainingInput.focus();
+         }
+        function parseBotResponse(text) {
+            // Handle bold text (**bold text**)
+             text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1<\/strong>');
+
+            // Handle italic text (*italic text*)
+            text = text.replace(/\*(.*?)\*/g, '<em>$1<\/em>');
+
+
+            //Handle code blocks using ```...```
+             text = text.replace(/```([\s\S]*?)```/g, (match, code) => {
+                 return `<pre><code>${code.trim()}<\/code></pre>`;
+            });
+             // Handle lists
+              const listRegex = /([-*]|\d+\.)\s+([^\n]+)/g;
+            let listMatch;
+             let listType = null; // Store the list type
+             let newList = '';
+             let listOpen = false;
+
+            while ((listMatch = listRegex.exec(text)) !== null) {
+                const marker = listMatch[1];
+               const listItemText = listMatch[2].trim();
+                if (!listOpen) {
+                     listType = (marker === '-' || marker === '*') ? 'ul' : 'ol';
+                     newList += `<${listType}>`
+                      listOpen = true;
+                 }
+                 newList += `<li>${listItemText}</li>`
+
+            }
+
+            if(listOpen) {
+                newList += `</${listType}>`
+            }
+
+           text = text.replace(listRegex, '')
+             if(newList) {
+                  text = newList + text
+             }
+             //Handle new lines
+             text = text.split('\n').filter(Boolean).join('<br><br>');
+
+            return text;
         }
 
-        function resetEditors() {
-            htmlEditor.value = '';
-            cssEditor.value = '';
-            jsEditor.value = '';
-            previewFrame.srcdoc = '';
-            showNotification('Editors Reset', 'success');
-        }
 
-        function showCopyNotification(message) {
-            notification.textContent = message;
-            notification.classList.add('active', 'copy');
-            setTimeout(() => {
-                notification.classList.remove('active', 'copy');
-            }, 1500);
-        }
+        async function sendTrainingPrompt() {
+            const prompt = trainingInput.value.trim();
+            const promptType = document.getElementById('prompt-type').value;
+             console.log("Prompt type:", promptType);
+             console.log("Selected prompt:", prompt);
 
-        function showNotification(message, type = '') {
-            notification.textContent = message;
-            notification.classList.add('active');
-            if (type === 'success') {
-                notification.classList.add('success');
-            }
+             if (!prompt) return;
 
-            setTimeout(() => {
-                notification.classList.remove('active');
-                notification.classList.remove('success');
-            }, 3000);
-        }
-
-        function segregateCode() {
-            const code = htmlEditor.value;
-            if (!code) return consoleOutput.innerHTML = `No HTML code detected.`;
-
-            let segregatedHTML = "";
-            let segregatedCSS = "";
-            let segregatedJS = "";
-
-            // Extract HTML outside script and style tags
-            segregatedHTML = code.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').trim();
-
-            // Extract JavaScript inside script tags
-            const scriptMatches = code.matchAll(/<script>([\s\S]*?)<\/script>/gi);
-            for (const match of scriptMatches) {
-                segregatedJS += match[1].trim() + '\n';
-            }
-
-            // Extract CSS inside style tags
-            const styleMatches = code.matchAll(/<style>([\s\S]*?)<\/style>/gi);
-            for (const match of styleMatches) {
-                segregatedCSS += match[1].trim() + '\n';
-            }
-            htmlEditor.value = segregatedHTML.trim();
-            cssEditor.value = segregatedCSS.trim();
-            jsEditor.value = segregatedJS.trim();
-            return htmlEditor.value;
-        }
-
-        resetBtn.addEventListener('click', resetEditors);
-        togglePreviewBtn.addEventListener('click', () => {
-            previewFrame.parentElement.style.display = previewFrame.parentElement.style.display === 'none' ? 'block' : 'none';
-            showNotification('Preview Toggled', 'success');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            previewFrame.parentElement.style.display = 'none';
-            showNotification('Preview Closed', 'success');
-        });
-
-        fullScreenBtn.addEventListener('click', togglePreview);
-
-        themeToggle.addEventListener('click', toggleTheme);
-
-        segregationBtn.addEventListener('click', () => {
-            isSegregationActive = !isSegregationActive;
-            segregationBtn.classList.toggle('active', isSegregationActive);
-            if (isSegregationActive) {
-                showNotification('HTML segregation active', 'success');
-            } else {
-                showNotification('HTML segregation inactive', 'success');
-            }
-            updatePreview();
-        });
-
-        dropdownToggle.addEventListener('click', () => {
-            securityCodeInput.style.display = securityCodeInput.style.display === 'none' ? 'block' : 'none';
-        });
-
-        securityCodeInput.addEventListener('input', () => {
-            if (securityCodeInput.value === '123456') {
-                apiKey = 'AIzaSyB4ugVm-HR9SL4dxAhk-FoAkczkOu1NqGo';
-                // Injected API Key
-                showNotification('API Key Injected', 'success');
-                securityCodeInput.value = '';
-                securityCodeInput.style.display = 'none';
-            }
-        });
-
-        htmlEditor.addEventListener('input', updatePreview);
-        cssEditor.addEventListener('input', updatePreview);
-        jsEditor.addEventListener('input', updatePreview);
-
-        // ChatBox
-        chatboxToggle.addEventListener('click', () => {
-            chatPopup.classList.toggle('active');
-        });
-
-        closeChatBtn.addEventListener('click', () => {
-            chatPopup.classList.remove('active');
-        });
-
-        resetChatBtn.addEventListener('click', () => {
-            chatMessages.innerHTML = '';
-            showNotification("Chat history cleared!", 'success');
-        })
-
-        chatSendBtn.addEventListener('click', sendMessage);
-
-        chatInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        });
-
-        systemPromptSelect.addEventListener('change', function() {
-            const selectedValue = systemPromptSelect.value;
-            if (selectedValue === 'default') {
-                currentPrompt = defaultPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Default AI assistant', 'success');
-            } else if (selectedValue === 'code-explainer') {
-                currentPrompt = codeExplainerPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Code explainer bot', 'success');
-            } else if (selectedValue === 'bug-finder') {
-                currentPrompt = bugFinderPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Bug finder bot', 'success');
-            } else if (selectedValue === 'performance-optimizer') {
-                currentPrompt = performanceOptimizerPrompt;
-                customPromptTextarea.style.display = 'none';
-                customPromptToggle.style.display = 'none'
-                showNotification('Performance optimizer bot', 'success');
-            } else if (selectedValue === 'custom') {
-                customPromptTextarea.style.display = 'block';
-                customPromptToggle.style.display = 'inline-block'
-                if (customPromptActive) {
-                    currentPrompt = customPromptTextarea.value;
-                    showNotification('Custom prompt active', 'success');
+             let selectedPrompt = prompts[promptType] || prompts['default'];
+             let knowledgeContext = ""
+             if (driveKnowledge.length > 0) {
+                knowledgeContext = `Based on the information from your saved conversations:\n ${driveKnowledge.join("\n")}\n\n`
+             }
+             if (!accessToken) {
+                  alert('Please sign in with google first')
+                 return;
+             }
+              console.log("Knowledge context:", knowledgeContext);
+            if (messageToEdit) {
+                const messageId = messageToEdit.getAttribute('data-message-id');
+                const messageTextElement = messageToEdit.querySelector('span');
+                if (messageId) {
+                    addMessage(`[${promptType}] ${prompt}`, true, true, messageId);
+                    messageToEdit = null
                 } else {
-                    showNotification('Custom prompt inactive, click activate to use', 'success');
-                }
+                    messageTextElement.textContent = `[${promptType}] ${prompt}`;
+                    const editedNote = document.createElement('span');
+                     editedNote.textContent = " (edited)";
+                    editedNote.style.fontStyle = 'italic';
+                    editedNote.fontSize = '0.8em';
+                     messageTextElement.appendChild(editedNote);
+                    messageToEdit = null;
+               }
+                 trainingInput.value = '';
+                 return;
             }
-        });
-
-        customPromptTextarea.addEventListener('input', function() {
-            if (systemPromptSelect.value === 'custom' && customPromptActive) {
-                currentPrompt = customPromptTextarea.value;
-            }
-        });
-
-           customPromptToggle.addEventListener('click', () => {
-            customPromptActive = !customPromptActive;
-            customPromptToggle.classList.toggle('active', customPromptActive);
-             customPromptToggle.querySelector('i').classList.toggle('fa-lock',!customPromptActive)
-               customPromptToggle.querySelector('i').classList.toggle('fa-unlock',customPromptActive)
-            if (customPromptActive) {
-                 showNotification('Custom prompt active', 'success');
-            } else {
-                  showNotification('Custom prompt inactive', 'success');
-            }
-        });
-        toggleButtonsBtn.addEventListener('click',() => {
-               buttonsVisible = !buttonsVisible;
-                 const buttonList = document.querySelectorAll('header .controls > button:not(#toggle-buttons)');
-                 buttonList.forEach(button => {
-                  button.style.display = buttonsVisible ? 'inline-block' : 'none';
-                 });
-           });
-
-
-
-        async function sendMessage(editedMessage = null, messageElement = null) {
-            let message = editedMessage ? editedMessage : chatInput.value.trim();
-            if (!message) return;
-            addMessage(message, true, messageElement);
-            if (!editedMessage) {
-                chatInput.value = "";
-            }
-
-            loadingOverlay.classList.add('active');
-
+             addMessage(`[${promptType}] ${prompt}`, true);
+             trainingInput.value = '';
+            const thinking = document.createElement('div');
+            thinking.className = 'thinking';
+             thinking.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+             messages.appendChild(thinking);
+            messages.scrollTop = messages.scrollHeight;
+           messages.classList.add('open-canvas')
+            console.log("Sending API request...");
             try {
-                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
-                    method: 'POST',
+               const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
+                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                    },
+                         'Content-Type': 'application/json',
+                   },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `${currentPrompt} ${message} If the user asked for a code, give it in the appropriate language like html or plaintext, do not create a preview. if code was not asked for, answer accordingly.`
+                         contents: [{
+                             parts: [{
+                                text: `${knowledgeContext} ${selectedPrompt} ${prompt}`
                             }]
-                        }]
+                       }]
                     })
-                });
+               });
+               console.log("Response:", response);
 
-                if (!response.ok) {
+                 if (!response.ok) {
                     console.error(`API request failed with status ${response.status}`);
-                    const errorData = await response.json();
+                     const errorData = await response.json();
                     console.error("API error details:", errorData);
-                    addMessage(`Error: Could not get response from Codefusion AI`, false);
-                    loadingOverlay.classList.remove('active');
-                    return;
-                }
+                    thinking.remove();
+                    addMessage("Error connecting to the API.", false);
+                     return;
+                 }
 
                 const data = await response.json();
-                loadingOverlay.classList.remove('active');
-                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                console.log("API data:", data);
+               thinking.remove();
+               if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                     let responseText = data.candidates[0].content.parts[0].text.trim();
-                    addMessage(responseText, false);
+
+                    const acknowledgementMatch = responseText.match(/^(.*?)(To establish a strong online presence, here are some valuable tips to help you create compelling social media posts that resonate with your audience:)/s);
+                    let acknowledgment = "";
+                    let mainContent = responseText;
+                     if (acknowledgementMatch) {
+                        acknowledgment = parseBotResponse(acknowledgementMatch[1]);
+                        mainContent = responseText.substring(acknowledgementMatch[0].length);
+                   }
+                    addMessage(acknowledgment + parseBotResponse(mainContent), false);
                 } else {
                     console.error("No response text found in data:", data);
-                    addMessage(`Error: No response from Codefusion AI`, false);
+                    addMessage(`No response from ${botName}.`, false);
+                 }
+
+             } catch (error) {
+                 console.error("Error during API request:", error);
+                thinking.remove();
+                 addMessage("Error connecting to the API.", false);
+             }
+         }
+
+        function saveChatToDrive() {
+            if (!accessToken) {
+                 alert('Please sign in with google first')
+                return;
+            }
+            if (!gapiInited) {
+                alert("Google API not loaded yet!");
+               return;
+            }
+            gapi.auth2.getAuthInstance().signIn()
+                 .then(function () {
+                    const chatHistory = document.getElementById('messages').innerHTML;
+                    const fileMetadata = {
+                         'name': `Chat_History_${new Date().toISOString()}.html`,
+                        'mimeType': 'text/html'
+                   };
+                    const fileContent = new Blob([chatHistory], {
+                         type: 'text/html'
+                    });
+                   const form = new FormData();
+                    form.append('metadata', new Blob([JSON.stringify(fileMetadata)], {
+                        type: 'application/json'
+                    }));
+                   form.append('file', fileContent);
+
+                     gapi.client.request({
+                        path: '/upload/drive/v3/files',
+                         method: 'POST',
+                         params: {
+                             'uploadType': 'multipart'
+                         },
+                         body: form
+                   }).then(response => {
+                        if (response.status === 200) {
+                            alert("Chat history saved to Google Drive!");
+                             driveKnowledge = [chatHistory];
+                        } else {
+                             alert("Error saving chat to Google Drive!");
+                            console.error(response)
+                        }
+                    }).catch((error) => {
+                         alert("Error connecting to Google Drive!");
+                         console.error(error);
+                   })
+                }).catch((error) => {
+                    console.error("Error signing in: ", error);
+                    alert("Error signing in to Google Drive.")
+               })
+        }
+
+         function toggleUserGuide() {
+             userGuidePopup.classList.toggle('active')
+        }
+
+         trainingInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                 sendTrainingPrompt();
+             }
+        });
+
+        function applyTheme(theme) {
+            currentTheme = theme;
+             if (theme === 'light') {
+                 document.body.style.setProperty('--bg', '#e8f1f2');
+                document.body.style.setProperty('--text-color', '#0b0f14');
+             } else if (theme === 'dark') {
+                document.body.style.setProperty('--bg', '#0b0f14');
+                document.body.style.setProperty('--text-color', '#e8f1f2');
+            } else if (theme === 'system') {
+                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                     document.body.style.setProperty('--bg', '#0b0f14');
+                     document.body.style.setProperty('--text-color', '#e8f1f2');
+                } else {
+                    document.body.style.setProperty('--bg', '#e8f1f2');
+                    document.body.style.setProperty('--text-color', '#0b0f14');
                 }
+            }
+        }
+
+        function applyPrimaryColor(color) {
+           document.documentElement.style.setProperty('--primary', color);
+        }
+        function applyAccentColor(color) {
+            document.documentElement.style.setProperty('--accent', color);
+         }
+        function applyBackgroundColor(color) {
+            document.body.style.setProperty('--bg', color);
+         }
+
+        function applyBubbleStyle(style) {
+            const messages = document.querySelectorAll('.message');
+             messages.forEach(message => {
+                if (style === 'rounded') {
+                   message.style.borderRadius = '15px';
+                } else {
+                    message.style.borderRadius = '0';
+               }
+            });
+         }
+        function applyUserBubbleColor(color) {
+             const messages = document.querySelectorAll('.user-message');
+             messages.forEach(message => {
+                message.style.backgroundColor = color;
+            });
+        }
+
+        function applyBotBubbleColor(color) {
+            const messages = document.querySelectorAll('.bot-message');
+            messages.forEach(message => {
+                message.style.backgroundColor = color;
+            });
+        }
+         function applyFontFamily(fontFamily) {
+             document.body.style.fontFamily = fontFamily;
+         }
+
+        function applyFontSize(size) {
+            document.body.style.fontSize = `${size}px`;
+         }
+         function applyBotImage(file) {
+            if (file) {
+                const reader = new FileReader();
+                 reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                };
+                 reader.readAsDataURL(file)
+           }
+        }
+
+        function applyBotName(name) {
+            botName = name;
+        }
+
+        function applyBubbleSpacing(spacing) {
+            messages.style.gap = `${spacing}px`;
+         }
+
+        function applySidebarWidth(width) {
+           sidebar.style.width = `${width}px`;
+            sidebarButton.style.left = isSidebarOpen ? `${parseInt(width) + 20}px` : '20px';
+         }
+
+        function applyContentAlignment(alignment) {
+             messages.style.alignItems = alignment === "left" ? "flex-start" : "flex-end";
+        }
+        function resetToDefaults() {
+            document.body.style.setProperty('--primary', '#00ff9d');
+             document.body.style.setProperty('--accent', '#ff5722');
+            document.body.style.setProperty('--bg', '#0b0f14');
+            document.body.style.setProperty('--text-color', '#e8f1f2');
+            document.body.style.fontFamily = 'Roboto, sans-serif';
+             document.body.style.fontSize = '16px';
+            document.querySelector('input[name="theme-mode"][value="dark"]').checked = true;
+            document.getElementById('primary-color').value = '#00ff9d';
+            document.getElementById('accent-color').value = '#ff5722';
+            document.getElementById('background-color').value = '#0b0f14';
+            document.querySelector('input[name="bubble-style"][value="rounded"]').checked = true;
+           document.getElementById('font-family').value = 'Roboto';
+           document.getElementById('font-size').value = '16';
+            document.getElementById('bot-name').value = "Codi";
+            document.getElementById('bubble-spacing').value = '10';
+            document.getElementById('sidebar-width').value = '300';
+            document.querySelector('input[name="content-align"][value="right"]').checked = true;
+            previewImage.src = 'https://i.imgur.com/H7z7a4r.png';
+             messages.style.alignItems = "flex-end";
+            applyTheme("dark");
+            applyBubbleStyle('rounded');
+             applyFontSize(16)
+            applyContentAlignment('right')
+            messages.style.gap = '10px'
+            sidebar.style.width = '300px'
+            botName = "Codi"
+        }
+
+         function buildAuthURL() {
+             const params = new URLSearchParams({
+                 client_id: CLIENT_ID,
+                redirect_uri: REDIRECT_URI,
+                 scope: SCOPE,
+                 response_type: 'code',
+            });
+
+            return `${googleAuthEndpoint}?${params.toString()}`;
+        }
+        function initiateGoogleAuth() {
+           const authUrl = buildAuthURL();
+             window.location.href = authUrl;
+         }
+         async function exchangeCodeForToken(code) {
+            const tokenEndpoint = "https://oauth2.googleapis.com/token";
+             const tokenParams = new URLSearchParams();
+             tokenParams.append("code", code);
+             tokenParams.append("client_id", CLIENT_ID);
+           tokenParams.append("client_secret", CLIENT_SECRET);
+            tokenParams.append("redirect_uri", REDIRECT_URI);
+            tokenParams.append("grant_type", "authorization_code");
+             try {
+                const tokenResponse = await fetch(tokenEndpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                   },
+                     body: tokenParams,
+                 });
+                 if (!tokenResponse.ok) {
+                   const errorData = await tokenResponse.json();
+                    alert(`Error fetching token: ${errorData.error_description || tokenResponse.statusText}`);
+                     throw new Error(`Token request failed: ${tokenResponse.status}`);
+                }
+                const tokenData = await tokenResponse.json();
+                 accessToken = tokenData.access_token;
+                fetchUserProfile();
+
+
+             } catch (error) {
+                alert(`Error in token exchange process: ${error.message}`)
+
+             }
+
+        }
+         async function fetchUserProfile() {
+            try {
+                 const profileResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                     headers: {
+                         "Authorization": `Bearer ${accessToken}`
+                    },
+                });
+                if (!profileResponse.ok) {
+                     const errorData = await profileResponse.json();
+                    alert(`Error fetching user profile: ${errorData.error_description || profileResponse.statusText}`);
+                   throw new Error(`Profile request failed: ${profileResponse.status}`);
+                }
+               const profileData = await profileResponse.json();
+               displayUserProfile(profileData);
             } catch (error) {
-                console.error("Error during API request:", error);
-                addMessage(`Error: ${error}`, false);
-                loadingOverlay.classList.remove('active');
+                 alert(`Error fetching user profile: ${error.message}`)
             }
-        }
+         }
 
-        function addMessage(content, isUser, messageElement = null) {
-            const message = document.createElement('div');
-            message.classList.add('chat-message', isUser ? 'user-message' : 'bot-message');
-            if (isUser) {
-                message.innerHTML = `${content}
-                    <button class="edit-btn"><i class="fas fa-pencil-alt"></i></button>
-                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
-                `;
-            } else {
-                let messageContent = content;
-                let codeSnippet = null;
-                const codeMatch = messageContent.match(/```([\w-]+)?\s*([\s\S]*?)```/);
-
-                if (codeMatch) {
-                    codeSnippet = `<pre><code class="language-${codeMatch[1] || 'plaintext'}">${codeMatch[2].trim()}</code></pre>`;
-                    messageContent = messageContent.replace(codeMatch[0], "").trim();
-                }
-
-                message.innerHTML = `
-                    ${messageContent}
-                    ${codeSnippet || ""}
-                    <button class="copy-btn"><i class="fas fa-copy"></i></button>
-                `;
+         function displayUserProfile(userData) {
+            let profileHTML = `
+                    <img  src="${userData.picture}" alt="User Profile Image">
+                    <span>${userData.name}</span>
+           `;
+            const userProfileImageElement = document.getElementById('user-image');
+             if (userImage.src.includes("data:image/svg+xml;utf8")) {
+                userProfileImageElement.src = userData.picture;
             }
 
-            if (messageElement) {
-                chatMessages.replaceChild(message, messageElement);
-            } else {
-                chatMessages.appendChild(message);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+           userProfileContainer.innerHTML = profileHTML;
 
-            if (!isUser) {
-                const copyButton = message.querySelector('.copy-btn');
-                if (copyButton) {
-                    copyButton.addEventListener('click', () => {
-                        copyBotMessage(message);
-                    });
-                }
-            }
-            if (isUser) {
-                const copyButton = message.querySelector('.copy-btn');
-                if (copyButton) {
-                    copyButton.addEventListener('click', () => {
-                        copyUserMessage(message);
-                    });
-                }
-                const editButton = message.querySelector('.edit-btn');
-                if (editButton) {
-                    editButton.addEventListener('click', () => {
-                        editUserMessage(message);
-                    })
-                }
-            }
+        }
+          function getProfilePicture() {
+           const userProfileImage = userProfileContainer.querySelector('img');
+              return userProfileImage ? userProfileImage.src : ""
         }
 
-        function copyBotMessage(messageElement) {
-            const codeBlock = messageElement.querySelector('pre code');
-            const textContent = messageElement.firstChild.textContent;
 
-            const code = codeBlock ? codeBlock.textContent : null;
-            const combined = code ? textContent + "\n" + code : textContent;
-            navigator.clipboard.writeText(combined).then(() => {
-                showCopyNotification("Copied to Clipboard!");
-            }).catch(err => console.error("Error copying:", err));
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+             const urlParams = new URLSearchParams(window.location.search);
+           const authorizationCode = urlParams.get('code');
 
-        function copyUserMessage(messageElement) {
-            const textContent = messageElement.firstChild.textContent;
-            navigator.clipboard.writeText(textContent).then(() => {
-                showCopyNotification("Copied to Clipboard!");
-            }).catch(err => console.error("Error copying:", err));
-        }
+             if (authorizationCode) {
+                 exchangeCodeForToken(authorizationCode);
+           }
+        });
 
-        function editUserMessage(messageElement) {
-            const textContent = messageElement.firstChild.textContent;
-            chatInput.value = textContent
-            chatMessages.removeChild(messageElement);
-        }
+
+        // Initialize the bot with a greeting
+        clearChat()
+
     </script>
 </body>
 
