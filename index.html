@@ -1058,9 +1058,6 @@
                 }
             });
 
-
-
-
             searchForm.addEventListener('submit', function (event) {
                 event.preventDefault();
 
@@ -1068,7 +1065,7 @@
                 countryError.classList.add('hidden');
                 stateError.classList.add('hidden');
                 cityError.classList.add('hidden');
-                zipcodeError.classList.add('hidden');
+                 zipcodeError.classList.add('hidden');
 
 
                 // Validate form
@@ -1076,7 +1073,8 @@
                 const country = document.getElementById('country').value;
                 const state = document.getElementById('state').value;
                 const city = document.getElementById('city').value;
-                const zipcode = document.getElementById('zipcode').value;
+                 const zipcode = document.getElementById('zipcode').value;
+
 
                 if (!country) {
                     countryError.classList.remove('hidden');
@@ -1094,7 +1092,6 @@
                       zipcodeError.classList.remove('hidden');
                         isValid = false;
                    }
-
 
 
                 if (isValid) {
@@ -1154,6 +1151,7 @@
                 const budget = document.getElementById('budget').value;
                 const timeline = document.getElementById('timeline').value;
 
+
                 if (!name) {
                     nameError.classList.remove('hidden');
                     isValid = false;
@@ -1188,26 +1186,32 @@
                 }
                  if (isValid) {
                    // Redirect to the specified URL after submitting the form
-                   window.location.href = 'https://apps-lightningleadsaz-local-buyers-list.onrender.com/';
+                   window.location.href = 'https://googleoauth-lightningleadsaz.onrender.com/';
                  }
             });
 
-            showNotification("Welcome to Lightning Leads AZ! We're excited to help you generate more leads.");
+            showNotification("Welcome to LightningLeads AZ! We're excited to help you generate more leads.");
             startRandomNotifications();
+
 
             function scrollToForm() {
                 const searchForm = document.getElementById('searchForm');
                 searchForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+
+
            // Initialize Google Sign-in
             google.accounts.id.initialize({
                client_id: '690096232363-d8kmh963sah4oo6e8fckotni335q0nse.apps.googleusercontent.com',
                  callback: handleGoogleSignIn,
             });
-            google.accounts.id.renderButton(
+
+           google.accounts.id.renderButton(
                 googleButton, // The element ID
                  { theme: "outline", size: "large", text: 'sign_in_with', logo_alignment: 'left' }  // customization attributes
             );
+
+
             function handleGoogleSignIn(response) {
                 console.log("Google Sign-in Response:", response);
                  if (response.credential) {
@@ -1217,9 +1221,10 @@
                      authModal.style.display = "none";
                     document.body.classList.remove('overflow-hidden');
                      // Redirect to the specified URL after successful login
-                    window.location.href = 'https://googleoauth-lightningleadsaz.onrender.com/';
+                     window.location.href = 'https://googleoauth-lightningleadsaz.onrender.com/';
                  }
            }
+
 
            // Passwordless Sign-up
             passwordlessSignupButton.addEventListener('click', function() {
@@ -1227,6 +1232,7 @@
                passwordlessSignupPopup.classList.remove('hidden');
                 document.body.classList.add('overflow-hidden');
             });
+
            verifyEmailButton.addEventListener('click', function() {
                const email = emailSignupInput.value;
                emailSignupError.classList.add('hidden');
@@ -1236,6 +1242,7 @@
                }
                 // Redirect to Flask email verification endpoint
                 window.location.href = `/verify_email?email=${email}`;
+
             });
              // Close signup popup
             signupPopup.addEventListener('click', function (event) {
@@ -1244,6 +1251,7 @@
                     document.body.classList.remove('overflow-hidden');
                     surveyContainer.classList.remove('hidden');
                     document.body.classList.add('overflow-hidden');
+
                 }
            });
 
@@ -1261,6 +1269,8 @@
                     document.body.classList.remove('overflow-hidden');
                }
             });
+
+
             // Close downloadOptions container
             downloadOptions.addEventListener('click', function (event) {
                 if (event.target === downloadOptions) {
@@ -1301,7 +1311,6 @@
                 notification.style.display = 'block';
                 downloadBtn.style.display = 'none';
              });
-
             // Show the dealership page after closing all other modals
             const allPopups = [signupPopup, passwordlessSignupPopup,  surveyContainer,downloadOptions, authModal];
            function checkAllPopupsClosed() {
@@ -1319,7 +1328,9 @@
            }
           requestAnimationFrame(showDealershipPage);
         });
+
         let currentSurveyStep = 1;
+
         function showSurveyStep(step, selectedOption) {
             document.getElementById('surveyStep' + currentSurveyStep).classList.add('hidden');
             document.getElementById('surveyStep' + step).classList.remove('hidden');
