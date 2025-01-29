@@ -999,7 +999,7 @@ ${cssEditor.value}
             border-radius: 8px;
             margin-left: 0.6em;
              transition:
-                background-color 0.3s, box-shadow 0.3s;
+                                background-color 0.3s, box-shadow 0.3s;
         }
 
         .chat-input-area button:hover {
@@ -1198,7 +1198,11 @@ ${cssEditor.value}
                 </button>
                 <input type="password" placeholder="Enter Security Code" id="security-code">
             </div>
-
+            
+            <button id="download-btn">
+                <i class="fas fa-download"></i>
+                 <span class="tooltiptext">Download</span>
+            </button>
             <button id="segregation-btn"  >
                 <i class="fas fa-code-branch"></i>
                  <span class="tooltiptext">Segregation</span>
@@ -1278,6 +1282,7 @@ ${cssEditor.value}
     <div class="notification"></div>
 
     <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
         const body = document.body;
         const htmlEditor = document.getElementById('html-editor');
@@ -1305,7 +1310,7 @@ ${cssEditor.value}
         const customPromptTextarea = document.getElementById('custom-prompt');
         const customPromptToggle = document.getElementById('custom-prompt-toggle');
         const toggleButtonsBtn = document.getElementById('toggle-buttons')
-
+         const downloadBtn = document.getElementById('download-btn');
 
         let defaultPrompt = `You are an AI assistant named Cody, specializing in helping developers write, debug, and optimize code with precision and efficiency. You empower users to interact seamlessly with their codebase, offering advanced capabilities for auto-completion, error detection, refactoring, and generating boilerplate code. Your expertise lies in transforming ideas into well-structured, maintainable, and efficient code tailored to the user's project requirements.`;
         let codeExplainerPrompt = `You are a code explainer bot. You break down code snippets and explain each line in detail to the user, and provide a general summary of how the entire code works.`;
@@ -1410,6 +1415,53 @@ ${cssEditor.value}
             return htmlEditor.value;
         }
 
+       function downloadCode() {
+            const zip = new JSZip();
+
+            // Get code from editors
+            const htmlCode = htmlEditor.value;
+            const cssCode = cssEditor.value;
+            const jsCode = jsEditor.value;
+
+
+             //  Add files to zip
+            zip.file("index.html", htmlCode);
+            zip.file("styles.css", cssCode);
+            zip.file("scripts.js", jsCode);
+
+            //  Create the README
+            const readmeContent = `
+# Codefusion Project
+
+This is a project downloaded from Codefusion.
+
+## Contents:
+
+- **index.html:** The main HTML file.
+- **styles.css:** The CSS file.
+- **scripts.js:** The JavaScript file.
+
+## Usage
+
+Open the index.html file in a web browser to view the project.
+
+## Notes:
+
+-   If segregation is active the HTML file might include inline code for the CSS or JS.
+-   This download is made possible by Codefusion.
+
+`;
+            zip.file("README.md", readmeContent);
+            // Generate zip and create download link
+            zip.generateAsync({ type: "blob" }).then(function(content) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = 'codefusion_project.zip';
+                link.click();
+                 showNotification('Code downloaded', 'success');
+            });
+        }
+        
         resetBtn.addEventListener('click', resetEditors);
         togglePreviewBtn.addEventListener('click', () => {
             previewFrame.parentElement.style.display = previewFrame.parentElement.style.display === 'none' ? 'block' : 'none';
@@ -1435,6 +1487,8 @@ ${cssEditor.value}
             }
             updatePreview();
         });
+        
+        downloadBtn.addEventListener('click', downloadCode);
 
         dropdownToggle.addEventListener('click', () => {
             securityCodeInput.style.display = securityCodeInput.style.display === 'none' ? 'block' : 'none';
